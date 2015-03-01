@@ -1,34 +1,43 @@
 package de.stetro.domradio.service;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnErrorListener;
 import android.media.MediaPlayer.OnPreparedListener;
+import android.net.wifi.WifiManager;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import de.greenrobot.event.EventBus;
-import de.stetro.domradio.service.event.PauseRadioEvent;
+import de.stetro.domradio.R;
+import de.stetro.domradio.fragment.RadioStartedEvent;
+import de.stetro.domradio.fragment.RadioStoppedEvent;
+import de.stetro.domradio.service.event.RadioStartingEvent;
 import de.stetro.domradio.service.event.StartRadioEvent;
+import de.stetro.domradio.service.event.StopAppEvent;
 import de.stetro.domradio.service.event.StopRadioEvent;
 
-public class RadioService extends Service implements OnCompletionListener,
-        OnPreparedListener, OnErrorListener {
+public class RadioService extends Service implements OnCompletionListener, OnPreparedListener, OnErrorListener {
 
     public URL m_url = null;
-    public MediaPlayer m_media_player = null;
-    public String m_errors = "";
+    public MediaPlayer mediaPlayer = null;
+    public String errorMessage = "";
     public static State state = State.STOPPED;
+    private WifiManager.WifiLock wifiLock;
+    public static final String RADIO_URL = "http://domradio-mp3-l.akacast.akamaistream.net/7/809/237368/v1/gnl.akacast.akamaistream.net/domradio-mp3-l";
 
-    enum State {
-        STOPPED, STARTING, PLAYING, PAUSED
+    public enum State {
+        STOPPED, STARTING, PLAYING
     }
 
     public static State get_state() {
@@ -38,26 +47,28 @@ public class RadioService extends Service implements OnCompletionListener,
     @Override
     public void onCompletion(MediaPlayer mp) {
         state = State.STOPPED;
-        Log.d("Complete", "I am now Complete!");
-        mp.release();
-        if (mp.equals(m_media_player)) {
-            m_media_player = null;
-        }
+        EventBus.getDefault().post(new RadioStoppedEvent());
 
+        Log.d("RadioService", "Track is completed.");
+        mp.release();
+        if (mp.equals(mediaPlayer)) {
+            mediaPlayer = null;
+        }
     }
 
     @Override
     public void onPrepared(MediaPlayer mp) {
-        Log.d("Start", "I am now prepared, lets start!");
+        Log.d("RadioService", "MediaPlayer prepared, starting content.");
         mp.start();
         state = State.PLAYING;
+        EventBus.getDefault().post(new RadioStartedEvent());
     }
 
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
-        Log.d("Complete",
-                "OMG ERROR: " + String.valueOf(what) + " - " + String.valueOf(extra));
-        m_errors = "Error with connection to stream";
+        Log.d("RadioService", "MediaPlayer error.");
+        EventBus.getDefault().post(new RadioStoppedEvent());
+        Toast.makeText(this, R.string.error_mediaplayer, Toast.LENGTH_SHORT).show();
         return false;
     }
 
@@ -70,78 +81,81 @@ public class RadioService extends Service implements OnCompletionListener,
     @Override
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
+        RadioNotification.removeStickyNotification(this);
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+        }
+        releaseWifiLock();
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 
     public RadioService() {
         state = State.STOPPED;
+        EventBus.getDefault().post(new RadioStoppedEvent());
     }
 
     public void onEvent(StopRadioEvent event) {
-        if (m_media_player != null) {
-            Log.d("stop", "I existed so I'm cleaning up");
-            m_media_player.reset();
-            Log.d("stop", "Alright, im cleared up");
-            m_media_player.release();
-            Log.d("stop", "And now im shut down");
-            m_media_player = null;
-
+        if (mediaPlayer != null) {
+            Log.d("RadioService", "MediaPlayer stop, cleaning up.");
+            mediaPlayer.reset();
+            Log.d("RadioService", "MediaPlayer stop, cleaned up.");
+            mediaPlayer.release();
+            Log.d("RadioService", "MediaPlayer stop, shut down.");
+            mediaPlayer = null;
         }
-        EventBus.getDefault().post(new StopSuccessRadioEvent());
         state = State.STOPPED;
-    }
-
-    public void onEvent(PauseRadioEvent event) {
-        if (m_media_player != null) {
-            if (state == State.PLAYING) {
-                m_media_player.pause();
-            }
-        }
-        state = State.PAUSED;
+        EventBus.getDefault().post(new RadioStoppedEvent());
     }
 
     public void onEvent(StartRadioEvent event) {
-        m_errors = "";
+        errorMessage = "";
         try {
-            m_url = new URL(event.getUrl());
+            m_url = new URL(RADIO_URL);
         } catch (MalformedURLException e) {
-            m_errors += "Error parsing URL (" + event.getUrl() + "): " + e.toString() + "\n";
-            Log.e("download", m_errors);
+            errorMessage += "Error parsing URL (" + RADIO_URL + "): " + e.toString() + "\n";
+            Log.d("RadioService", errorMessage);
         }
-
-        if (m_errors.equals("")) {
-            Log.d("start", "OK I hear you, lets start!");
+        if (errorMessage.equals("")) {
+            Log.d("RadioService", "Starting radio ...");
             state = State.STARTING;
+            EventBus.getDefault().post(new RadioStartingEvent());
             try {
-                if (m_media_player == null) {
-                    Log.d("start", "I didn't exist yet so let me get prepared.");
-                    m_media_player = new MediaPlayer();
-                    m_media_player.setDataSource(event.getUrl());
-                    m_media_player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                    m_media_player.setOnPreparedListener(this);
-                    m_media_player.setOnCompletionListener(this);
-                    m_media_player.setOnErrorListener(this);
-                    m_media_player.prepareAsync();
-                } else if (!m_media_player.isPlaying()) {
-                    Log.d("start", "I exist but i'm not playing? let me fix that...");
+                if (mediaPlayer == null) {
+                    Log.d("RadioService", "Looks good, starting station ...");
+                    mediaPlayer = new MediaPlayer();
+                    mediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
+                    mediaPlayer.setDataSource(RADIO_URL);
+                    mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                    mediaPlayer.setOnPreparedListener(this);
+                    mediaPlayer.setOnCompletionListener(this);
+                    mediaPlayer.setOnErrorListener(this);
+                    mediaPlayer.prepareAsync();
+                } else if (!mediaPlayer.isPlaying()) {
+                    Log.d("RadioService", "Started but not playing ...");
                     if (state != State.STOPPED) {
-                        Log.d("start", "Killing current connection...");
-                        m_media_player.reset();
-                        m_media_player.release();
-                        m_media_player = null;
+                        Log.d("RadioService", "Killing current connection...");
+                        mediaPlayer.reset();
+                        mediaPlayer.release();
+                        mediaPlayer = null;
                         onEvent(event);
                     } else {
-                        Log.d("start", "Hitting play");
-                        m_media_player.start();
-                        if (m_media_player.isPlaying()) {
+                        Log.d("RadioService", "Restart player");
+                        mediaPlayer.start();
+                        if (mediaPlayer.isPlaying()) {
                             state = State.PLAYING;
+                            EventBus.getDefault().post(new RadioStartedEvent());
                         } else {
-                            m_errors += "Error starting stream: object created but wont restart\n";
+                            errorMessage += "Error starting stream: object created but wont restart\n";
                         }
                     }
                 }
             } catch (IOException e) {
-                m_errors += "Error starting stream: " + e.toString() + "\n";
-                Log.e("start", m_errors, e);
+                errorMessage += "Error starting stream: " + e.toString() + "\n";
+                Log.e("start", errorMessage, e);
             }
         }
     }
@@ -151,9 +165,36 @@ public class RadioService extends Service implements OnCompletionListener,
         return START_STICKY;
     }
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
+    private void acquireWifiLock() {
+        WifiManager systemService = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        if (wifiLock == null) {
+            wifiLock = systemService.createWifiLock(WifiManager.WIFI_MODE_FULL, "domradioLock");
+        }
+        if (!wifiLock.isHeld()) {
+            wifiLock.acquire();
+        }
     }
 
+    private void releaseWifiLock() {
+        if (wifiLock.isHeld()) {
+            wifiLock.release();
+        }
+    }
+
+    public void onEvent(RadioStartingEvent e) {
+        acquireWifiLock();
+    }
+
+    public void onEvent(RadioStartedEvent e) {
+        acquireWifiLock();
+    }
+
+    public void onEvent(RadioStoppedEvent e) {
+        releaseWifiLock();
+        RadioNotification.removeStickyNotification(this);
+    }
+
+    public void onEvent(StopAppEvent e) {
+        this.stopSelf();
+    }
 }

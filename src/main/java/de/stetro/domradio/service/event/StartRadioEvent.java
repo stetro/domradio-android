@@ -2,13 +2,15 @@ package de.stetro.domradio.service.event;
 
 
 public class StartRadioEvent {
-    private String url;
 
-    public StartRadioEvent(String url) {
-        this.url = url;
+    private boolean updateNotification = false;
+
+    public StartRadioEvent(boolean updateNotification) {
+
+        this.updateNotification = updateNotification;
     }
 
-    public String getUrl() {
-        return url;
+    public boolean isUpdateNotification() {
+        return updateNotification;
     }
 }

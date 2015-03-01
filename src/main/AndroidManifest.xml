@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -26,6 +27,14 @@
 
         <service android:name=".service.RadioService" />
 
+        <receiver
+            android:name="de.stetro.domradio.service.RadioNotification"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="de.stetro.domradio.ACTION_TOGGLE" />
+                <action android:name="de.stetro.domradio.ACTION_CLOSE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 

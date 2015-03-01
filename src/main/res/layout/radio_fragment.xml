@@ -10,19 +10,36 @@
         android:id="@+id/radio_fragment_progress"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:background="@color/app_color"
         android:progress="0"
         android:visibility="invisible" />
 
-    <ImageButton
-        android:id="@+id/radio_fragment_button"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/play_pause_button"
-        android:src="@drawable/ic_play" />
+        android:orientation="horizontal">
+
+
+        <ImageButton
+            android:id="@+id/radio_fragment_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/play_pause_button"
+            android:src="@drawable/ic_play" />
+
+        <TextView
+            android:id="@+id/radio_fragment_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="7dp"
+            android:text="@string/radio_live_stream"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
 
 </LinearLayout>
