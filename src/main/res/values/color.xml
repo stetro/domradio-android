@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="gray_text">#333333</color>
-    <color name="gray">#AAAAAA</color>
+    <color name="gray">#333333</color>
     <color name="app_color">#b8251e</color>
 </resources>

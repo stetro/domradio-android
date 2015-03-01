@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="refresh">Aktualisieren</string>
+    <string name="about">Über</string>
+    <string name="radio">Radio</string>
+    <string name="start_radio">Radio starten</string>
+    <string name="play_pause_button">Radio starten und pausieren</string>
+</resources>
