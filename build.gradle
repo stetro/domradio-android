@@ -29,9 +29,7 @@ dependencies {
 
     // api
     compile 'de.greenrobot:eventbus:2.4.+'
-    compile 'com.squareup.retrofit:retrofit:1.9.+'
-    compile 'com.squareup.okhttp:okhttp:2.2.+'
-    compile 'com.squareup.okhttp:okhttp-urlconnection:2.2.+'
+    compile 'com.pkmmte.pkrss:pkrss:1.1.2'
 
     // ui
     compile 'com.squareup.picasso:picasso:2.4.0'

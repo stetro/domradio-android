@@ -15,14 +15,12 @@ import android.util.Log;
 import de.greenrobot.event.EventBus;
 import de.stetro.domradio.R;
 import de.stetro.domradio.activity.MainActivity;
-import de.stetro.domradio.service.event.StopAppEvent;
 import de.stetro.domradio.service.event.StopRadioEvent;
 
 public class RadioNotification extends BroadcastReceiver {
 
     public static final int DEFAULT_NOTIFICATION_ID = 0x3333;
     public static final String TOGGLE_ACTION = "de.stetro.domradio.ACTION_TOGGLE";
-    public static final String CLOSE_ACTION = "de.stetro.domradio.ACTION_CLOSE";
 
     public static void removeStickyNotification(Context context) {
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -72,8 +70,6 @@ public class RadioNotification extends BroadcastReceiver {
                     EventBus.getDefault().post(new StopRadioEvent(true));
                     break;
             }
-        } else if (intent.getAction().equalsIgnoreCase(CLOSE_ACTION)) {
-            EventBus.getDefault().post(new StopAppEvent());
         }
     }
 }

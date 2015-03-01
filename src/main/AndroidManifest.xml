@@ -32,7 +32,6 @@
             android:exported="false">
             <intent-filter>
                 <action android:name="de.stetro.domradio.ACTION_TOGGLE" />
-                <action android:name="de.stetro.domradio.ACTION_CLOSE" />
             </intent-filter>
         </receiver>
     </application>

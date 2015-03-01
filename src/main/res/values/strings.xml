@@ -8,4 +8,8 @@
     <string name="radio_live_stream">domradio.de Livestream</string>
     <string name="radio_live_stream_loading">Lädt ...</string>
     <string name="error_mediaplayer">Livestream konnte nicht geladen werden.</string>
+    <string name="placeholder">Placeholder</string>
+    <string name="error_feed">News konnten nicht geladen werden.</string>
+    <string name="from">vom</string>
+    <string name="read_more">Artikel lesen</string>
 </resources>
