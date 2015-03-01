@@ -14,7 +14,7 @@ apply plugin: 'idea'
 
 repositories {
     mavenCentral()
-    maven{
+    maven {
         url 'https://oss.sonatype.org/content/repositories/snapshots/'
     }
     jcenter()
@@ -55,6 +55,10 @@ android {
         release {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
+    }
+
+    lintOptions {
+        warning 'InvalidPackage'
     }
 }
 
