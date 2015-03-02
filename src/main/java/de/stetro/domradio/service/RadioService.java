@@ -176,7 +176,7 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
     }
 
     private void releaseWifiLock() {
-        if (wifiLock.isHeld()) {
+        if (wifiLock != null && wifiLock.isHeld()) {
             wifiLock.release();
         }
     }

@@ -36,7 +36,7 @@ public class TvActivity extends Activity implements SurfaceHolder.Callback, Medi
 
         try {
             player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            player.setDataSource(this, Uri.parse("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"));
+            player.setDataSource(this, Uri.parse("rtsp://daserste.edges.wowza.gl-systemhaus.de/live/mp4:daserste_int_576"));
             player.setOnPreparedListener(this);
         } catch (IllegalArgumentException | SecurityException | IllegalStateException | IOException e) {
             e.printStackTrace();

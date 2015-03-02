@@ -24,8 +24,6 @@ dependencies {
     // compat
     compile 'com.android.support:appcompat-v7:21.0.+'
     compile 'com.android.support:cardview-v7:21.0.+@aar'
-    compile 'com.android.support:recyclerview-v7:21.0.+@aar'
-    compile 'com.android.support:palette-v7:21.0.+'
 
     // api
     compile 'de.greenrobot:eventbus:2.4.+'
@@ -33,8 +31,7 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.2.+'
 
     // ui
-    compile 'com.squareup.picasso:picasso:2.4.0'
-    compile 'com.melnykov:floatingactionbutton:1.1.0'
+    compile 'com.nineoldandroids:library:2.4.0+'
     compile 'com.afollestad:material-dialogs:0.6.3.3'
     compile 'com.github.navasmdc:MaterialDesign:1.+@aar'
 }
