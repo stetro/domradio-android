@@ -16,7 +16,7 @@
     <string name="no_wifi_description">Sie sind nicht mit einem WLAN verbunden. Wollen Sie über Ihr Mobilfunknetz fortfahren?</string>
     <string name="ok">Ok</string>
     <string name="cancel">Abbrechen</string>
-    <string name="about_text">Entwickelt von Steffen Tröster als Beispielprojet für den Einsatz von neuen Kompatieblen MaterialDesik Komponenten.</string>
+    <string name="about_text">Entwickelt von Steffen Tröster. Ein Beispielprojekt für den Einsatz von neuen kompatiblen MaterialDesign Komponenten.</string>
     <string name="tv">TV Livestream</string>
     <string name="tv_description">Domradio TV Stream</string>
     <string name="description">Buttonbeschreibung</string>
