@@ -25,7 +25,13 @@
 
         </activity>
 
+        <activity
+            android:name=".activity.TvActivity"
+            android:screenOrientation="landscape"
+            android:launchMode="singleTop" />
+
         <service android:name=".service.RadioService" />
+
 
         <receiver
             android:name="de.stetro.domradio.service.RadioNotification"

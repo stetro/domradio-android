@@ -40,6 +40,7 @@ public class NewsFragment extends ListFragment implements AdapterView.OnItemClic
     }
 
     private void loadNewsFeed() {
+
         PkRSS.with(getActivity()).load(FEED_URL).callback(this).async();
         swipeRefreshLayout.setRefreshing(true);
     }

@@ -18,4 +18,6 @@
     <string name="cancel">Abbrechen</string>
     <string name="about_text">Entwickelt von Steffen Tröster als Beispielprojet für den Einsatz von neuen Kompatieblen MaterialDesik Komponenten.</string>
     <string name="tv">TV Livestream</string>
+    <string name="tv_description">Domradio TV Stream</string>
+    <string name="description">Buttonbeschreibung</string>
 </resources>

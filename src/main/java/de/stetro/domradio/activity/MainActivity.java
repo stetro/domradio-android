@@ -7,11 +7,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import de.greenrobot.event.EventBus;
 import de.stetro.domradio.R;
 import de.stetro.domradio.dialog.AboutDialog;
 import de.stetro.domradio.service.RadioNotification;
 import de.stetro.domradio.service.RadioService;
 import de.stetro.domradio.service.event.StopAppEvent;
+import de.stetro.domradio.service.event.StopRadioEvent;
 
 public class MainActivity extends BaseActivity {
 
@@ -43,9 +45,14 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.main_activity_menu_about:
                 new AboutDialog(this).show();
+                return true;
+            case R.id.main_activity_menu_tv:
+                EventBus.getDefault().post(new StopRadioEvent());
+                Intent intent = new Intent(this, TvActivity.class);
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -57,7 +64,7 @@ public class MainActivity extends BaseActivity {
         super.onPause();
     }
 
-    public void onEvent(StopAppEvent e){
+    public void onEvent(StopAppEvent e) {
         this.finish();
     }
 }

@@ -45,6 +45,7 @@ public class RadioNotification extends BroadcastReceiver {
         mBuilder.setSmallIcon(R.drawable.ic_nf_play);
         mBuilder.setContentTitle(context.getString(R.string.app_name));
         mBuilder.setContentText(context.getString(R.string.radio_live_stream));
+
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_radio);
         mBuilder.setLargeIcon(bitmap);
         mBuilder.setContentIntent(getMainActivityPendingIntent(context));
