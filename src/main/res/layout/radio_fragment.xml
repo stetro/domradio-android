@@ -17,26 +17,22 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:orientation="horizontal">
-
 
         <ImageButton
             android:id="@+id/radio_fragment_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:background="@android:color/transparent"
+            android:background="@drawable/transparent_image_button"
             android:contentDescription="@string/play_pause_button"
+            android:padding="10dp"
             android:src="@drawable/ic_play" />
 
         <TextView
             android:id="@+id/radio_fragment_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="17dp"
             android:text="@string/radio_live_stream"
             android:textColor="@android:color/white" />
 

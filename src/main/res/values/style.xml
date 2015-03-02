@@ -12,6 +12,8 @@
 
         <item name="windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
+
+        <item name="logo">@drawable/ic_radio</item>
     </style>
 
 </resources>

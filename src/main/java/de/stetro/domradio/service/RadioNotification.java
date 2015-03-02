@@ -45,7 +45,7 @@ public class RadioNotification extends BroadcastReceiver {
         mBuilder.setSmallIcon(R.drawable.ic_nf_play);
         mBuilder.setContentTitle(context.getString(R.string.app_name));
         mBuilder.setContentText(context.getString(R.string.radio_live_stream));
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_radio);
         mBuilder.setLargeIcon(bitmap);
         mBuilder.setContentIntent(getMainActivityPendingIntent(context));
         return mBuilder;
@@ -67,7 +67,7 @@ public class RadioNotification extends BroadcastReceiver {
         if (intent.getAction().equalsIgnoreCase(TOGGLE_ACTION)) {
             switch (RadioService.get_state()) {
                 default:
-                    EventBus.getDefault().post(new StopRadioEvent(true));
+                    EventBus.getDefault().post(new StopRadioEvent());
                     break;
             }
         }

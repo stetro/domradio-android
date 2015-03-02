@@ -2,6 +2,7 @@ package de.stetro.domradio.fragment;
 
 
 import android.app.ListFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -77,7 +78,10 @@ public class NewsFragment extends ListFragment implements AdapterView.OnItemClic
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        News n = news.get(position);
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(n.getLink());
+        startActivity(i);
     }
 
     @Override
@@ -87,7 +91,6 @@ public class NewsFragment extends ListFragment implements AdapterView.OnItemClic
 
     @Override
     public void OnLoaded(final List<Article> articles) {
-
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -104,8 +107,13 @@ public class NewsFragment extends ListFragment implements AdapterView.OnItemClic
 
     @Override
     public void OnLoadFailed() {
-        Toast.makeText(getActivity(), R.string.error_feed, Toast.LENGTH_SHORT).show();
-        swipeRefreshLayout.setRefreshing(false);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getActivity(), R.string.error_feed, Toast.LENGTH_SHORT).show();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     @Override

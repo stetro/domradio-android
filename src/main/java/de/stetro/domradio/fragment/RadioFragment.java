@@ -1,6 +1,9 @@
 package de.stetro.domradio.fragment;
 
 import android.app.Fragment;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -13,6 +16,7 @@ import com.gc.materialdesign.views.ProgressBarIndeterminateDeterminate;
 
 import de.greenrobot.event.EventBus;
 import de.stetro.domradio.R;
+import de.stetro.domradio.dialog.ConfirmNoWifiDialog;
 import de.stetro.domradio.service.RadioService;
 import de.stetro.domradio.service.event.RadioStartingEvent;
 import de.stetro.domradio.service.event.StartRadioEvent;
@@ -59,11 +63,21 @@ public class RadioFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (RadioService.get_state()) {
             case PLAYING:
-                EventBus.getDefault().post(new StopRadioEvent(false));
+                EventBus.getDefault().post(new StopRadioEvent());
                 break;
             default:
-                EventBus.getDefault().post(new StartRadioEvent(false));
+                startRadio();
                 break;
+        }
+    }
+
+    private void startRadio() {
+        ConnectivityManager connManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if (mWifi.isConnected()) {
+            EventBus.getDefault().post(new StartRadioEvent());
+        }else{
+            new ConfirmNoWifiDialog(getActivity()).show();
         }
     }
 
