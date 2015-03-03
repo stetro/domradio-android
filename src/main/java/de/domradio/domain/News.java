@@ -15,8 +15,12 @@ public class News {
 
     public News(String title, String description, long date, Uri link) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY);
-        this.title = title.trim();
-        this.description = description.trim();
+        if (title != null) {
+            this.title = title.trim();
+        }
+        if (description != null) {
+            this.description = description.trim();
+        }
         this.date = simpleDateFormat.format(new Date(date));
         this.link = link;
     }

@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/news_fragment_swiper"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
 
-    <ListView
-        android:id="@android:id/list"
+    <TextView
+        android:id="@+id/news_list_title"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
-</android.support.v4.widget.SwipeRefreshLayout>
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:textColor="@color/app_color" />
+
+
+    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/news_fragment_swiper"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

@@ -21,4 +21,6 @@
     <string name="tv">TV Livestream</string>
     <string name="tv_description">Domradio TV Stream</string>
     <string name="description">Buttonbeschreibung</string>
+    <string name="rss_feed_topic">Artikel zum Thema</string>
+    <string name="choose_rss">Feed Auswählen</string>
 </resources>
