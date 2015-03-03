@@ -1,4 +1,4 @@
-package de.stetro.domradio.service;
+package de.domradio.service;
 
 import android.app.Service;
 import android.content.Context;
@@ -19,12 +19,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import de.greenrobot.event.EventBus;
-import de.stetro.domradio.R;
-import de.stetro.domradio.fragment.RadioStartedEvent;
-import de.stetro.domradio.fragment.RadioStoppedEvent;
-import de.stetro.domradio.service.event.RadioStartingEvent;
-import de.stetro.domradio.service.event.StartRadioEvent;
-import de.stetro.domradio.service.event.StopRadioEvent;
+import de.domradio.R;
+import de.domradio.fragment.RadioStartedEvent;
+import de.domradio.fragment.RadioStoppedEvent;
+import de.domradio.service.event.RadioStartingEvent;
+import de.domradio.service.event.StartRadioEvent;
+import de.domradio.service.event.StopRadioEvent;
 
 public class RadioService extends Service implements OnCompletionListener, OnPreparedListener, OnErrorListener {
 

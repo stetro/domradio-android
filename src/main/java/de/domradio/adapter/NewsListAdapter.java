@@ -1,4 +1,4 @@
-package de.stetro.domradio.adapter;
+package de.domradio.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,8 +9,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import de.stetro.domradio.R;
-import de.stetro.domradio.domain.News;
+import de.domradio.R;
+import de.domradio.domain.News;
 
 public class NewsListAdapter extends ArrayAdapter<News> {
 

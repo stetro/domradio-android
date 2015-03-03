@@ -1,4 +1,4 @@
-package de.stetro.domradio.fragment;
+package de.domradio.fragment;
 
 
 import android.app.ListFragment;
@@ -22,9 +22,9 @@ import com.pkmmte.pkrss.PkRSS;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.stetro.domradio.R;
-import de.stetro.domradio.adapter.NewsListAdapter;
-import de.stetro.domradio.domain.News;
+import de.domradio.R;
+import de.domradio.adapter.NewsListAdapter;
+import de.domradio.domain.News;
 
 public class NewsFragment extends ListFragment implements AdapterView.OnItemClickListener, Callback, SwipeRefreshLayout.OnRefreshListener {
 

@@ -1,4 +1,4 @@
-package de.stetro.domradio.dialog;
+package de.domradio.dialog;
 
 
 public interface Dialog {

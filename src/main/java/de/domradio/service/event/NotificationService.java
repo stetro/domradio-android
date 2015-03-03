@@ -1,4 +1,4 @@
-package de.stetro.domradio.service.event;
+package de.domradio.service.event;
 
 
 import android.app.Service;

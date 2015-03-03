@@ -1,4 +1,4 @@
-package de.stetro.domradio.service;
+package de.domradio.service;
 
 
 import android.app.Notification;
@@ -11,10 +11,10 @@ import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import de.domradio.R;
+import de.domradio.activity.MainActivity;
+import de.domradio.service.event.StopRadioEvent;
 import de.greenrobot.event.EventBus;
-import de.stetro.domradio.R;
-import de.stetro.domradio.activity.MainActivity;
-import de.stetro.domradio.service.event.StopRadioEvent;
 
 public class RadioNotification extends BroadcastReceiver {
 

@@ -1,4 +1,4 @@
-package de.stetro.domradio.fragment;
+package de.domradio.fragment;
 
 
 public class RadioStartedEvent {

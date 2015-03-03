@@ -1,4 +1,4 @@
-package de.stetro.domradio.activity;
+package de.domradio.activity;
 
 
 import android.content.Intent;
@@ -7,9 +7,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import de.stetro.domradio.R;
-import de.stetro.domradio.dialog.AboutDialog;
-import de.stetro.domradio.service.RadioService;
+import de.domradio.R;
+import de.domradio.dialog.AboutDialog;
+import de.domradio.service.RadioService;
 
 public class MainActivity extends BaseActivity {
 

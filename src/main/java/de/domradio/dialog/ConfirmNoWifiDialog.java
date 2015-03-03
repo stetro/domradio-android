@@ -1,12 +1,12 @@
-package de.stetro.domradio.dialog;
+package de.domradio.dialog;
 
 import android.content.Context;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import de.greenrobot.event.EventBus;
-import de.stetro.domradio.R;
-import de.stetro.domradio.service.event.StartRadioEvent;
+import de.domradio.R;
+import de.domradio.service.event.StartRadioEvent;
 
 
 public class ConfirmNoWifiDialog extends MaterialDialog.ButtonCallback implements Dialog {

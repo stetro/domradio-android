@@ -1,4 +1,4 @@
-package de.stetro.domradio.domain;
+package de.domradio.domain;
 
 
 import android.net.Uri;

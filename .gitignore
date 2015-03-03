@@ -4,3 +4,4 @@ build/
 target/
 local.properties
 *.iml
+*.apk

@@ -1,10 +1,10 @@
-package de.stetro.domradio.dialog;
+package de.domradio.dialog;
 
 import android.content.Context;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
-import de.stetro.domradio.R;
+import de.domradio.R;
 
 
 public class AboutDialog extends MaterialDialog.ButtonCallback implements Dialog {

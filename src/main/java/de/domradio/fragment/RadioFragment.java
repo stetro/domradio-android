@@ -1,4 +1,4 @@
-package de.stetro.domradio.fragment;
+package de.domradio.fragment;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -15,12 +15,12 @@ import android.widget.TextView;
 import com.gc.materialdesign.views.ProgressBarIndeterminateDeterminate;
 
 import de.greenrobot.event.EventBus;
-import de.stetro.domradio.R;
-import de.stetro.domradio.dialog.ConfirmNoWifiDialog;
-import de.stetro.domradio.service.RadioService;
-import de.stetro.domradio.service.event.RadioStartingEvent;
-import de.stetro.domradio.service.event.StartRadioEvent;
-import de.stetro.domradio.service.event.StopRadioEvent;
+import de.domradio.R;
+import de.domradio.dialog.ConfirmNoWifiDialog;
+import de.domradio.service.RadioService;
+import de.domradio.service.event.RadioStartingEvent;
+import de.domradio.service.event.StartRadioEvent;
+import de.domradio.service.event.StopRadioEvent;
 
 
 public class RadioFragment extends Fragment implements View.OnClickListener {
