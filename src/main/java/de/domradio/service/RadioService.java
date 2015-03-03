@@ -85,6 +85,7 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
             mediaPlayer.release();
         }
         releaseWifiLock();
+        stopForeground(true);
     }
 
     @Override

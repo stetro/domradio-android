@@ -22,7 +22,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void startRadioService() {
-        Intent intent = new Intent(this, RadioService.class);
+        Intent intent = new Intent(getApplicationContext(), RadioService.class);
         this.startService(intent);
     }
 
