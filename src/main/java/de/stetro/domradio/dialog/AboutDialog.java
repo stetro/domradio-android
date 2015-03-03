@@ -14,6 +14,7 @@ public class AboutDialog extends MaterialDialog.ButtonCallback implements Dialog
         dialog = new MaterialDialog.Builder(context)
                 .callback(this)
                 .title(R.string.about)
+                .positiveText(R.string.ok)
                 .content(R.string.about_text)
                 .build();
     }

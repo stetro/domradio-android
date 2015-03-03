@@ -7,13 +7,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import de.greenrobot.event.EventBus;
 import de.stetro.domradio.R;
 import de.stetro.domradio.dialog.AboutDialog;
-import de.stetro.domradio.service.RadioNotification;
 import de.stetro.domradio.service.RadioService;
-import de.stetro.domradio.service.event.StopAppEvent;
-import de.stetro.domradio.service.event.StopRadioEvent;
 
 public class MainActivity extends BaseActivity {
 
@@ -23,12 +19,6 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.main_activity);
         setTitle(R.string.app_name);
         startRadioService();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        RadioNotification.removeStickyNotification(this);
     }
 
     private void startRadioService() {
@@ -49,22 +39,8 @@ public class MainActivity extends BaseActivity {
             case R.id.main_activity_menu_about:
                 new AboutDialog(this).show();
                 return true;
-            case R.id.main_activity_menu_tv:
-                EventBus.getDefault().post(new StopRadioEvent());
-                Intent intent = new Intent(this, TvActivity.class);
-                startActivity(intent);
-                return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onPause() {
-        RadioNotification.addStickyNotification(this);
-        super.onPause();
-    }
-
-    public void onEvent(StopAppEvent e) {
-        this.finish();
-    }
 }

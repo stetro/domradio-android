@@ -24,7 +24,6 @@ import de.stetro.domradio.fragment.RadioStartedEvent;
 import de.stetro.domradio.fragment.RadioStoppedEvent;
 import de.stetro.domradio.service.event.RadioStartingEvent;
 import de.stetro.domradio.service.event.StartRadioEvent;
-import de.stetro.domradio.service.event.StopAppEvent;
 import de.stetro.domradio.service.event.StopRadioEvent;
 
 public class RadioService extends Service implements OnCompletionListener, OnPreparedListener, OnErrorListener {
@@ -34,7 +33,8 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
     public String errorMessage = "";
     public static State state = State.STOPPED;
     private WifiManager.WifiLock wifiLock;
-    public static final String RADIO_URL = "http://domradio-mp3-l.akacast.akamaistream.net/7/809/237368/v1/gnl.akacast.akamaistream.net/domradio-mp3-l";
+
+    public static final String RADIO_URL_LOW = "http://domradio-mp3-l.akacast.akamaistream.net/7/809/237368/v1/gnl.akacast.akamaistream.net/domradio-mp3-l";
 
     public enum State {
         STOPPED, STARTING, PLAYING
@@ -81,7 +81,6 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
     @Override
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
-        RadioNotification.removeStickyNotification(this);
         if (mediaPlayer != null) {
             mediaPlayer.release();
         }
@@ -98,25 +97,33 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
         EventBus.getDefault().post(new RadioStoppedEvent());
     }
 
-    public void onEvent(StopRadioEvent event) {
-        if (mediaPlayer != null) {
-            Log.d("RadioService", "MediaPlayer stop, cleaning up.");
-            mediaPlayer.reset();
-            Log.d("RadioService", "MediaPlayer stop, cleaned up.");
-            mediaPlayer.release();
-            Log.d("RadioService", "MediaPlayer stop, shut down.");
-            mediaPlayer = null;
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return START_STICKY;
+    }
+
+    private void acquireWifiLock() {
+        WifiManager systemService = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        if (wifiLock == null) {
+            wifiLock = systemService.createWifiLock(WifiManager.WIFI_MODE_FULL, "domradioLock");
         }
-        state = State.STOPPED;
-        EventBus.getDefault().post(new RadioStoppedEvent());
+        if (!wifiLock.isHeld()) {
+            wifiLock.acquire();
+        }
+    }
+
+    private void releaseWifiLock() {
+        if (wifiLock != null && wifiLock.isHeld()) {
+            wifiLock.release();
+        }
     }
 
     public void onEvent(StartRadioEvent event) {
         errorMessage = "";
         try {
-            m_url = new URL(RADIO_URL);
+            m_url = new URL(RADIO_URL_LOW);
         } catch (MalformedURLException e) {
-            errorMessage += "Error parsing URL (" + RADIO_URL + "): " + e.toString() + "\n";
+            errorMessage += "Error parsing URL (" + RADIO_URL_LOW + "): " + e.toString() + "\n";
             Log.d("RadioService", errorMessage);
         }
         if (errorMessage.equals("")) {
@@ -128,7 +135,7 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
                     Log.d("RadioService", "Looks good, starting station ...");
                     mediaPlayer = new MediaPlayer();
                     mediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
-                    mediaPlayer.setDataSource(RADIO_URL);
+                    mediaPlayer.setDataSource(RADIO_URL_LOW);
                     mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                     mediaPlayer.setOnPreparedListener(this);
                     mediaPlayer.setOnCompletionListener(this);
@@ -160,25 +167,17 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
         }
     }
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        return START_STICKY;
-    }
-
-    private void acquireWifiLock() {
-        WifiManager systemService = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-        if (wifiLock == null) {
-            wifiLock = systemService.createWifiLock(WifiManager.WIFI_MODE_FULL, "domradioLock");
+    public void onEvent(StopRadioEvent event) {
+        if (mediaPlayer != null) {
+            Log.d("RadioService", "MediaPlayer stop, cleaning up.");
+            mediaPlayer.reset();
+            Log.d("RadioService", "MediaPlayer stop, cleaned up.");
+            mediaPlayer.release();
+            Log.d("RadioService", "MediaPlayer stop, shut down.");
+            mediaPlayer = null;
         }
-        if (!wifiLock.isHeld()) {
-            wifiLock.acquire();
-        }
-    }
-
-    private void releaseWifiLock() {
-        if (wifiLock != null && wifiLock.isHeld()) {
-            wifiLock.release();
-        }
+        state = State.STOPPED;
+        EventBus.getDefault().post(new RadioStoppedEvent());
     }
 
     public void onEvent(RadioStartingEvent e) {
@@ -187,14 +186,12 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
 
     public void onEvent(RadioStartedEvent e) {
         acquireWifiLock();
+        startForeground(RadioNotification.DEFAULT_NOTIFICATION_ID, RadioNotification.getStickyNotification(this));
     }
 
     public void onEvent(RadioStoppedEvent e) {
         releaseWifiLock();
-        RadioNotification.removeStickyNotification(this);
+        stopForeground(true);
     }
 
-    public void onEvent(StopAppEvent e) {
-        this.stopSelf();
-    }
 }

@@ -2,7 +2,6 @@ package de.stetro.domradio.service;
 
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -22,22 +21,12 @@ public class RadioNotification extends BroadcastReceiver {
     public static final int DEFAULT_NOTIFICATION_ID = 0x3333;
     public static final String TOGGLE_ACTION = "de.stetro.domradio.ACTION_TOGGLE";
 
-    public static void removeStickyNotification(Context context) {
-        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancel(DEFAULT_NOTIFICATION_ID);
-    }
-
-    public static void addStickyNotification(Context context) {
-        if (RadioService.get_state() != RadioService.State.STOPPED) {
-            NotificationCompat.Builder mBuilder = getNotificationBuilder(context);
-            mBuilder.addAction(R.drawable.ic_pause, "Stoppen", getToggleRadioPendingIntent(context));
-            NotificationManager mNotifyMgr = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            Notification notification = mBuilder.build();
-            notification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
-            mNotifyMgr.notify(DEFAULT_NOTIFICATION_ID, notification);
-        } else {
-            RadioNotification.removeStickyNotification(context);
-        }
+    public static Notification getStickyNotification(Context context) {
+        NotificationCompat.Builder mBuilder = getNotificationBuilder(context);
+        mBuilder.addAction(R.drawable.ic_pause, "Stoppen", getToggleRadioPendingIntent(context));
+        Notification notification = mBuilder.build();
+        notification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
+        return notification;
     }
 
     private static NotificationCompat.Builder getNotificationBuilder(Context context) {
