@@ -7,13 +7,13 @@
     <string name="play_pause_button">start and pause radio</string>
     <string name="radio_live_stream">domradio.de Livestream</string>
     <string name="radio_live_stream_loading">Loading …</string>
-    <string name="error_mediaplayer">Couldn't load livestream.</string>
+    <string name="error_mediaplayer">Couldn\'t load livestream.</string>
     <string name="placeholder">Placeholder</string>
-    <string name="error_feed">Couldn't load News.</string>
+    <string name="error_feed">Couldn\'t load News.</string>
     <string name="from">from</string>
     <string name="read_more">Read Article</string>
     <string name="no_wifi_title">Not connected to Wifi</string>
-    <string name="no_wifi_description">You're not connected to Wifi. Would you like to continue with you mobile volume?</string>
+    <string name="no_wifi_description">You\'re not connected to Wifi. Would you like to continue with you mobile volume?</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="about_text">domradio.de\nDomkloster 3\n50667 Köln\ninfo@domradio.de\n\ndomradio.de ist das katholische Portal für aktuelle Nachrichten aus Kirche und Welt. Wir bringen christliche Stimmen und Positionen zu allen relevanten gesellschaftlichen Themen auf den Punkt.\n\nEntwickelt von Steffen Tröster.</string>
