@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">domradio.de</string>
     <string name="refresh">Refresh</string>
     <string name="about">About</string>
     <string name="radio">Radio</string>
@@ -16,7 +17,10 @@
     <string name="no_wifi_description">You\'re not connected to Wifi. Would you like to continue with you mobile volume?</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="tv">TV Livestream</string>
+    <string name="tv_description">Domradio TV Stream</string>
     <string name="about_text">domradio.de\nDomkloster 3\n50667 Köln\ninfo@domradio.de\n\ndomradio.de ist das katholische Portal für aktuelle Nachrichten aus Kirche und Welt. Wir bringen christliche Stimmen und Positionen zu allen relevanten gesellschaftlichen Themen auf den Punkt.\n\nEntwickelt von Steffen Tröster.</string>
     <string name="rss_feed_topic">Article about topic</string>
+    <string name="description">Buttondescription</string>
     <string name="choose_rss">Choose Feed</string>
 </resources>
