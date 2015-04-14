@@ -25,7 +25,6 @@ public class MainActivity extends BaseActivity {
         setTitle(R.string.app_name);
         startRadioService();
         isRunning = true;
-
     }
 
     private void startRadioService() {

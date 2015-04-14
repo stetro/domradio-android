@@ -32,6 +32,10 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.2.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.2.0'
 
+    // analytics
+    compile 'com.google.android.gms:play-services-base:7.0.0'
+    compile 'com.google.android.gms:play-services-analytics:7.0.0'
+
     // ui
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.afollestad:material-dialogs:0.6.7.0'
@@ -45,8 +49,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 19
-        versionName '0.2.1'
+        versionCode 20
+        versionName '0.2.2'
         applicationId 'de.domradio'
     }
 
