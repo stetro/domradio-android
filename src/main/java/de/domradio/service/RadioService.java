@@ -18,35 +18,32 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import de.greenrobot.event.EventBus;
 import de.domradio.R;
+import de.domradio.activity.MainActivity;
 import de.domradio.fragment.RadioStartedEvent;
 import de.domradio.fragment.RadioStoppedEvent;
 import de.domradio.service.event.RadioStartingEvent;
 import de.domradio.service.event.StartRadioEvent;
 import de.domradio.service.event.StopRadioEvent;
+import de.greenrobot.event.EventBus;
 
 public class RadioService extends Service implements OnCompletionListener, OnPreparedListener, OnErrorListener {
 
     public URL m_url = null;
     public MediaPlayer mediaPlayer = null;
     public String errorMessage = "";
-    public static State state = State.STOPPED;
+    public volatile static RadioServiceState radioServiceState = RadioServiceState.STOPPED;
     private WifiManager.WifiLock wifiLock;
 
     public static final String RADIO_URL_LOW = "http://domradio-mp3-l.akacast.akamaistream.net/7/809/237368/v1/gnl.akacast.akamaistream.net/domradio-mp3-l";
 
-    public enum State {
-        STOPPED, STARTING, PLAYING
-    }
-
-    public static State get_state() {
-        return state;
+    public static RadioServiceState get_state() {
+        return radioServiceState;
     }
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-        state = State.STOPPED;
+        radioServiceState = RadioServiceState.STOPPED;
         EventBus.getDefault().post(new RadioStoppedEvent());
 
         Log.d("RadioService", "Track is completed.");
@@ -60,7 +57,7 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
     public void onPrepared(MediaPlayer mp) {
         Log.d("RadioService", "MediaPlayer prepared, starting content.");
         mp.start();
-        state = State.PLAYING;
+        radioServiceState = RadioServiceState.PLAYING;
         EventBus.getDefault().post(new RadioStartedEvent());
     }
 
@@ -81,6 +78,7 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
     @Override
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
+        Log.d("RadioService", "Service destroyed.");
         if (mediaPlayer != null) {
             mediaPlayer.release();
         }
@@ -94,7 +92,7 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
     }
 
     public RadioService() {
-        state = State.STOPPED;
+        radioServiceState = RadioServiceState.STOPPED;
         EventBus.getDefault().post(new RadioStoppedEvent());
     }
 
@@ -129,7 +127,7 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
         }
         if (errorMessage.equals("")) {
             Log.d("RadioService", "Starting radio ...");
-            state = State.STARTING;
+            radioServiceState = RadioServiceState.STARTING;
             EventBus.getDefault().post(new RadioStartingEvent());
             try {
                 if (mediaPlayer == null) {
@@ -144,7 +142,7 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
                     mediaPlayer.prepareAsync();
                 } else if (!mediaPlayer.isPlaying()) {
                     Log.d("RadioService", "Started but not playing ...");
-                    if (state != State.STOPPED) {
+                    if (radioServiceState != RadioServiceState.STOPPED) {
                         Log.d("RadioService", "Killing current connection...");
                         mediaPlayer.reset();
                         mediaPlayer.release();
@@ -154,7 +152,7 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
                         Log.d("RadioService", "Restart player");
                         mediaPlayer.start();
                         if (mediaPlayer.isPlaying()) {
-                            state = State.PLAYING;
+                            radioServiceState = RadioServiceState.PLAYING;
                             EventBus.getDefault().post(new RadioStartedEvent());
                         } else {
                             errorMessage += "Error starting stream: object created but wont restart\n";
@@ -177,7 +175,7 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
             Log.d("RadioService", "MediaPlayer stop, shut down.");
             mediaPlayer = null;
         }
-        state = State.STOPPED;
+        radioServiceState = RadioServiceState.STOPPED;
         EventBus.getDefault().post(new RadioStoppedEvent());
     }
 
@@ -193,6 +191,9 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
     public void onEvent(RadioStoppedEvent e) {
         releaseWifiLock();
         stopForeground(true);
+        if (!MainActivity.isRunning) {
+            stopSelf();
+        }
     }
 
 }

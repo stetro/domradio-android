@@ -23,4 +23,5 @@
     <string name="rss_feed_topic">Article about topic</string>
     <string name="description">Buttondescription</string>
     <string name="choose_rss">Choose Feed</string>
+    <string name="rate_this_app">Rate this App</string>
 </resources>

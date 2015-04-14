@@ -23,4 +23,5 @@
     <string name="description">Buttonbeschreibung</string>
     <string name="rss_feed_topic">Artikel zum Thema</string>
     <string name="choose_rss">Feed Auswählen</string>
+    <string name="rate_this_app">App bewerten</string>
 </resources>
