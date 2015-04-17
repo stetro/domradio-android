@@ -14,15 +14,10 @@ import android.os.PowerManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Date;
 
-import de.domradio.DomradioApplication;
 import de.domradio.R;
 import de.domradio.activity.MainActivity;
 import de.domradio.fragment.RadioStartedEvent;
@@ -39,9 +34,10 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
     public String errorMessage = "";
     public volatile static RadioServiceState radioServiceState = RadioServiceState.STOPPED;
     private WifiManager.WifiLock wifiLock;
-    private Date started;
+
 
     public static final String RADIO_URL_LOW = "http://domradio-mp3-l.akacast.akamaistream.net/7/809/237368/v1/gnl.akacast.akamaistream.net/domradio-mp3-l";
+    private RadioAnalytics radioAnalytics;
 
     public static RadioServiceState get_state() {
         return radioServiceState;
@@ -51,7 +47,6 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
     public void onCompletion(MediaPlayer mp) {
         radioServiceState = RadioServiceState.STOPPED;
         EventBus.getDefault().post(new RadioStoppedEvent());
-
         Log.d("RadioService", "Track is completed.");
         mp.release();
         if (mp.equals(mediaPlayer)) {
@@ -79,6 +74,7 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
     public void onCreate() {
         super.onCreate();
         EventBus.getDefault().register(this);
+        radioAnalytics = new RadioAnalytics(this);
     }
 
     @Override
@@ -191,47 +187,17 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
 
     public void onEvent(RadioStartedEvent e) {
         acquireWifiLock();
-        sendRadioStartedAnalyticsEvent();
+        radioAnalytics.sendRadioStartedAnalyticsEvent();
         startForeground(RadioNotification.DEFAULT_NOTIFICATION_ID, RadioNotification.getStickyNotification(this));
     }
 
     public void onEvent(RadioStoppedEvent e) {
         releaseWifiLock();
         stopForeground(true);
-        sendRadioStoppedAnalyticsEvent();
+        radioAnalytics.sendRadioStoppedAnalyticsEvent();
         if (!MainActivity.isRunning) {
             stopSelf();
         }
-    }
-
-    private void sendRadioStoppedAnalyticsEvent() {
-        if (started != null) {
-            Tracker appTracker = ((DomradioApplication) getApplication()).getAppTracker();
-            long seconds = (new Date().getTime() - started.getTime()) / 1000;
-            appTracker.send(new HitBuilders.EventBuilder()
-                            .setCategory("DOMRADIO_APP")
-                            .setAction("PLAYER_STOPPED")
-                            .setLabel("Player has stopped after " + seconds + " seconds of playing")
-                            .setValue(seconds)
-                            .build()
-            );
-        }
-        started = null;
-    }
-
-    private void sendRadioStartedAnalyticsEvent() {
-        if (started == null) {
-            Tracker appTracker = ((DomradioApplication) getApplication()).getAppTracker();
-            long seconds = (new Date().getTime() - started.getTime()) / 1000;
-            appTracker.send(new HitBuilders.EventBuilder()
-                            .setCategory("DOMRADIO_APP")
-                            .setAction("PLAYER_STOPPED")
-                            .setLabel("Player has stopped after " + seconds + " seconds of playing")
-                            .setValue(seconds)
-                            .build()
-            );
-        }
-        started = new Date();
     }
 
 }
