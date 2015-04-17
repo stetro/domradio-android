@@ -13,9 +13,19 @@ public class DomradioApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-        appTracker = analytics.newTracker(R.xml.global_tracker);
-        appTracker.enableAdvertisingIdCollection(true);
+        createTracker();
     }
 
+    private void createTracker() {
+        if (appTracker == null) {
+            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            appTracker = analytics.newTracker(R.xml.global_tracker);
+            appTracker.enableAdvertisingIdCollection(true);
+        }
+    }
+
+    public Tracker getAppTracker() {
+        createTracker();
+        return appTracker;
+    }
 }
