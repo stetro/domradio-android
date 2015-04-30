@@ -8,6 +8,8 @@ Android [domradio.de](http://domradio.de) App
 
 ![Screenshot](images/screenshot.png)
 
+> There is also an [iOS](https://github.com/stetro/domradio-ios) implementation
+
 Used Libraries
 --------------
 

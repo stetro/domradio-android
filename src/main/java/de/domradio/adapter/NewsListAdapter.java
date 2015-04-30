@@ -14,12 +14,10 @@ import de.domradio.domain.News;
 
 public class NewsListAdapter extends ArrayAdapter<News> {
 
-    private final ArrayList<News> news;
     private final LayoutInflater inflater;
 
     public NewsListAdapter(Context context, int resource, ArrayList<News> news) {
         super(context, resource, news);
-        this.news = news;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -28,7 +26,7 @@ public class NewsListAdapter extends ArrayAdapter<News> {
         View vi = convertView;
         final ViewHolder holder;
         if (convertView == null) {
-            vi = inflater.inflate(R.layout.news_list_item, null);
+            vi = inflater.inflate(R.layout.news_list_item, parent);
             holder = new ViewHolder();
             holder.title = (TextView) vi.findViewById(R.id.news_list_item_title);
             holder.date = (TextView) vi.findViewById(R.id.news_list_item_date);

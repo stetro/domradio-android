@@ -15,8 +15,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import de.domradio.R;
 import de.domradio.activity.MainActivity;
@@ -29,9 +27,7 @@ import de.greenrobot.event.EventBus;
 
 public class RadioService extends Service implements OnCompletionListener, OnPreparedListener, OnErrorListener {
 
-    public URL m_url = null;
     public MediaPlayer mediaPlayer = null;
-    public String errorMessage = "";
     public volatile static RadioServiceState radioServiceState = RadioServiceState.STOPPED;
     private WifiManager.WifiLock wifiLock;
 
@@ -119,55 +115,49 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
         }
     }
 
+    @EventBusCallback
     public void onEvent(StartRadioEvent event) {
-        errorMessage = "";
+        String errorMessage = "";
+        Log.d("RadioService", "Starting radio ...");
+        radioServiceState = RadioServiceState.STARTING;
+        EventBus.getDefault().post(new RadioStartingEvent());
         try {
-            m_url = new URL(RADIO_URL_LOW);
-        } catch (MalformedURLException e) {
-            errorMessage += "Error parsing URL (" + RADIO_URL_LOW + "): " + e.toString() + "\n";
-            Log.d("RadioService", errorMessage);
-        }
-        if (errorMessage.equals("")) {
-            Log.d("RadioService", "Starting radio ...");
-            radioServiceState = RadioServiceState.STARTING;
-            EventBus.getDefault().post(new RadioStartingEvent());
-            try {
-                if (mediaPlayer == null) {
-                    Log.d("RadioService", "Looks good, starting station ...");
-                    mediaPlayer = new MediaPlayer();
-                    mediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
-                    mediaPlayer.setDataSource(RADIO_URL_LOW);
-                    mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                    mediaPlayer.setOnPreparedListener(this);
-                    mediaPlayer.setOnCompletionListener(this);
-                    mediaPlayer.setOnErrorListener(this);
-                    mediaPlayer.prepareAsync();
-                } else if (!mediaPlayer.isPlaying()) {
-                    Log.d("RadioService", "Started but not playing ...");
-                    if (radioServiceState != RadioServiceState.STOPPED) {
-                        Log.d("RadioService", "Killing current connection...");
-                        mediaPlayer.reset();
-                        mediaPlayer.release();
-                        mediaPlayer = null;
-                        onEvent(event);
+            if (mediaPlayer == null) {
+                Log.d("RadioService", "Looks good, starting station ...");
+                mediaPlayer = new MediaPlayer();
+                mediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
+                mediaPlayer.setDataSource(RADIO_URL_LOW);
+                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                mediaPlayer.setOnPreparedListener(this);
+                mediaPlayer.setOnCompletionListener(this);
+                mediaPlayer.setOnErrorListener(this);
+                mediaPlayer.prepareAsync();
+            } else if (!mediaPlayer.isPlaying()) {
+                Log.d("RadioService", "Started but not playing ...");
+                if (radioServiceState != RadioServiceState.STOPPED) {
+                    Log.d("RadioService", "Killing current connection...");
+                    mediaPlayer.reset();
+                    mediaPlayer.release();
+                    mediaPlayer = null;
+                    onEvent(event);
+                } else {
+                    Log.d("RadioService", "Restart player");
+                    mediaPlayer.start();
+                    if (mediaPlayer.isPlaying()) {
+                        radioServiceState = RadioServiceState.PLAYING;
+                        EventBus.getDefault().post(new RadioStartedEvent());
                     } else {
-                        Log.d("RadioService", "Restart player");
-                        mediaPlayer.start();
-                        if (mediaPlayer.isPlaying()) {
-                            radioServiceState = RadioServiceState.PLAYING;
-                            EventBus.getDefault().post(new RadioStartedEvent());
-                        } else {
-                            errorMessage += "Error starting stream: object created but wont restart\n";
-                        }
+                        errorMessage += "Error starting stream: object created but wont restart\n";
                     }
                 }
-            } catch (IOException e) {
-                errorMessage += "Error starting stream: " + e.toString() + "\n";
-                Log.e("start", errorMessage, e);
             }
+        } catch (IOException e) {
+            errorMessage += "Error starting stream: " + e.toString() + "\n";
+            Log.e("start", errorMessage, e);
         }
     }
 
+    @EventBusCallback
     public void onEvent(StopRadioEvent event) {
         if (mediaPlayer != null) {
             Log.d("RadioService", "MediaPlayer stop, cleaning up.");
@@ -181,16 +171,19 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
         EventBus.getDefault().post(new RadioStoppedEvent());
     }
 
+    @EventBusCallback
     public void onEvent(RadioStartingEvent e) {
         acquireWifiLock();
     }
 
+    @EventBusCallback
     public void onEvent(RadioStartedEvent e) {
         acquireWifiLock();
         radioAnalytics.sendRadioStartedAnalyticsEvent();
         startForeground(RadioNotification.DEFAULT_NOTIFICATION_ID, RadioNotification.getStickyNotification(this));
     }
 
+    @EventBusCallback
     public void onEvent(RadioStoppedEvent e) {
         releaseWifiLock();
         stopForeground(true);

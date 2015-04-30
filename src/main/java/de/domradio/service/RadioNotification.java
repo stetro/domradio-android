@@ -22,23 +22,23 @@ public class RadioNotification extends BroadcastReceiver {
     public static final String TOGGLE_ACTION = "de.stetro.domradio.ACTION_TOGGLE";
 
     public static Notification getStickyNotification(Context context) {
-        NotificationCompat.Builder mBuilder = getNotificationBuilder(context);
-        mBuilder.addAction(R.drawable.ic_pause, "Stoppen", getToggleRadioPendingIntent(context));
-        Notification notification = mBuilder.build();
+
+        Notification notification = getNotificationBuilder(context)
+                .addAction(R.drawable.ic_pause, "Stoppen", getToggleRadioPendingIntent(context))
+                .build();
         notification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
         return notification;
     }
 
     private static NotificationCompat.Builder getNotificationBuilder(Context context) {
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
-        mBuilder.setSmallIcon(R.drawable.ic_nf_play);
-        mBuilder.setContentTitle(context.getString(R.string.app_name));
-        mBuilder.setContentText(context.getString(R.string.radio_live_stream));
-
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_radio);
-        mBuilder.setLargeIcon(bitmap);
-        mBuilder.setContentIntent(getMainActivityPendingIntent(context));
-        return mBuilder;
+        return new NotificationCompat.Builder(context)
+                .setSmallIcon(R.drawable.ic_nf_play)
+                .setContentTitle(context.getString(R.string.app_name))
+                .setContentText(context.getString(R.string.radio_live_stream))
+                .setLargeIcon(bitmap)
+                .setContentIntent(getMainActivityPendingIntent(context));
+
     }
 
     private static PendingIntent getToggleRadioPendingIntent(Context context) {

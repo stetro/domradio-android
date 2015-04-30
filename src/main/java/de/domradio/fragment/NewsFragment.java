@@ -28,6 +28,7 @@ import de.domradio.R;
 import de.domradio.adapter.NewsListAdapter;
 import de.domradio.dialog.RssChooserDialog;
 import de.domradio.domain.News;
+import de.domradio.service.EventBusCallback;
 import de.domradio.service.event.SetNewsFeedEvent;
 import de.greenrobot.event.EventBus;
 
@@ -106,6 +107,7 @@ public class NewsFragment extends ListFragment implements AdapterView.OnItemClic
         startActivity(i);
     }
 
+    @EventBusCallback
     public void onEvent(SetNewsFeedEvent e) {
         currentFeed = e.getFeedTopic();
         loadNewsFeed();
