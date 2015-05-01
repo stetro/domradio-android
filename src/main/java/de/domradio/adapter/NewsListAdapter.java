@@ -1,7 +1,6 @@
 package de.domradio.adapter;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -14,11 +13,11 @@ import de.domradio.domain.News;
 
 public class NewsListAdapter extends ArrayAdapter<News> {
 
-    private final LayoutInflater inflater;
+    private final Context context;
 
     public NewsListAdapter(Context context, int resource, ArrayList<News> news) {
         super(context, resource, news);
-        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.context = context;
     }
 
     @Override
@@ -26,7 +25,7 @@ public class NewsListAdapter extends ArrayAdapter<News> {
         View vi = convertView;
         final ViewHolder holder;
         if (convertView == null) {
-            vi = inflater.inflate(R.layout.news_list_item, parent);
+            vi = View.inflate(context, R.layout.news_list_item, null);
             holder = new ViewHolder();
             holder.title = (TextView) vi.findViewById(R.id.news_list_item_title);
             holder.date = (TextView) vi.findViewById(R.id.news_list_item_date);

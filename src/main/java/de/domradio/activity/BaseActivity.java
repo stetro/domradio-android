@@ -1,12 +1,12 @@
 package de.domradio.activity;
 
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import de.domradio.R;
 
 
-public abstract class BaseActivity extends ActionBarActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     private Toolbar mActionBarToolbar;
 

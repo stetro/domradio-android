@@ -12,7 +12,7 @@
         <item name="colorControlHighlight">@color/app_color</item>
 
         <item name="windowActionBar">false</item>
-        <item name="android:windowNoTitle">true</item>
+        <item name="windowNoTitle">true</item>
 
         <item name="logo">@drawable/ic_radio</item>
     </style>
