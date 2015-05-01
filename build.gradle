@@ -16,6 +16,7 @@ repositories {
     mavenCentral()
     maven {
         url 'https://oss.sonatype.org/content/repositories/snapshots/'
+	url 'https://dl.bintray.com/drummer-aidan/maven'
     }
     jcenter()
 }
