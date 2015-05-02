@@ -24,4 +24,6 @@
     <string name="description">Buttondescription</string>
     <string name="choose_rss">Choose Feed</string>
     <string name="rate_this_app">Rate this App</string>
+    <string name="domradiode">domradio.de</string>
+    <string name="domradioweb">http://domradio.de</string>
 </resources>
