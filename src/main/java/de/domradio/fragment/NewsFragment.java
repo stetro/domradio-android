@@ -136,29 +136,33 @@ public class NewsFragment extends ListFragment implements AdapterView.OnItemClic
 
     @Override
     public void OnLoaded(final List<Article> articles) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                news.clear();
-                for (Article a : articles) {
-                    News n = new News(a.getTitle(), a.getDescription(), a.getDate(), a.getSource());
-                    news.add(n);
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    news.clear();
+                    for (Article a : articles) {
+                        News n = new News(a.getTitle(), a.getDescription(), a.getDate(), a.getSource());
+                        news.add(n);
+                    }
+                    swipeRefreshLayout.setRefreshing(false);
+                    newsListAdapter.notifyDataSetChanged();
                 }
-                swipeRefreshLayout.setRefreshing(false);
-                newsListAdapter.notifyDataSetChanged();
-            }
-        });
+            });
+        }
     }
 
     @Override
     public void OnLoadFailed() {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getActivity(), R.string.error_feed, Toast.LENGTH_SHORT).show();
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getActivity(), R.string.error_feed, Toast.LENGTH_SHORT).show();
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            });
+        }
     }
 
     @Override
