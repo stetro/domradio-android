@@ -26,6 +26,8 @@
 
         </activity>
 
+        <activity android:name=".activity.WebActivity"/>
+
         <service android:name=".service.RadioService" />
 
         <receiver

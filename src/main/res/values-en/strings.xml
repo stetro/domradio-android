@@ -26,4 +26,6 @@
     <string name="rate_this_app">Rate this App</string>
     <string name="domradiode">domradio.de</string>
     <string name="domradioweb">http://domradio.de</string>
+    <string name="share">Share</string>
+    <string name="share_article">Share article</string>
 </resources>

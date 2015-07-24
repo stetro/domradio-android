@@ -3,11 +3,12 @@ package de.domradio.domain;
 
 import android.net.Uri;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class News {
+public class News implements Serializable{
     private String title;
     private String date;
     private Uri link;

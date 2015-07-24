@@ -28,6 +28,7 @@ import java.util.List;
 
 import de.domradio.DomradioApplication;
 import de.domradio.R;
+import de.domradio.activity.WebActivity;
 import de.domradio.adapter.NewsListAdapter;
 import de.domradio.dialog.RssChooserDialog;
 import de.domradio.domain.News;
@@ -105,9 +106,10 @@ public class NewsFragment extends ListFragment implements AdapterView.OnItemClic
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         News n = news.get(position);
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(n.getLink());
-        startActivity(i);
+        Intent intent = new Intent(getActivity(), WebActivity.class);
+        intent.putExtra("title", n.getTitle());
+        intent.putExtra("link", n.getLink().toString());
+        startActivity(intent);
         sendAnalyticsEvent(n);
     }
 
