@@ -30,8 +30,8 @@ public class RssChooserDialog implements Dialog, MaterialDialog.ListCallback {
     @Override
     public void onSelection(MaterialDialog materialDialog, View view, int i, CharSequence charSequence) {
         this.dialog.hide();
-        FeedTopic feedTopic= FeedTopic.resolve(charSequence);
-        if(feedTopic != null){
+        FeedTopic feedTopic = FeedTopic.resolve(charSequence);
+        if (feedTopic != null) {
             EventBus.getDefault().post(new SetNewsFeedEvent(feedTopic));
         }
     }
@@ -105,14 +105,6 @@ public class RssChooserDialog implements Dialog, MaterialDialog.ListCallback {
             this.title = title;
         }
 
-        public String getTitle() {
-            return title;
-        }
-
-        public String getUrl() {
-            return url;
-        }
-
         public static CharSequence[] getTitles() {
             CharSequence[] titles = new CharSequence[FeedTopic.values().length];
             for (int i = 0; i < FeedTopic.values().length; i++) {
@@ -128,6 +120,14 @@ public class RssChooserDialog implements Dialog, MaterialDialog.ListCallback {
                 }
             }
             return null;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public String getUrl() {
+            return url;
         }
     }
 }

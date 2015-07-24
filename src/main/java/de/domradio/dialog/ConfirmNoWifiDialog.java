@@ -4,9 +4,9 @@ import android.content.Context;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
-import de.greenrobot.event.EventBus;
 import de.domradio.R;
 import de.domradio.service.event.StartRadioEvent;
+import de.greenrobot.event.EventBus;
 
 
 public class ConfirmNoWifiDialog extends MaterialDialog.ButtonCallback implements Dialog {

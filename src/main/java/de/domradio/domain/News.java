@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class News implements Serializable{
+public class News implements Serializable {
     private String title;
     private String date;
     private Uri link;

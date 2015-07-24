@@ -9,12 +9,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-
-import de.domradio.DomradioApplication;
 import de.domradio.R;
 import de.domradio.dialog.AboutDialog;
+import de.domradio.service.AnalyticsTracker;
 import de.domradio.service.RadioService;
 import de.domradio.service.RadioServiceState;
 
@@ -64,18 +61,7 @@ public class MainActivity extends BaseActivity {
         } catch (ActivityNotFoundException e) {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + this.getPackageName())));
         }
-        sendRateAnalyticsEvent();
-    }
-
-    private void sendRateAnalyticsEvent() {
-        Tracker appTracker = ((DomradioApplication) getApplication()).getAppTracker();
-        appTracker.send(new HitBuilders.EventBuilder()
-                        .setCategory("DOMRADIO_APP")
-                        .setAction("RATING_OPENED")
-                        .setLabel("Rating page was opened")
-                        .setValue(0L)
-                        .build()
-        );
+        AnalyticsTracker.openRating(getApplication());
     }
 
     @Override

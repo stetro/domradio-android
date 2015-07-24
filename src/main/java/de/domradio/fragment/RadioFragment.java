@@ -14,13 +14,13 @@ import android.widget.TextView;
 
 import com.gc.materialdesign.views.ProgressBarIndeterminateDeterminate;
 
-import de.greenrobot.event.EventBus;
 import de.domradio.R;
 import de.domradio.dialog.ConfirmNoWifiDialog;
 import de.domradio.service.RadioService;
 import de.domradio.service.event.RadioStartingEvent;
 import de.domradio.service.event.StartRadioEvent;
 import de.domradio.service.event.StopRadioEvent;
+import de.greenrobot.event.EventBus;
 
 
 public class RadioFragment extends Fragment implements View.OnClickListener {
@@ -76,7 +76,7 @@ public class RadioFragment extends Fragment implements View.OnClickListener {
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         if (mWifi.isConnected()) {
             EventBus.getDefault().post(new StartRadioEvent());
-        }else{
+        } else {
             new ConfirmNoWifiDialog(getActivity()).show();
         }
     }

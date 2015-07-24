@@ -51,8 +51,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 24
-        versionName '0.2.5'
+        versionCode 25
+        versionName '0.3.0'
         applicationId 'de.domradio'
     }
 

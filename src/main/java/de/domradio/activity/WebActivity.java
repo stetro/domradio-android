@@ -15,6 +15,7 @@ import com.gc.materialdesign.views.ProgressBarIndeterminateDeterminate;
 
 import de.domradio.R;
 import de.domradio.activity.util.ProgressClient;
+import de.domradio.service.AnalyticsTracker;
 
 public class WebActivity extends BaseActivity {
     private WebView webView;
@@ -62,6 +63,7 @@ public class WebActivity extends BaseActivity {
                 i.putExtra(Intent.EXTRA_SUBJECT, title);
                 i.putExtra(Intent.EXTRA_TEXT, link);
                 startActivity(Intent.createChooser(i, getString(R.string.share_article)));
+                AnalyticsTracker.shareArticle(getApplication(), title);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

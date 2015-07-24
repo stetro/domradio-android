@@ -27,13 +27,16 @@ import de.greenrobot.event.EventBus;
 
 public class RadioService extends Service implements OnCompletionListener, OnPreparedListener, OnErrorListener {
 
-    public MediaPlayer mediaPlayer = null;
-    public volatile static RadioServiceState radioServiceState = RadioServiceState.STOPPED;
-    private WifiManager.WifiLock wifiLock;
-
-
     public static final String RADIO_URL_LOW = "http://domradio-mp3-l.akacast.akamaistream.net/7/809/237368/v1/gnl.akacast.akamaistream.net/domradio-mp3-l";
-    private RadioAnalytics radioAnalytics;
+    public volatile static RadioServiceState radioServiceState = RadioServiceState.STOPPED;
+    public MediaPlayer mediaPlayer = null;
+    private WifiManager.WifiLock wifiLock;
+    private RadioAnalyticsTracker radioAnalyticsTracker;
+
+    public RadioService() {
+        radioServiceState = RadioServiceState.STOPPED;
+        EventBus.getDefault().post(new RadioStoppedEvent());
+    }
 
     public static RadioServiceState get_state() {
         return radioServiceState;
@@ -70,7 +73,7 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
     public void onCreate() {
         super.onCreate();
         EventBus.getDefault().register(this);
-        radioAnalytics = new RadioAnalytics(this);
+        radioAnalyticsTracker = new RadioAnalyticsTracker(this);
     }
 
     @Override
@@ -87,11 +90,6 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
     @Override
     public IBinder onBind(Intent intent) {
         return null;
-    }
-
-    public RadioService() {
-        radioServiceState = RadioServiceState.STOPPED;
-        EventBus.getDefault().post(new RadioStoppedEvent());
     }
 
     @Override
@@ -179,7 +177,7 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
     @EventBusCallback
     public void onEvent(RadioStartedEvent e) {
         acquireWifiLock();
-        radioAnalytics.sendRadioStartedAnalyticsEvent();
+        radioAnalyticsTracker.sendRadioStartedAnalyticsEvent();
         startForeground(RadioNotification.DEFAULT_NOTIFICATION_ID, RadioNotification.getStickyNotification(this));
     }
 
@@ -187,7 +185,7 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
     public void onEvent(RadioStoppedEvent e) {
         releaseWifiLock();
         stopForeground(true);
-        radioAnalytics.sendRadioStoppedAnalyticsEvent();
+        radioAnalyticsTracker.sendRadioStoppedAnalyticsEvent();
         if (!MainActivity.isRunning) {
             stopSelf();
         }

@@ -10,12 +10,12 @@ import java.util.Date;
 
 import de.domradio.DomradioApplication;
 
-public class RadioAnalytics {
+public class RadioAnalyticsTracker {
     private final Service service;
 
     private Date started;
 
-    public RadioAnalytics(Service service) {
+    public RadioAnalyticsTracker(Service service) {
         this.service = service;
     }
 

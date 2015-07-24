@@ -17,8 +17,6 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.pkmmte.pkrss.Article;
 import com.pkmmte.pkrss.Callback;
 import com.pkmmte.pkrss.PkRSS;
@@ -26,12 +24,12 @@ import com.pkmmte.pkrss.PkRSS;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.domradio.DomradioApplication;
 import de.domradio.R;
 import de.domradio.activity.WebActivity;
 import de.domradio.adapter.NewsListAdapter;
 import de.domradio.dialog.RssChooserDialog;
 import de.domradio.domain.News;
+import de.domradio.service.AnalyticsTracker;
 import de.domradio.service.EventBusCallback;
 import de.domradio.service.event.SetNewsFeedEvent;
 import de.greenrobot.event.EventBus;
@@ -110,18 +108,7 @@ public class NewsFragment extends ListFragment implements AdapterView.OnItemClic
         intent.putExtra("title", n.getTitle());
         intent.putExtra("link", n.getLink().toString());
         startActivity(intent);
-        sendAnalyticsEvent(n);
-    }
-
-    private void sendAnalyticsEvent(News n) {
-        Tracker appTracker = ((DomradioApplication) getActivity().getApplication()).getAppTracker();
-        appTracker.send(new HitBuilders.EventBuilder()
-                        .setCategory("DOMRADIO_APP")
-                        .setAction("NEWS_OPENED")
-                        .setLabel(n.getTitle())
-                        .setValue(0L)
-                        .build()
-        );
+        AnalyticsTracker.openNews(getActivity().getApplication(), n);
     }
 
     @EventBusCallback

@@ -5,11 +5,9 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
-import de.domradio.DomradioApplication;
 import de.domradio.R;
+import de.domradio.service.AnalyticsTracker;
 
 
 public class AboutDialog extends MaterialDialog.ButtonCallback implements Dialog {
@@ -31,37 +29,16 @@ public class AboutDialog extends MaterialDialog.ButtonCallback implements Dialog
     @Override
     public void show() {
         dialog.show();
-        sendAboutAnalyticsEvent();
+        AnalyticsTracker.openAbout(context.getApplication());
     }
 
-    private void sendAboutAnalyticsEvent() {
-        Tracker appTracker = ((DomradioApplication) context.getApplication()).getAppTracker();
-        appTracker.send(new HitBuilders.EventBuilder()
-                        .setCategory("DOMRADIO_APP")
-                        .setAction("ABOUT_OPENED")
-                        .setLabel("About page was opened")
-                        .setValue(0L)
-                        .build()
-        );
-    }
-
-    private void sendOpenWebAnalyticsEvent() {
-        Tracker appTracker = ((DomradioApplication) context.getApplication()).getAppTracker();
-        appTracker.send(new HitBuilders.EventBuilder()
-                        .setCategory("DOMRADIO_APP")
-                        .setAction("DOMRADIO_WEB_OPENED")
-                        .setLabel("domradio.de was opened")
-                        .setValue(0L)
-                        .build()
-        );
-    }
 
     @Override
     public void onNeutral(MaterialDialog dialog) {
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(context.getString(R.string.domradioweb)));
         context.startActivity(i);
-        sendOpenWebAnalyticsEvent();
+        AnalyticsTracker.openDomradio(context.getApplication());
         super.onNeutral(dialog);
     }
 }
