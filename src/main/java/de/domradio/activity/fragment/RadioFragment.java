@@ -1,4 +1,4 @@
-package de.domradio.fragment;
+package de.domradio.activity.fragment;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.gc.materialdesign.views.ProgressBarIndeterminateDeterminate;
 
 import de.domradio.R;
-import de.domradio.dialog.ConfirmNoWifiDialog;
+import de.domradio.activity.dialog.ConfirmNoWifiDialog;
 import de.domradio.service.RadioService;
 import de.domradio.service.event.RadioStartingEvent;
 import de.domradio.service.event.StartRadioEvent;

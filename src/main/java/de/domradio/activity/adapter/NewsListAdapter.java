@@ -1,4 +1,4 @@
-package de.domradio.adapter;
+package de.domradio.activity.adapter;
 
 import android.content.Context;
 import android.view.View;

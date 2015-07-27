@@ -10,7 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import de.domradio.R;
-import de.domradio.dialog.AboutDialog;
+import de.domradio.activity.dialog.AboutDialog;
 import de.domradio.service.AnalyticsTracker;
 import de.domradio.service.RadioService;
 import de.domradio.service.RadioServiceState;

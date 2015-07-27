@@ -1,4 +1,4 @@
-package de.domradio.fragment;
+package de.domradio.activity.fragment;
 
 
 import android.app.ListFragment;
@@ -26,8 +26,8 @@ import java.util.List;
 
 import de.domradio.R;
 import de.domradio.activity.WebActivity;
-import de.domradio.adapter.NewsListAdapter;
-import de.domradio.dialog.RssChooserDialog;
+import de.domradio.activity.adapter.NewsListAdapter;
+import de.domradio.activity.dialog.RssChooserDialog;
 import de.domradio.domain.News;
 import de.domradio.service.AnalyticsTracker;
 import de.domradio.service.EventBusCallback;

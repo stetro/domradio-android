@@ -1,4 +1,4 @@
-package de.domradio.dialog;
+package de.domradio.activity.dialog;
 
 import android.app.Activity;
 import android.content.Intent;

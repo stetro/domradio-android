@@ -24,7 +24,7 @@
 
         <fragment
             android:id="@+id/news_fragment"
-            android:name="de.domradio.fragment.NewsFragment"
+            android:name="de.domradio.activity.fragment.NewsFragment"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" />
 
@@ -32,7 +32,7 @@
 
     <fragment
         android:id="@+id/radio_fragment"
-        android:name="de.domradio.fragment.RadioFragment"
+        android:name="de.domradio.activity.fragment.RadioFragment"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

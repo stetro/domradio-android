@@ -1,16 +1,16 @@
 package de.domradio.service.event;
 
-import de.domradio.dialog.RssChooserDialog;
+import de.domradio.domain.FeedTopic;
 
 public class SetNewsFeedEvent {
 
-    private RssChooserDialog.FeedTopic feedTopic;
+    private FeedTopic feedTopic;
 
-    public SetNewsFeedEvent(RssChooserDialog.FeedTopic feedTopic) {
+    public SetNewsFeedEvent(FeedTopic feedTopic) {
         this.feedTopic = feedTopic;
     }
 
-    public RssChooserDialog.FeedTopic getFeedTopic() {
+    public FeedTopic getFeedTopic() {
         return feedTopic;
     }
 }
