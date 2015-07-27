@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_actionbar"
@@ -50,18 +52,29 @@
 
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/radio_fragment_button"
+    <com.github.jorgecastilloprz.FABProgressCircle
+        android:id="@+id/radio_fragment_button_circle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="@dimen/action_button_bottom_margin"
         android:layout_marginEnd="@dimen/action_button_right_margin"
         android:layout_marginRight="@dimen/action_button_right_margin"
-        android:src="@drawable/ic_play"
-        app:elevation="6dp"
-        app:rippleColor="@color/lightenen_color"
-        app:pressedTranslationZ="12dp" />
+        app:reusable="true"
+        app:arcColor="@color/app_color_dark"
+        app:arcWidth="3dp">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/radio_fragment_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_play"
+            app:elevation="6dp"
+            app:pressedTranslationZ="12dp"
+            app:rippleColor="@color/lightenen_color" />
+
+    </com.github.jorgecastilloprz.FABProgressCircle>
 
 </RelativeLayout>

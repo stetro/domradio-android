@@ -10,6 +10,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.github.jorgecastilloprz.FABProgressCircle;
+import com.github.jorgecastilloprz.listeners.FABProgressListener;
+
 import de.domradio.R;
 import de.domradio.activity.dialog.AboutDialog;
 import de.domradio.activity.util.AppRating;
@@ -22,11 +25,12 @@ import de.domradio.service.event.RadioStartingEvent;
 import de.domradio.service.event.RadioStoppedEvent;
 import de.greenrobot.event.EventBus;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements FABProgressListener {
 
     public volatile static boolean isRunning = false;
     private FloatingActionButton playerButton;
     private TextView playerInfoText;
+    private FABProgressCircle progressCircle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,8 @@ public class MainActivity extends BaseActivity {
         playerButton = (FloatingActionButton) findViewById(R.id.radio_fragment_button);
         playerButton.setOnClickListener(new PlayButtonOnClickListener(this));
         playerInfoText = (TextView) findViewById(R.id.radio_fragment_text);
+        progressCircle = (FABProgressCircle) findViewById(R.id.radio_fragment_button_circle);
+        progressCircle.attachListener(this);
         updatePlayerState();
         startRadioService();
         isRunning = true;
@@ -101,16 +107,31 @@ public class MainActivity extends BaseActivity {
                 case STARTING:
                     playerButton.setImageResource(R.drawable.ic_play);
                     playerInfoText.setText(R.string.radio_live_stream_loading);
+                    if (!progressCircle.isActivated()) {
+
+                        progressCircle.show();
+                    }
                     break;
                 case PLAYING:
                     playerButton.setImageResource(R.drawable.ic_pause);
                     playerInfoText.setText(R.string.radio_live_stream);
+                    if (progressCircle.isShown()) {
+                        progressCircle.hide();
+                    }
                     break;
                 case STOPPED:
                     playerButton.setImageResource(R.drawable.ic_play);
                     playerInfoText.setText(R.string.radio_live_stream);
+                    if (progressCircle.isShown()) {
+                        progressCircle.hide();
+                    }
                     break;
             }
         }
+    }
+
+    @Override
+    public void onFABProgressAnimationEnd() {
+
     }
 }
