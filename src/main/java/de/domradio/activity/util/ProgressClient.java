@@ -18,7 +18,9 @@ public class ProgressClient extends WebChromeClient {
         if (progress < 100 && progressBar.getVisibility() == View.GONE) {
             progressBar.setVisibility(View.VISIBLE);
         }
-        progressBar.setProgress(progress);
+        if (progressBar.isEnabled()) {
+            progressBar.setProgress(progress);
+        }
         if (progress == 100) {
             progressBar.setVisibility(View.GONE);
         }
