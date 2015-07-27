@@ -61,7 +61,7 @@
         android:layout_marginRight="@dimen/action_button_right_margin"
         android:src="@drawable/ic_play"
         app:elevation="6dp"
-        app:rippleColor="@android:color/white"
+        app:rippleColor="@color/lightenen_color"
         app:pressedTranslationZ="12dp" />
 
 </RelativeLayout>
