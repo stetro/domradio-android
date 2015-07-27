@@ -28,6 +28,7 @@ import de.domradio.R;
 import de.domradio.activity.WebActivity;
 import de.domradio.activity.adapter.NewsListAdapter;
 import de.domradio.activity.dialog.RssChooserDialog;
+import de.domradio.domain.FeedTopic;
 import de.domradio.domain.News;
 import de.domradio.service.AnalyticsTracker;
 import de.domradio.service.EventBusCallback;
@@ -36,7 +37,7 @@ import de.greenrobot.event.EventBus;
 
 public class NewsFragment extends ListFragment implements AdapterView.OnItemClickListener, Callback, SwipeRefreshLayout.OnRefreshListener {
 
-    private RssChooserDialog.FeedTopic currentFeed = RssChooserDialog.FeedTopic.ALL;
+    private FeedTopic currentFeed = FeedTopic.ALL;
     private ArrayList<News> news = new ArrayList<>();
     private NewsListAdapter newsListAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -68,7 +69,7 @@ public class NewsFragment extends ListFragment implements AdapterView.OnItemClic
     }
 
     private void setTitle() {
-        if (currentFeed.equals(RssChooserDialog.FeedTopic.ALL)) {
+        if (currentFeed.equals(FeedTopic.ALL)) {
             title.setVisibility(View.GONE);
         } else {
             title.setText(currentFeed.getTitle());

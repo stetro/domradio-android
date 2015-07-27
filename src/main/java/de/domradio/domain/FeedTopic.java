@@ -3,7 +3,7 @@ package de.domradio.domain;
 public enum FeedTopic {
     ALL("http://www.domradio.de/rss-feeds/domradio-rss.xml", "Alle Nachrichten"),
     ADVENIAT("http://www.domradio.de/rss-feeds/themen/157957/domradio-rss.xml", "Adveniat"),
-    BENEDIKT("http://www.domradio.de/rss-feeds/themen/49/domradio-rss.xml", "Benedikt XVI"),
+    BENEDIKT("http://www.domradio.de/rss-feeds/themen/49/domradio-rss.xml", "Benedikt XVI."),
     BIBEL("http://www.domradio.de/rss-feeds/themen/28/domradio-rss.xml", "Bibel"),
     BISCHOFSKONFERENZ("http://www.domradio.de/rss-feeds/themen/27/domradio-rss.xml", "Bischofskonferenz"),
     BISCHOFSSYNODE("http://www.domradio.de/rss-feeds/themen/486/domradio-rss.xml", "Bischofssynode"),
@@ -18,6 +18,9 @@ public enum FeedTopic {
     EVANGELII("http://www.domradio.de/rss-feeds/themen/168419/domradio-rss.xml", "Evangelii gaudium"),
     FASTENZEIT("http://www.domradio.de/rss-feeds/themen/34/domradio-rss.xml", "Fastenzeit"),
     FLUECHTLINGSHILFE("http://www.domradio.de/rss-feeds/themen/182985/domradio-rss.xml", "Flüchtlingshilfe"),
+    GLAUBE("http://www.domradio.de/rss-feeds/themen/170433/domradio-rss.xml", "Glaube"),
+    HEILIGE("http://www.domradio.de/rss-feeds/themen/189057/domradio-rss.xml", "Heilige Teresa von Ávila"),
+    HEILIGES("http://www.domradio.de/rss-feeds/themen/189711/domradio-rss.xml", "Heiliges Jahr"),
     HILDEGARD("http://www.domradio.de/rss-feeds/themen/489/domradio-rss.xml", "Hildegard von Bingen"),
     HOCHFESTE("http://www.domradio.de/rss-feeds/themen/36/domradio-rss.xml", "Hochfeste"),
     INTERRELIGIOESER("http://www.domradio.de/rss-feeds/themen/37/domradio-rss.xml", "Interreligiöser Dialog"),
