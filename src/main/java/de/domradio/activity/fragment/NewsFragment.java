@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.pkmmte.pkrss.Article;
 import com.pkmmte.pkrss.Callback;
@@ -32,6 +31,7 @@ import de.domradio.domain.FeedTopic;
 import de.domradio.domain.News;
 import de.domradio.service.AnalyticsTracker;
 import de.domradio.service.EventBusCallback;
+import de.domradio.service.event.ErrorEvent;
 import de.domradio.service.event.SetNewsFeedEvent;
 import de.greenrobot.event.EventBus;
 
@@ -148,7 +148,7 @@ public class NewsFragment extends ListFragment implements AdapterView.OnItemClic
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getActivity(), R.string.error_feed, Toast.LENGTH_SHORT).show();
+                    EventBus.getDefault().post(new ErrorEvent(getString(R.string.error_feed)));
                     swipeRefreshLayout.setRefreshing(false);
                 }
             });

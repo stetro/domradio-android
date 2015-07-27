@@ -16,6 +16,7 @@
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <LinearLayout
+        android:id="@+id/root_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_marginBottom="?attr/actionBarSize"
@@ -60,6 +61,7 @@
         android:layout_marginRight="@dimen/action_button_right_margin"
         android:src="@drawable/ic_play"
         app:elevation="6dp"
+        app:rippleColor="@android:color/white"
         app:pressedTranslationZ="12dp" />
 
 </RelativeLayout>

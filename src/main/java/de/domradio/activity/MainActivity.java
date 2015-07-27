@@ -4,6 +4,7 @@ package de.domradio.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,6 +16,7 @@ import de.domradio.activity.util.AppRating;
 import de.domradio.activity.util.PlayButtonOnClickListener;
 import de.domradio.service.RadioService;
 import de.domradio.service.RadioServiceState;
+import de.domradio.service.event.ErrorEvent;
 import de.domradio.service.event.RadioStartedEvent;
 import de.domradio.service.event.RadioStartingEvent;
 import de.domradio.service.event.RadioStoppedEvent;
@@ -86,6 +88,10 @@ public class MainActivity extends BaseActivity {
 
     public void onEvent(RadioStoppedEvent e) {
         updatePlayerState();
+    }
+
+    public void onEvent(ErrorEvent e) {
+        Snackbar.make(findViewById(R.id.root_view), e.getMessage(), Snackbar.LENGTH_LONG).show();
     }
 
 
