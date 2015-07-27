@@ -1,16 +1,20 @@
 package de.domradio.activity.util;
 
+import android.graphics.PorterDuff;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.widget.ProgressBar;
 
-import com.gc.materialdesign.views.ProgressBarDeterminate;
+import de.domradio.R;
 
 
 public class ProgressClient extends WebChromeClient {
-    private ProgressBarDeterminate progressBar;
+    private ProgressBar progressBar;
 
-    public ProgressClient(ProgressBarDeterminate progressBar) {
+    public ProgressClient(ProgressBar progressBar) {
+        int color = progressBar.getContext().getResources().getColor(R.color.app_color_dark);
+        progressBar.getProgressDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
         this.progressBar = progressBar;
     }
 

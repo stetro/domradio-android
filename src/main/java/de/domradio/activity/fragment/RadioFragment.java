@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.gc.materialdesign.views.ProgressBarIndeterminateDeterminate;
-
 import de.domradio.R;
 import de.domradio.activity.dialog.ConfirmNoWifiDialog;
 import de.domradio.service.RadioService;
@@ -26,7 +24,6 @@ import de.greenrobot.event.EventBus;
 public class RadioFragment extends Fragment implements View.OnClickListener {
 
     private ImageButton button;
-    private ProgressBarIndeterminateDeterminate progress;
     private TextView text;
 
     @Override
@@ -41,7 +38,6 @@ public class RadioFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.radio_fragment, container, false);
         button = (ImageButton) view.findViewById(R.id.radio_fragment_button);
         button.setOnClickListener(this);
-        progress = (ProgressBarIndeterminateDeterminate) view.findViewById(R.id.radio_fragment_progress);
         text = (TextView) view.findViewById(R.id.radio_fragment_text);
         updatePlayerState();
         return view;
@@ -88,20 +84,17 @@ public class RadioFragment extends Fragment implements View.OnClickListener {
     }
 
     private void updatePlayerState() {
-        if (button != null && progress != null && text != null) {
+        if (button != null && text != null) {
             switch (RadioService.get_state()) {
                 case STARTING:
-                    progress.setVisibility(View.VISIBLE);
                     button.setImageResource(R.drawable.ic_play);
                     text.setText(R.string.radio_live_stream_loading);
                     break;
                 case PLAYING:
-                    progress.setVisibility(View.VISIBLE);
                     button.setImageResource(R.drawable.ic_pause);
                     text.setText(R.string.radio_live_stream);
                     break;
                 case STOPPED:
-                    progress.setVisibility(View.INVISIBLE);
                     button.setImageResource(R.drawable.ic_play);
                     text.setText(R.string.radio_live_stream);
                     break;

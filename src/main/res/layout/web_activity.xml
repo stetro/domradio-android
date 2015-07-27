@@ -16,8 +16,9 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <com.gc.materialdesign.views.ProgressBarDeterminate
+    <ProgressBar
         android:id="@+id/web_progress"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/app_color"
