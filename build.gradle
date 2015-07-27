@@ -41,7 +41,6 @@ dependencies {
 
     // ui
     compile 'com.afollestad:material-dialogs:0.7.7.0'
-    compile 'me.zhanghai.android.materialprogressbar:library:1.0.2'
 }
 
 android {

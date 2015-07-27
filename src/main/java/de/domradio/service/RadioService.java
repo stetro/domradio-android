@@ -18,8 +18,8 @@ import java.io.IOException;
 
 import de.domradio.R;
 import de.domradio.activity.MainActivity;
-import de.domradio.activity.fragment.RadioStartedEvent;
-import de.domradio.activity.fragment.RadioStoppedEvent;
+import de.domradio.service.event.RadioStartedEvent;
+import de.domradio.service.event.RadioStoppedEvent;
 import de.domradio.service.event.RadioStartingEvent;
 import de.domradio.service.event.StartRadioEvent;
 import de.domradio.service.event.StopRadioEvent;
