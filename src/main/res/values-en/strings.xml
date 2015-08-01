@@ -28,4 +28,5 @@
     <string name="domradioweb">http://domradio.de</string>
     <string name="share">Share</string>
     <string name="share_article">Share article</string>
+    <string name="feed_selection">Set topic</string>
 </resources>

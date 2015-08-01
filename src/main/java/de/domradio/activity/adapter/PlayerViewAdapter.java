@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.github.jorgecastilloprz.FABProgressCircle;
 
 import de.domradio.R;
+import de.domradio.activity.MainActivity;
 import de.domradio.activity.util.PlayButtonOnClickListener;
 import de.domradio.service.EventBusCallback;
 import de.domradio.service.RadioService;
@@ -26,14 +27,14 @@ public class PlayerViewAdapter implements ViewAdapter {
     private FABProgressCircle playerProgressCircle;
 
     @Override
-    public void register(Activity activity) {
+    public void register(MainActivity activity) {
         bindViews(activity);
         updatePlayerState();
         startRadioService(activity);
         EventBus.getDefault().register(this);
     }
 
-    private void bindViews(Activity activity) {
+    private void bindViews(MainActivity activity) {
         playerButton = (FloatingActionButton) activity.findViewById(R.id.radio_fragment_button);
         playerButton.setOnClickListener(new PlayButtonOnClickListener(activity));
         playerInfoText = (TextView) activity.findViewById(R.id.radio_fragment_text);
@@ -41,7 +42,7 @@ public class PlayerViewAdapter implements ViewAdapter {
     }
 
     @Override
-    public void unregister(Activity activity) {
+    public void unregister(MainActivity activity) {
         if (RadioService.get_state().equals(RadioServiceState.STOPPED)) {
             activity.stopService(new Intent(activity, RadioService.class));
         }

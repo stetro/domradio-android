@@ -1,10 +1,10 @@
 package de.domradio.activity.adapter;
 
 
-import android.app.Activity;
+import de.domradio.activity.MainActivity;
 
 public interface ViewAdapter {
-    public void register(Activity activity);
+    void register(MainActivity activity);
 
-    public void unregister(Activity activity);
+    void unregister(MainActivity activity);
 }
