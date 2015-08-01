@@ -186,7 +186,7 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
         releaseWifiLock();
         stopForeground(true);
         radioAnalyticsTracker.sendRadioStoppedAnalyticsEvent();
-        if (!MainActivity.isRunning) {
+        if (!MainActivity.isActive) {
             stopSelf();
         }
     }
