@@ -62,9 +62,9 @@
         android:layout_marginBottom="@dimen/action_button_bottom_margin"
         android:layout_marginEnd="@dimen/action_button_right_margin"
         android:layout_marginRight="@dimen/action_button_right_margin"
-        app:reusable="true"
         app:arcColor="@color/app_color_dark"
-        app:arcWidth="3dp">
+        app:arcWidth="3dp"
+        app:reusable="true">
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/radio_fragment_button"

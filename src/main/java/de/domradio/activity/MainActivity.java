@@ -107,22 +107,21 @@ public class MainActivity extends BaseActivity implements FABProgressListener {
                 case STARTING:
                     playerButton.setImageResource(R.drawable.ic_play);
                     playerInfoText.setText(R.string.radio_live_stream_loading);
-                    if (!progressCircle.isActivated()) {
-
+                    if (progressCircle != null && !progressCircle.isActivated()) {
                         progressCircle.show();
                     }
                     break;
                 case PLAYING:
                     playerButton.setImageResource(R.drawable.ic_pause);
                     playerInfoText.setText(R.string.radio_live_stream);
-                    if (progressCircle.isShown()) {
+                    if (progressCircle != null && progressCircle.isShown()) {
                         progressCircle.hide();
                     }
                     break;
                 case STOPPED:
                     playerButton.setImageResource(R.drawable.ic_play);
                     playerInfoText.setText(R.string.radio_live_stream);
-                    if (progressCircle.isShown()) {
+                    if (progressCircle != null && progressCircle.isShown()) {
                         progressCircle.hide();
                     }
                     break;
