@@ -10,6 +10,7 @@ import com.github.jorgecastilloprz.FABProgressCircle;
 
 import de.domradio.R;
 import de.domradio.activity.util.PlayButtonOnClickListener;
+import de.domradio.service.EventBusCallback;
 import de.domradio.service.RadioService;
 import de.domradio.service.RadioServiceState;
 import de.domradio.service.event.RadioStartedEvent;
@@ -82,14 +83,17 @@ public class PlayerViewAdapter implements ViewAdapter {
         }
     }
 
+    @EventBusCallback
     public void onEvent(RadioStartingEvent e) {
         updatePlayerState();
     }
 
+    @EventBusCallback
     public void onEvent(RadioStartedEvent e) {
         updatePlayerState();
     }
 
+    @EventBusCallback
     public void onEvent(RadioStoppedEvent e) {
         updatePlayerState();
     }

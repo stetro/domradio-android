@@ -1,11 +1,13 @@
 package de.domradio.activity.fragment;
 
 
-import android.app.ListFragment;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.TextView;
 
 import com.pkmmte.pkrss.Article;
 import com.pkmmte.pkrss.Callback;
@@ -35,13 +36,12 @@ import de.domradio.service.event.ErrorEvent;
 import de.domradio.service.event.SetNewsFeedEvent;
 import de.greenrobot.event.EventBus;
 
-public class NewsFragment extends ListFragment implements AdapterView.OnItemClickListener, Callback, SwipeRefreshLayout.OnRefreshListener {
+public class NewsFragment extends Fragment implements AdapterView.OnItemClickListener, Callback, SwipeRefreshLayout.OnRefreshListener {
 
     private FeedTopic currentFeed = FeedTopic.ALL;
     private ArrayList<News> news = new ArrayList<>();
-    private NewsListAdapter newsListAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private TextView title;
+    private NewsListAdapter newsListAdapter;
 
 
     @Override
@@ -51,7 +51,6 @@ public class NewsFragment extends ListFragment implements AdapterView.OnItemClic
     }
 
     private void loadNewsFeed() {
-        setTitle();
         PkRSS.with(getActivity()).load(currentFeed.getUrl()).callback(this).async();
         swipeRefreshLayout.setRefreshing(true);
     }
@@ -61,28 +60,22 @@ public class NewsFragment extends ListFragment implements AdapterView.OnItemClic
         View view = inflater.inflate(R.layout.news_list, container, false);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.news_fragment_swiper);
         swipeRefreshLayout.setOnRefreshListener(this);
-        title = (TextView) view.findViewById(R.id.news_list_title);
-        setTitle();
+        setupRecyclerView(view);
         loadNewsFeed();
         setHasOptionsMenu(true);
         return view;
     }
 
-    private void setTitle() {
-        if (currentFeed.equals(FeedTopic.ALL)) {
-            title.setVisibility(View.GONE);
-        } else {
-            title.setText(currentFeed.getTitle());
-            title.setVisibility(View.VISIBLE);
-        }
+    private void setupRecyclerView(View view) {
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        newsListAdapter = new NewsListAdapter(news);
+        recyclerView.setAdapter(newsListAdapter);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        newsListAdapter = new NewsListAdapter(getActivity(), R.layout.news_list_item, news);
-        getListView().setAdapter(newsListAdapter);
-        getListView().setOnItemClickListener(this);
     }
 
     @Override
@@ -122,6 +115,16 @@ public class NewsFragment extends ListFragment implements AdapterView.OnItemClic
     @Override
     public void OnPreLoad() {
         Log.d("NewsFragment", "Preloaded RSS ...");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setRefreshing(false);
+            swipeRefreshLayout.destroyDrawingCache();
+            swipeRefreshLayout.clearAnimation();
+        }
     }
 
     @Override

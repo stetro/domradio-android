@@ -1,49 +1,37 @@
 package de.domradio.activity.adapter;
 
-import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.domradio.R;
 import de.domradio.domain.News;
 
-public class NewsListAdapter extends ArrayAdapter<News> {
+public class NewsListAdapter extends RecyclerView.Adapter<NewsViewHolder> {
 
-    private final Context context;
+    private List<News> news = new ArrayList<>();
 
-    public NewsListAdapter(Context context, int resource, ArrayList<News> news) {
-        super(context, resource, news);
-        this.context = context;
+    public NewsListAdapter(ArrayList<News> news) {
+        this.news = news;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View vi = convertView;
-        final ViewHolder holder;
-        if (convertView == null) {
-            vi = View.inflate(context, R.layout.news_list_item, null);
-            holder = new ViewHolder();
-            holder.title = (TextView) vi.findViewById(R.id.news_list_item_title);
-            holder.date = (TextView) vi.findViewById(R.id.news_list_item_date);
-            holder.description = (TextView) vi.findViewById(R.id.news_list_item_description);
-            vi.setTag(holder);
-        } else {
-            holder = (ViewHolder) vi.getTag();
-        }
-        News item = getItem(position);
-        holder.title.setText(item.getTitle());
-        holder.date.setText(vi.getContext().getString(R.string.from) + " " + item.getDate());
-        holder.description.setText(item.getDescription());
-        return vi;
+    public NewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_list_item, parent, false);
+        return new NewsViewHolder(v);
     }
 
-    private static class ViewHolder {
-        public TextView date;
-        public TextView title;
-        public TextView description;
+    @Override
+    public void onBindViewHolder(NewsViewHolder holder, int position) {
+        holder.setNews(news.get(position));
+    }
+
+    @Override
+    public int getItemCount() {
+        return news.size();
     }
 }

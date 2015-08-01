@@ -12,10 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.domradio.R;
+import de.domradio.activity.adapter.AppBarViewAdapter;
 import de.domradio.activity.adapter.PlayerViewAdapter;
 import de.domradio.activity.adapter.ViewAdapter;
 import de.domradio.activity.dialog.AboutDialog;
 import de.domradio.activity.util.AppRating;
+import de.domradio.service.EventBusCallback;
 import de.domradio.service.event.ErrorEvent;
 import de.greenrobot.event.EventBus;
 
@@ -37,6 +39,7 @@ public class MainActivity extends BaseActivity {
     private void registerViewAdapter() {
         viewAdapterList.clear();
         viewAdapterList.add(new PlayerViewAdapter());
+        viewAdapterList.add(new AppBarViewAdapter());
         for (ViewAdapter adapter : viewAdapterList) {
             adapter.register(this);
         }
@@ -77,7 +80,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-
+    @EventBusCallback
     public void onEvent(ErrorEvent e) {
         View rootView = findViewById(R.id.root_view);
         if (rootView != null) {
