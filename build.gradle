@@ -29,7 +29,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.android.support:cardview-v7:22.2.1'
     compile 'com.android.support:recyclerview-v7:22.2.1'
-    compile 'com.android.support:support-annotations:22.2.0'
+    compile 'com.android.support:support-annotations:22.2.1'
 
     // api
     compile 'de.greenrobot:eventbus:2.4.0'
@@ -42,7 +42,6 @@ dependencies {
 
     // ui
     compile 'com.afollestad:material-dialogs:0.7.7.0'
-    compile 'com.github.jorgecastilloprz:fabprogresscircle:1.01@aar'
 }
 
 android {

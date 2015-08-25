@@ -21,6 +21,12 @@ public class AppBarViewAdapter implements ViewAdapter {
     public void register(final MainActivity activity) {
         feedTitle = (TextView) activity.findViewById(R.id.feed_title);
         feedTitle.setText(FeedTopic.ALL.getTitle());
+        feedTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new RssChooserDialog(activity).show();
+            }
+        });
         ImageButton feedTitleButton = (ImageButton) activity.findViewById(R.id.feed_title_button);
         feedTitleButton.setOnClickListener(new View.OnClickListener() {
             @Override

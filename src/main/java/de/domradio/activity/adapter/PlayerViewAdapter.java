@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.widget.TextView;
 
-import com.github.jorgecastilloprz.FABProgressCircle;
-
 import de.domradio.R;
 import de.domradio.activity.MainActivity;
 import de.domradio.activity.util.PlayButtonOnClickListener;
@@ -24,7 +22,6 @@ public class PlayerViewAdapter implements ViewAdapter {
 
     private FloatingActionButton playerButton;
     private TextView playerInfoText;
-    private FABProgressCircle playerProgressCircle;
 
     @Override
     public void register(MainActivity activity) {
@@ -38,7 +35,6 @@ public class PlayerViewAdapter implements ViewAdapter {
         playerButton = (FloatingActionButton) activity.findViewById(R.id.radio_fragment_button);
         playerButton.setOnClickListener(new PlayButtonOnClickListener(activity));
         playerInfoText = (TextView) activity.findViewById(R.id.radio_fragment_text);
-        playerProgressCircle = (FABProgressCircle) activity.findViewById(R.id.radio_fragment_button_circle);
     }
 
     @Override
@@ -60,25 +56,16 @@ public class PlayerViewAdapter implements ViewAdapter {
         if (playerButton != null && playerInfoText != null) {
             switch (RadioService.get_state()) {
                 case STARTING:
-                    playerButton.setImageResource(R.drawable.ic_play);
+                    playerButton.setImageResource(R.drawable.ic_pause);
                     playerInfoText.setText(R.string.radio_live_stream_loading);
-                    if (playerProgressCircle != null && !playerProgressCircle.isActivated()) {
-                        playerProgressCircle.show();
-                    }
                     break;
                 case PLAYING:
                     playerButton.setImageResource(R.drawable.ic_pause);
                     playerInfoText.setText(R.string.radio_live_stream);
-                    if (playerProgressCircle != null && playerProgressCircle.isShown()) {
-                        playerProgressCircle.hide();
-                    }
                     break;
                 case STOPPED:
                     playerButton.setImageResource(R.drawable.ic_play);
                     playerInfoText.setText(R.string.radio_live_stream);
-                    if (playerProgressCircle != null && playerProgressCircle.isShown()) {
-                        playerProgressCircle.hide();
-                    }
                     break;
             }
         }

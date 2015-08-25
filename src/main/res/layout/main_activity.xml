@@ -82,7 +82,9 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="64dp"
+                        android:background="@drawable/transparent_image_button"
                         android:textAppearance="@android:style/TextAppearance.Medium.Inverse" />
+
                 </LinearLayout>
 
             </android.support.design.widget.CollapsingToolbarLayout>
@@ -110,8 +112,8 @@
 
     </LinearLayout>
 
-    <com.github.jorgecastilloprz.FABProgressCircle
-        android:id="@+id/radio_fragment_button_circle"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/radio_fragment_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -120,19 +122,9 @@
         android:layout_marginBottom="@dimen/action_button_bottom_margin"
         android:layout_marginEnd="@dimen/action_button_right_margin"
         android:layout_marginRight="@dimen/action_button_right_margin"
-        app:arcColor="@color/app_color_dark"
-        app:arcWidth="3dp"
-        app:reusable="true">
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/radio_fragment_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_play"
-            app:elevation="6dp"
-            app:pressedTranslationZ="12dp"
-            app:rippleColor="@color/lightenen_color" />
-
-    </com.github.jorgecastilloprz.FABProgressCircle>
+        android:src="@drawable/ic_play"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp"
+        app:rippleColor="@color/lightenen_color" />
 
 </RelativeLayout>

@@ -22,6 +22,9 @@ public class PlayButtonOnClickListener implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (RadioService.get_state()) {
+            case STARTING:
+                EventBus.getDefault().post(new StopRadioEvent());
+                break;
             case PLAYING:
                 EventBus.getDefault().post(new StopRadioEvent());
                 break;
