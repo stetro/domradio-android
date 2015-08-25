@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/main_activity_menu_choose"
-        android:icon="@drawable/ic_label"
-        android:title="@string/choose_rss"
-        app:showAsAction="always" />
-
-    <item
         android:id="@+id/main_activity_menu_refresh"
         android:icon="@drawable/ic_refresh"
         android:title="@string/refresh"

@@ -12,15 +12,15 @@ import android.net.wifi.WifiManager;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.IOException;
 
 import de.domradio.R;
 import de.domradio.activity.MainActivity;
-import de.domradio.activity.fragment.RadioStartedEvent;
-import de.domradio.activity.fragment.RadioStoppedEvent;
+import de.domradio.service.event.ErrorEvent;
+import de.domradio.service.event.RadioStartedEvent;
 import de.domradio.service.event.RadioStartingEvent;
+import de.domradio.service.event.RadioStoppedEvent;
 import de.domradio.service.event.StartRadioEvent;
 import de.domradio.service.event.StopRadioEvent;
 import de.greenrobot.event.EventBus;
@@ -65,7 +65,7 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
     public boolean onError(MediaPlayer mp, int what, int extra) {
         Log.d("RadioService", "MediaPlayer error.");
         EventBus.getDefault().post(new RadioStoppedEvent());
-        Toast.makeText(this, R.string.error_mediaplayer, Toast.LENGTH_SHORT).show();
+        EventBus.getDefault().post(new ErrorEvent(getString(R.string.error_mediaplayer)));
         return false;
     }
 
@@ -186,7 +186,7 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
         releaseWifiLock();
         stopForeground(true);
         radioAnalyticsTracker.sendRadioStoppedAnalyticsEvent();
-        if (!MainActivity.isRunning) {
+        if (!MainActivity.isActive) {
             stopSelf();
         }
     }

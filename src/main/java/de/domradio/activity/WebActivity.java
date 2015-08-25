@@ -10,9 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.widget.ProgressBar;
 
-import com.gc.materialdesign.views.ProgressBarDeterminate;
-import com.gc.materialdesign.views.ProgressBarIndeterminateDeterminate;
 
 import de.domradio.R;
 import de.domradio.activity.util.ProgressClient;
@@ -40,7 +39,7 @@ public class WebActivity extends BaseActivity {
         setTitle(title);
         webView = (WebView) findViewById(R.id.webview);
         View progressBar = findViewById(R.id.web_progress);
-        WebChromeClient client = new ProgressClient((ProgressBarDeterminate) progressBar);
+        WebChromeClient client = new ProgressClient((ProgressBar) progressBar);
         webView.setWebChromeClient(client);
         webView.loadUrl(link);
     }

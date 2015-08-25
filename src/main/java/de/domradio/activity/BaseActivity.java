@@ -8,16 +8,16 @@ import de.domradio.R;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    private Toolbar mActionBarToolbar;
+    private Toolbar actionBarToolbar;
 
-    protected Toolbar getActionBarToolbar() {
-        if (mActionBarToolbar == null) {
-            mActionBarToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
-            if (mActionBarToolbar != null) {
-                setSupportActionBar(mActionBarToolbar);
+    public Toolbar getActionBarToolbar() {
+        if (actionBarToolbar == null) {
+            actionBarToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+            if (actionBarToolbar != null) {
+                setSupportActionBar(actionBarToolbar);
             }
         }
-        return mActionBarToolbar;
+        return actionBarToolbar;
     }
 
     @Override

@@ -1,42 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_actionbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="?attr/colorPrimary"
-        android:elevation="@dimen/cardview_default_elevation"
-        android:minHeight="?attr/actionBarSize"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <LinearLayout
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/root_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_marginBottom="?attr/actionBarSize"
-        android:layout_marginTop="?attr/actionBarSize"
         android:orientation="vertical">
 
         <fragment
             android:id="@+id/news_fragment"
             android:name="de.domradio.activity.fragment.NewsFragment"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
+            android:layout_height="fill_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:layout="@layout/news_list" />
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:elevation="@dimen/cardview_default_elevation"
+            android:fitsSystemWindows="true">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_collapseMode="none"
+                    app:layout_scrollFlags="enterAlwaysCollapsed|scroll">
+
+                    <ImageButton
+                        android:id="@+id/feed_title_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="56dp"
+                        android:background="@drawable/transparent_image_button"
+                        android:contentDescription="@string/feed_selection"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_label" />
+
+                    <TextView
+                        android:id="@+id/feed_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="64dp"
+                        android:background="@drawable/transparent_image_button"
+                        android:textAppearance="@android:style/TextAppearance.Medium.Inverse" />
+
+                </LinearLayout>
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar_actionbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="?attr/colorPrimary"
+                    android:minHeight="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
+                    android:gravity="center"
+                    android:text="@string/app_name"
+                    android:textAppearance="@android:style/TextAppearance.Large.Inverse"
+                    app:layout_collapseMode="pin" />
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+        </android.support.design.widget.AppBarLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentBottom="true"
+        android:background="@color/gray"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/radio_fragment_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="17dp"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/radio_live_stream"
+            android:textColor="@android:color/white" />
 
     </LinearLayout>
 
-    <fragment
-        android:id="@+id/radio_fragment"
-        android:name="de.domradio.activity.fragment.RadioFragment"
-        android:layout_width="fill_parent"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/radio_fragment_button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:elevation="@dimen/cardview_default_elevation"
-        android:minHeight="?attr/actionBarSize" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="@dimen/action_button_bottom_margin"
+        android:layout_marginEnd="@dimen/action_button_right_margin"
+        android:layout_marginRight="@dimen/action_button_right_margin"
+        android:src="@drawable/ic_play"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp"
+        app:rippleColor="@color/lightenen_color" />
 
 </RelativeLayout>

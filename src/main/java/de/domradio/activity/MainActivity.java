@@ -1,36 +1,48 @@
 package de.domradio.activity;
 
 
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import de.domradio.R;
+import de.domradio.activity.adapter.AppBarViewAdapter;
+import de.domradio.activity.adapter.PlayerViewAdapter;
+import de.domradio.activity.adapter.ViewAdapter;
 import de.domradio.activity.dialog.AboutDialog;
-import de.domradio.service.AnalyticsTracker;
-import de.domradio.service.RadioService;
-import de.domradio.service.RadioServiceState;
+import de.domradio.activity.util.AppRating;
+import de.domradio.service.EventBusCallback;
+import de.domradio.service.event.ErrorEvent;
+import de.greenrobot.event.EventBus;
 
 public class MainActivity extends BaseActivity {
 
-    public volatile static boolean isRunning = false;
+    public volatile static boolean isActive = false;
+    private List<ViewAdapter> viewAdapterList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         setContentView(R.layout.main_activity);
         setTitle(R.string.app_name);
-        startRadioService();
-        isRunning = true;
+        registerViewAdapter();
+        isActive = true;
     }
 
-    private void startRadioService() {
-        Intent intent = new Intent(getApplicationContext(), RadioService.class);
-        this.startService(intent);
+    private void registerViewAdapter() {
+        viewAdapterList.clear();
+        viewAdapterList.add(new PlayerViewAdapter());
+        viewAdapterList.add(new AppBarViewAdapter());
+        for (ViewAdapter adapter : viewAdapterList) {
+            adapter.register(this);
+        }
     }
 
     @Override
@@ -47,29 +59,32 @@ public class MainActivity extends BaseActivity {
                 new AboutDialog(this).show();
                 return true;
             case R.id.main_activity_menu_rate:
-                rateThisApp();
+                AppRating.rateThisApp(this);
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void rateThisApp() {
-        Uri uri = Uri.parse("market://details?id=" + this.getPackageName());
-        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-        try {
-            startActivity(goToMarket);
-        } catch (ActivityNotFoundException e) {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + this.getPackageName())));
-        }
-        AnalyticsTracker.openRating(getApplication());
-    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        isRunning = false;
-        if (RadioService.get_state().equals(RadioServiceState.STOPPED)) {
-            stopService(new Intent(this, RadioService.class));
+        isActive = false;
+        unregisterViewAdapters();
+        EventBus.getDefault().unregister(this);
+    }
+
+    private void unregisterViewAdapters() {
+        for (ViewAdapter adapter : viewAdapterList) {
+            adapter.unregister(this);
+        }
+    }
+
+    @EventBusCallback
+    public void onEvent(ErrorEvent e) {
+        View rootView = findViewById(R.id.root_view);
+        if (rootView != null) {
+            Snackbar.make(rootView, e.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 }
