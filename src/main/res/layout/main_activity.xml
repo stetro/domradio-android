@@ -117,23 +117,20 @@
                 android:text="@string/radio_live_stream"
                 android:textColor="@android:color/white" />
 
-            <HorizontalScrollView
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/radio_fragment_title"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="none">
-
-                <TextView
-                    android:id="@+id/radio_fragment_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:maxLines="1"
-                    android:text="@string/placeholder"
-                    android:textAppearance="@android:style/TextAppearance.Small.Inverse"
-                    android:textSize="12sp"
-                    android:visibility="gone" />
-
-            </HorizontalScrollView>
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:freezesText="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:textAppearance="@android:style/TextAppearance.Small.Inverse"
+                android:textSize="12sp"
+                android:visibility="gone" />
 
         </LinearLayout>
 

@@ -22,7 +22,7 @@ public class TitleRefreshRunnable implements Runnable {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://www.domradio.de")
                 .setConverter(new SimpleXMLConverter())
-                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .setLogLevel(RestAdapter.LogLevel.BASIC)
                 .build();
 
         service = restAdapter.create(DomradioRadioSerive.class);

@@ -45,6 +45,7 @@ public class PlayerViewAdapter implements ViewAdapter {
         playerButton.setOnClickListener(new PlayButtonOnClickListener(activity));
         playerInfoText = (TextView) activity.findViewById(R.id.radio_fragment_text);
         playerTitleText = (TextView) activity.findViewById(R.id.radio_fragment_title);
+        //playerTitleText.setHorizontallyScrolling(true);
     }
 
     @Override
@@ -101,8 +102,14 @@ public class PlayerViewAdapter implements ViewAdapter {
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                playerTitleText.setText(e.getStation().onair.title + " - " + e.getStation().onair.artist);
-                playerTitleText.setVisibility(View.VISIBLE);
+                String title = e.getStation().onair.title + " - " + e.getStation().onair.artist;
+                if (!playerTitleText.getText().equals(title)) {
+                    playerTitleText.setVisibility(View.GONE);
+                    playerTitleText.setText(title);
+                    playerTitleText.setVisibility(View.VISIBLE);
+                    playerTitleText.setSelected(true);
+                }
+
             }
         });
     }
