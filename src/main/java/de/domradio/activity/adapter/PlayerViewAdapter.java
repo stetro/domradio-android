@@ -103,7 +103,7 @@ public class PlayerViewAdapter implements ViewAdapter {
             @Override
             public void run() {
                 String artist = e.getStation().onair.artist.replace("([^,]*),([^,]*)", "$2 $1");
-                String title = e.getStation().onair.title + " - " + artist;
+                String title = artist + " - " + e.getStation().onair.title;
                 if (!playerTitleText.getText().equals(title)) {
                     playerTitleText.setVisibility(View.GONE);
                     playerTitleText.setText(title);

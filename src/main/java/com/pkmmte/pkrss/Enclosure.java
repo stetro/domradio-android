@@ -52,6 +52,18 @@ public class Enclosure implements Parcelable {
         mimeType = in.readString();
     }
 
+    public static final Creator<Enclosure> CREATOR = new Creator<Enclosure>() {
+        @Override
+        public Enclosure createFromParcel(Parcel in) {
+            return new Enclosure(in);
+        }
+
+        @Override
+        public Enclosure[] newArray(int size) {
+            return new Enclosure[size];
+        }
+    };
+
     /**
      * @return The url of the attachment.
      */
