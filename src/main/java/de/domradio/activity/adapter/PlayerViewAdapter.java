@@ -102,7 +102,8 @@ public class PlayerViewAdapter implements ViewAdapter {
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                String title = e.getStation().onair.title + " - " + e.getStation().onair.artist;
+                String artist = e.getStation().onair.artist.replace("([^,]*),([^,]*)", "$2 $1");
+                String title = e.getStation().onair.title + " - " + artist;
                 if (!playerTitleText.getText().equals(title)) {
                     playerTitleText.setVisibility(View.GONE);
                     playerTitleText.setText(title);
@@ -113,5 +114,4 @@ public class PlayerViewAdapter implements ViewAdapter {
             }
         });
     }
-
 }
