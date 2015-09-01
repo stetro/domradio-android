@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.2.3'
+        classpath 'com.android.tools.build:gradle:1.3.0'
         classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.0'
     }
 }
@@ -17,10 +17,16 @@ repositories {
     maven {
         url 'https://oss.sonatype.org/content/repositories/snapshots/'
     }
-    maven{
+    maven {
         url 'https://dl.bintray.com/drummer-aidan/maven'
     }
     jcenter()
+}
+
+configurations {
+    compile.exclude module: 'stax'
+    compile.exclude module: 'stax-api'
+    compile.exclude module: 'xpp3'
 }
 
 dependencies {
@@ -35,6 +41,9 @@ dependencies {
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.squareup.okhttp:okhttp:2.2.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.2.0'
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
+    compile 'com.squareup.retrofit:converter-simplexml:1.9.0'
+    compile 'org.simpleframework:simple-xml:2.7.1'
 
     // analytics
     compile 'com.google.android.gms:play-services-base:7.5.0'
@@ -45,14 +54,14 @@ dependencies {
 }
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion '22.0.1'
+    compileSdkVersion 23
+    buildToolsVersion '23.0.0'
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 22
-        versionCode 28
-        versionName '0.4.0'
+        targetSdkVersion 23
+        versionCode 29
+        versionName '0.4.1'
         applicationId 'de.domradio'
     }
 
