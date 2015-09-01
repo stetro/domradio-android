@@ -99,15 +99,43 @@
         android:background="@color/gray"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/radio_fragment_text"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="100dp"
             android:layout_marginLeft="17dp"
+            android:layout_marginRight="100dp"
             android:layout_marginStart="17dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/radio_live_stream"
-            android:textColor="@android:color/white" />
+            android:animateLayoutChanges="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/radio_fragment_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/radio_live_stream"
+                android:textColor="@android:color/white" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+
+                <TextView
+                    android:id="@+id/radio_fragment_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:maxLines="1"
+                    android:text="@string/placeholder"
+                    android:textAppearance="@android:style/TextAppearance.Small.Inverse"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+
+            </HorizontalScrollView>
+
+        </LinearLayout>
 
     </LinearLayout>
 
