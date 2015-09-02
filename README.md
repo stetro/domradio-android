@@ -16,6 +16,8 @@ Used Libraries
 * PkRSS - https://github.com/Pkmmte/PkRSS
 * Material Dialogs - https://github.com/afollestad/material-dialogs
 * EventBus - https://github.com/greenrobot/EventBus
+* SimpleXML - http://simple.sourceforge.net/
+* Retrofit - http://square.github.io/retrofit/
 
 License
 -------
