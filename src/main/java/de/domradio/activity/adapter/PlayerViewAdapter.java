@@ -102,17 +102,13 @@ public class PlayerViewAdapter implements ViewAdapter {
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (e.getStation().onair.type.equals("I")) {
+                String artist = e.getStation().onair.artist.replaceAll("([^,]*),([^,]*)", "$2 $1");
+                String title = artist + " - " + e.getStation().onair.title;
+                if (!playerTitleText.getText().equals(title)) {
                     playerTitleText.setVisibility(View.GONE);
-                } else {
-                    String artist = e.getStation().onair.artist.replaceAll("([^,]*),([^,]*)", "$2 $1");
-                    String title = artist + " - " + e.getStation().onair.title;
-                    if (!playerTitleText.getText().equals(title)) {
-                        playerTitleText.setVisibility(View.GONE);
-                        playerTitleText.setText(title);
-                        playerTitleText.setVisibility(View.VISIBLE);
-                        playerTitleText.setSelected(true);
-                    }
+                    playerTitleText.setText(title);
+                    playerTitleText.setVisibility(View.VISIBLE);
+                    playerTitleText.setSelected(true);
                 }
             }
         });
