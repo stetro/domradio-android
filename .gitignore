@@ -6,3 +6,4 @@ local.properties
 *.iml
 *.apk
 .DS_Store
+src/main/res-mdicons/

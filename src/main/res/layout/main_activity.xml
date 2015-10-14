@@ -52,7 +52,7 @@
                         android:background="@drawable/transparent_image_button"
                         android:contentDescription="@string/feed_selection"
                         android:padding="8dp"
-                        android:src="@drawable/ic_label" />
+                        android:src="@mipmap/ic_label_white_24dp" />
 
                     <TextView
                         android:id="@+id/feed_title"
@@ -146,7 +146,7 @@
         android:layout_marginBottom="@dimen/action_button_bottom_margin"
         android:layout_marginEnd="@dimen/action_button_right_margin"
         android:layout_marginRight="@dimen/action_button_right_margin"
-        android:src="@drawable/ic_play"
+        android:src="@mipmap/ic_play_arrow_white_24dp"
         app:elevation="6dp"
         app:pressedTranslationZ="12dp"
         app:rippleColor="@color/lightenen_color" />

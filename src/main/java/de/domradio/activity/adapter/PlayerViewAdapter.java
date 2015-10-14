@@ -67,15 +67,15 @@ public class PlayerViewAdapter implements ViewAdapter {
         if (playerButton != null && playerInfoText != null) {
             switch (RadioService.get_state()) {
                 case STARTING:
-                    playerButton.setImageResource(R.drawable.ic_pause);
+                    playerButton.setImageResource(R.mipmap.ic_pause_white_24dp);
                     playerInfoText.setText(R.string.radio_live_stream_loading);
                     break;
                 case PLAYING:
-                    playerButton.setImageResource(R.drawable.ic_pause);
+                    playerButton.setImageResource(R.mipmap.ic_pause_white_24dp);
                     playerInfoText.setText(R.string.radio_live_stream);
                     break;
                 case STOPPED:
-                    playerButton.setImageResource(R.drawable.ic_play);
+                    playerButton.setImageResource(R.mipmap.ic_play_arrow_white_24dp);
                     playerInfoText.setText(R.string.radio_live_stream);
                     break;
             }

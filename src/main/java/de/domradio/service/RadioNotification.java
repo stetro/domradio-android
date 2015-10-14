@@ -24,7 +24,7 @@ public class RadioNotification extends BroadcastReceiver {
     public static Notification getStickyNotification(Context context) {
 
         Notification notification = getNotificationBuilder(context)
-                .addAction(R.drawable.ic_stop, "Stoppen", getToggleRadioPendingIntent(context))
+                .addAction(R.mipmap.ic_stop_white_24dp, "Stoppen", getToggleRadioPendingIntent(context))
                 .build();
         notification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
         return notification;
