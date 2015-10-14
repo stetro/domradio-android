@@ -18,12 +18,8 @@ apply plugin: 'idea'
 repositories {
     mavenCentral()
     jcenter()
-    maven {
-        url 'https://oss.sonatype.org/content/repositories/snapshots/'
-    }
-    maven {
-        url 'https://dl.bintray.com/drummer-aidan/maven'
-    }
+    maven { url "https://jitpack.io" }
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
 }
 
 configurations {
@@ -73,7 +69,7 @@ android {
     }
 }
 
-build.dependsOn installAssets
+preBuild.dependsOn installAssets
 
 mdicons {
     defcolor 'black', '#000000'

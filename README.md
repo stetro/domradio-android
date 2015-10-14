@@ -18,6 +18,7 @@ Used Libraries
 * EventBus - https://github.com/greenrobot/EventBus
 * SimpleXML - http://simple.sourceforge.net/
 * Retrofit - http://square.github.io/retrofit/
+* Gradle MDIcons - https://github.com/tmiyamon/gradle-mdicons
 
 License
 -------
