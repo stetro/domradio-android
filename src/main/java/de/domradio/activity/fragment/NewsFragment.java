@@ -28,6 +28,8 @@ import de.domradio.domain.News;
 import de.domradio.service.EventBusCallback;
 import de.domradio.service.event.ErrorEvent;
 import de.domradio.service.event.SetNewsFeedEvent;
+import de.domradio.service.event.StartLoadingFeedEvent;
+import de.domradio.service.event.StopLoadingFeedEvent;
 import de.greenrobot.event.EventBus;
 
 public class NewsFragment extends Fragment implements Callback {
@@ -44,6 +46,7 @@ public class NewsFragment extends Fragment implements Callback {
     }
 
     private void loadNewsFeed() {
+        EventBus.getDefault().post(new StartLoadingFeedEvent());
         PkRSS.with(getActivity()).load(currentFeed.getUrl()).callback(this).async();
     }
 
@@ -106,6 +109,7 @@ public class NewsFragment extends Fragment implements Callback {
                         News n = new News(a.getTitle(), a.getDescription(), a.getDate(), a.getSource());
                         news.add(n);
                     }
+                    EventBus.getDefault().post(new StopLoadingFeedEvent());
                     newsListAdapter.notifyDataSetChanged();
                 }
             });
@@ -118,6 +122,7 @@ public class NewsFragment extends Fragment implements Callback {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    EventBus.getDefault().post(new StopLoadingFeedEvent());
                     EventBus.getDefault().post(new ErrorEvent(getString(R.string.error_feed)));
                 }
             });

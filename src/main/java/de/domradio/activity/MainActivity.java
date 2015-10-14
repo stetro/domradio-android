@@ -8,6 +8,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.greenfrvr.rubberloader.RubberLoaderView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,12 +21,15 @@ import de.domradio.activity.dialog.AboutDialog;
 import de.domradio.activity.util.AppRating;
 import de.domradio.service.EventBusCallback;
 import de.domradio.service.event.ErrorEvent;
+import de.domradio.service.event.StartLoadingFeedEvent;
+import de.domradio.service.event.StopLoadingFeedEvent;
 import de.greenrobot.event.EventBus;
 
 public class MainActivity extends BaseActivity {
 
     public volatile static boolean isActive = false;
     private List<ViewAdapter> viewAdapterList = new ArrayList<>();
+    private RubberLoaderView loaderView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +37,7 @@ public class MainActivity extends BaseActivity {
         EventBus.getDefault().register(this);
         setContentView(R.layout.main_activity);
         setTitle(R.string.app_name);
+        loaderView = (RubberLoaderView) findViewById(R.id.loader);
         registerViewAdapter();
         isActive = true;
     }
@@ -86,5 +92,16 @@ public class MainActivity extends BaseActivity {
         if (rootView != null) {
             Snackbar.make(rootView, e.getMessage(), Snackbar.LENGTH_LONG).show();
         }
+    }
+
+    @EventBusCallback
+    public void onEvent(StartLoadingFeedEvent event) {
+        loaderView.setVisibility(View.VISIBLE);
+        loaderView.startLoading();
+    }
+
+    @EventBusCallback
+    public void onEvent(StopLoadingFeedEvent event) {
+        loaderView.setVisibility(View.GONE);
     }
 }
