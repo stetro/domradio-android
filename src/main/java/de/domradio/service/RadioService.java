@@ -25,7 +25,7 @@ import de.domradio.service.event.StartRadioEvent;
 import de.domradio.service.event.StopRadioEvent;
 import de.greenrobot.event.EventBus;
 
-public class RadioService extends Service implements OnCompletionListener, OnPreparedListener, OnErrorListener {
+public class RadioService extends Service implements OnCompletionListener, OnPreparedListener, OnErrorListener, AudioManager.OnAudioFocusChangeListener {
 
     public static final String RADIO_URL_LOW = "http://domradio-mp3-l.akacast.akamaistream.net/7/809/237368/v1/gnl.akacast.akamaistream.net/domradio-mp3-l";
     public volatile static RadioServiceState radioServiceState = RadioServiceState.STOPPED;
@@ -119,39 +119,45 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
         Log.d("RadioService", "Starting radio ...");
         radioServiceState = RadioServiceState.STARTING;
         EventBus.getDefault().post(new RadioStartingEvent());
-        try {
-            if (mediaPlayer == null) {
-                Log.d("RadioService", "Looks good, starting station ...");
-                mediaPlayer = new MediaPlayer();
-                mediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
-                mediaPlayer.setDataSource(RADIO_URL_LOW);
-                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                mediaPlayer.setOnPreparedListener(this);
-                mediaPlayer.setOnCompletionListener(this);
-                mediaPlayer.setOnErrorListener(this);
-                mediaPlayer.prepareAsync();
-            } else if (!mediaPlayer.isPlaying()) {
-                Log.d("RadioService", "Started but not playing ...");
-                if (radioServiceState != RadioServiceState.STOPPED) {
-                    Log.d("RadioService", "Killing current connection...");
-                    mediaPlayer.reset();
-                    mediaPlayer.release();
-                    mediaPlayer = null;
-                    onEvent(event);
-                } else {
-                    Log.d("RadioService", "Restart player");
-                    mediaPlayer.start();
-                    if (mediaPlayer.isPlaying()) {
-                        radioServiceState = RadioServiceState.PLAYING;
-                        EventBus.getDefault().post(new RadioStartedEvent());
+        // request audio focus
+        AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        // Request audio focus for playback
+        int result = am.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+        if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+            try {
+                if (mediaPlayer == null) {
+                    Log.d("RadioService", "Looks good, starting station ...");
+                    mediaPlayer = new MediaPlayer();
+                    mediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
+                    mediaPlayer.setDataSource(RADIO_URL_LOW);
+                    mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                    mediaPlayer.setOnPreparedListener(this);
+                    mediaPlayer.setOnCompletionListener(this);
+                    mediaPlayer.setOnErrorListener(this);
+                    mediaPlayer.prepareAsync();
+                } else if (!mediaPlayer.isPlaying()) {
+                    Log.d("RadioService", "Started but not playing ...");
+                    if (radioServiceState != RadioServiceState.STOPPED) {
+                        Log.d("RadioService", "Killing current connection...");
+                        mediaPlayer.reset();
+                        mediaPlayer.release();
+                        mediaPlayer = null;
+                        onEvent(event);
                     } else {
-                        errorMessage += "Error starting stream: object created but wont restart\n";
+                        Log.d("RadioService", "Restart player");
+                        mediaPlayer.start();
+                        if (mediaPlayer.isPlaying()) {
+                            radioServiceState = RadioServiceState.PLAYING;
+                            EventBus.getDefault().post(new RadioStartedEvent());
+                        } else {
+                            errorMessage += "Error starting stream: object created but wont restart\n";
+                        }
                     }
                 }
+            } catch (IOException e) {
+                errorMessage += "Error starting stream: " + e.toString() + "\n";
+                Log.e("start", errorMessage, e);
             }
-        } catch (IOException e) {
-            errorMessage += "Error starting stream: " + e.toString() + "\n";
-            Log.e("start", errorMessage, e);
         }
     }
 
@@ -191,4 +197,28 @@ public class RadioService extends Service implements OnCompletionListener, OnPre
         }
     }
 
+    @Override
+    public void onAudioFocusChange(int focusChange) {
+        switch (focusChange) {
+            case (AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK):
+                if (mediaPlayer != null) {
+                    mediaPlayer.setVolume(0.2f, 0.2f);
+                }
+                break;
+            case (AudioManager.AUDIOFOCUS_LOSS_TRANSIENT):
+                onEvent(new StopRadioEvent());
+                break;
+
+            case (AudioManager.AUDIOFOCUS_LOSS):
+                onEvent(new StopRadioEvent());
+                break;
+
+            case (AudioManager.AUDIOFOCUS_GAIN):
+                if (mediaPlayer != null) {
+                    mediaPlayer.setVolume(1f, 1f);
+                    mediaPlayer.start();
+                }
+                break;
+        }
+    }
 }
