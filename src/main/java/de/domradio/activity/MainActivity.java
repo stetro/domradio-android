@@ -36,7 +36,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         setContentView(R.layout.main_activity);
-        setTitle(R.string.app_name);
+        setTitle("");
         loaderView = (ProgressBar) findViewById(R.id.loader);
         registerViewAdapter();
         isActive = true;
