@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="ga_trackingId">UA-61881079-1</string>
+    <!--<string name="ga_trackingId">!!REPLACE BEFORE RELEASE!!</string>-->
     <bool name="ga_autoActivityTracking">true</bool>
     <bool name="ga_reportUncaughtExceptions">true</bool>
     <string name="ga_appName">domradio.de</string>
