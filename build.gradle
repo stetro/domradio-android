@@ -48,7 +48,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-analytics:10.0.1'
 
     // ui
-    compile 'com.afollestad:material-dialogs:0.7.7.0'
+    compile 'com.afollestad.material-dialogs:core:0.9.3.0'
     compile 'com.github.greenfrvr:rubber-loader:1.1.1@aar'
 }
 
