@@ -6,9 +6,10 @@ android:
         - extra-google-m2repository
         - extra-android-m2repository
         - build-tools-25.0.1
-
+        - platform-tools
+        - tools
+        - build-tools-25.0.0
         - android-25
-
         - extra-google-google_play_services
         - extra-google-m2repository
         - extra-android-m2repository
