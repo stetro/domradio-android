@@ -91,17 +91,14 @@
 
     </android.support.design.widget.CoordinatorLayout>
 
-    <com.greenfrvr.rubberloader.RubberLoaderView
+    <ProgressBar
         android:id="@+id/loader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_centerInParent="true"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="18dp"
-        android:layout_marginTop="18dp"
-        app:loaderExtraColor="@color/app_color_dark"
-        app:loaderPrimeColor="@color/app_color"
-        app:loaderSize="normal" />
+        android:layout_marginTop="18dp"/>
 
     <LinearLayout
         android:layout_width="fill_parent"

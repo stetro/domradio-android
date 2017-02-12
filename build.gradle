@@ -49,7 +49,6 @@ dependencies {
 
     // ui
     compile 'com.afollestad.material-dialogs:core:0.9.3.0'
-    compile 'com.github.greenfrvr:rubber-loader:1.1.1@aar'
 }
 
 android {

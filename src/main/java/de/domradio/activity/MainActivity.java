@@ -7,8 +7,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
-import com.greenfrvr.rubberloader.RubberLoaderView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class MainActivity extends BaseActivity {
 
     public volatile static boolean isActive = false;
     private List<ViewAdapter> viewAdapterList = new ArrayList<>();
-    private RubberLoaderView loaderView;
+    private ProgressBar loaderView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class MainActivity extends BaseActivity {
         EventBus.getDefault().register(this);
         setContentView(R.layout.main_activity);
         setTitle(R.string.app_name);
-        loaderView = (RubberLoaderView) findViewById(R.id.loader);
+        loaderView = (ProgressBar) findViewById(R.id.loader);
         registerViewAdapter();
         isActive = true;
     }
@@ -97,7 +97,6 @@ public class MainActivity extends BaseActivity {
     @EventBusCallback
     public void onEvent(StartLoadingFeedEvent event) {
         loaderView.setVisibility(View.VISIBLE);
-        loaderView.startLoading();
     }
 
     @EventBusCallback
