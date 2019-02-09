@@ -3,13 +3,15 @@ package de.domradio.ui.feed
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import de.domradio.R
 import me.toptas.rssconverter.RssItem
+import timber.log.Timber
 
 class ArticleListAdapter : RecyclerView.Adapter<ArticleListViewHolder>() {
-
 
     var articles: MutableList<RssItem> = mutableListOf()
 
@@ -33,7 +35,7 @@ class ArticleListAdapter : RecyclerView.Adapter<ArticleListViewHolder>() {
 
 }
 
-class ArticleListViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+class ArticleListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     private val title = view.findViewById<TextView>(R.id.article_list_item_title)
     private val date = view.findViewById<TextView>(R.id.article_list_item_date)
@@ -41,8 +43,8 @@ class ArticleListViewHolder(private val view: View) : RecyclerView.ViewHolder(vi
 
     fun bindData(rssItem: RssItem) {
         title.text = rssItem.title
-        date.text  = rssItem.publishDate
-        text.text  = rssItem.description
+        date.text = rssItem.publishDate
+        text.text = rssItem.description?.replace(Regex("<.*?>"), "")
     }
 
 }

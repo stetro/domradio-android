@@ -9,6 +9,7 @@
         android:layout_margin="12dp">
 
     <LinearLayout
+            android:orientation="vertical"
             android:layout_margin="12dp"
             android:layout_height="wrap_content"
             android:layout_width="match_parent">
@@ -17,18 +18,21 @@
         <TextView
                 android:textAppearance="@style/Domradio.Article.Headline"
                 android:layout_width="wrap_content"
+                android:text="@string/placeholder"
                 android:layout_height="wrap_content"
                 android:id="@+id/article_list_item_title"/>
 
         <TextView
                 android:textAppearance="@style/Domradio.Article.Date"
                 android:layout_width="wrap_content"
+                android:text="@string/placeholder"
                 android:layout_height="wrap_content"
                 android:id="@+id/article_list_item_date"/>
 
         <TextView
                 android:textAppearance="@style/Domradio.Article.Text"
                 android:layout_width="wrap_content"
+                android:text="@string/placeholder_long"
                 android:layout_height="wrap_content"
                 android:id="@+id/article_list_item_text"/>
 
