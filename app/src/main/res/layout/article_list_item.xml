@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        card_view:cardCornerRadius="5dp"
+        android:layout_margin="12dp">
+
+    <LinearLayout
+            android:layout_margin="12dp"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+
+
+        <TextView
+                android:textAppearance="@style/Domradio.Article.Headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/article_list_item_title"/>
+
+        <TextView
+                android:textAppearance="@style/Domradio.Article.Date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/article_list_item_date"/>
+
+        <TextView
+                android:textAppearance="@style/Domradio.Article.Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/article_list_item_text"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
