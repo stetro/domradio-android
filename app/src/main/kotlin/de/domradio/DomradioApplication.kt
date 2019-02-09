@@ -2,7 +2,8 @@ package de.domradio
 
 import android.app.Application
 import de.domradio.api.RetrofitConfiguration
-import de.domradio.ui.feed.ArticleListViewModel
+import de.domradio.ui.article.ArticleViewModel
+import de.domradio.ui.articlelist.ArticleListViewModel
 import de.domradio.usecase.ArticleListUseCase
 import org.koin.android.ext.android.startKoin
 import org.koin.androidx.viewmodel.ext.koin.viewModel
@@ -21,6 +22,7 @@ class DomradioApplication : Application() {
 
 val viewModelModule = module {
     viewModel { ArticleListViewModel(get()) }
+    viewModel { ArticleViewModel() }
 }
 
 val apiModule = module {
