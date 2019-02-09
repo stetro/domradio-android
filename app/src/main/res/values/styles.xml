@@ -22,4 +22,13 @@
     <style name="Domradio.Article.Button" parent="TextAppearance.AppCompat.Small">
     </style>
 
+    <style name="Domradio.Player.Title" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">@color/playerTitle</item>
+    </style>
+
+    <style name="Domradio.Player.Subtitle" parent="TextAppearance.AppCompat.Small">
+
+        <item name="android:textColor">@color/playerSubtitle</item>
+    </style>
+
 </resources>

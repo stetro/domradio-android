@@ -1,8 +1,10 @@
 <resources>
-    <string name="app_name">domradio.de</string>
+    <string name="app_name">DOMRADIO.DE</string>
+    <string name="app_slogan">Der gute Draht nach oben!</string>
+    <string name="news">Nachrichten</string>
     <string name="placeholder">placeholder_short</string>
     <string name="placeholder_long">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
         tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
     </string>
-    <string name="read_article">Read Article</string>
+    <string name="read_article">Artikel lesen</string>
 </resources>

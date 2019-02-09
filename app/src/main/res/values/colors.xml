@@ -3,6 +3,8 @@
     <color name="colorPrimary">#C4003C</color>
     <color name="colorPrimaryDark">#A70E39</color>
     <color name="colorAccent">#C4003C</color>
-    <color name="colorGray">#71706e</color>
+    <color name="playerBackground">#333333</color>
+    <color name="playerTitle">#FFFFFF</color>
+    <color name="playerSubtitle">#AAAAAA</color>
     <color name="launcher_background">#FFFFFF</color>
 </resources>

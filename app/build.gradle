@@ -42,10 +42,13 @@ dependencies {
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:2.4.0"
-    implementation "com.squareup.retrofit2:converter-moshi:2.4.0"
+    implementation "com.squareup.retrofit2:converter-simplexml:2.4.0"
     implementation 'com.github.faruktoptas:RetrofitRssConverterFactory:0.1.0'
     api "com.squareup.okhttp3:logging-interceptor:3.9.1"
     api "com.squareup.okhttp3:okhttp:3.11.0"
+
+    // Streaming
+    implementation 'com.github.dibakarece:DMAudioStreamer:v1.0.5'
 
     // Logging
     api "com.jakewharton.timber:timber:4.7.1"

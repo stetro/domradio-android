@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import de.domradio.usecase.ArticleListUseCase
 import de.domradio.usecase.data.Article
+import io.reactivex.disposables.Disposable
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -19,12 +20,15 @@ class ArticleListViewModel(private val articleListUseCase: ArticleListUseCase) :
         refreshing.value = false
     }
 
+    private var refreshSubscription: Disposable? = null
+
     fun refresh() {
         refreshing.value = true
-        val subscribtion = articleListUseCase.getFeed()
-            .subscribe({
+        refreshSubscription?.dispose()
+        refreshSubscription = articleListUseCase.getFeed()
+            .subscribe({ articleList ->
                 refreshing.value = false
-                articles.value = it
+                articles.value = articleList
             }, {
                 // TODO Error
                 refreshing.value = false
