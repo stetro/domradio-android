@@ -1,11 +1,16 @@
 package de.domradio
 
 import android.app.Application
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.os.Build
+import androidx.core.content.getSystemService
 import de.domradio.api.RetrofitConfiguration
 import de.domradio.ui.PlayerViewModel
 import de.domradio.ui.article.ArticleViewModel
 import de.domradio.ui.articlelist.ArticleListViewModel
 import de.domradio.usecase.ArticleListUseCase
+import de.domradio.usecase.RadioUseCase
 import de.domradio.usecase.StationInfoUseCase
 import org.koin.android.ext.android.startKoin
 import org.koin.android.ext.koin.androidContext
@@ -17,15 +22,30 @@ class DomradioApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationChannel = NotificationChannel(
+                NOTIFICATION_CHANNEL_ID,
+                "DOMRADIO.DE Notification",
+                NotificationManager.IMPORTANCE_HIGH
+            )
+            val notificationManager = getSystemService<NotificationManager>()
+            notificationManager?.createNotificationChannel(notificationChannel)
+        }
         startKoin(this, listOf(viewModelModule, apiModule, systemModel))
         Timber.plant(Timber.DebugTree())
+    }
+
+    companion object {
+        const val NOTIFICATION_CHANNEL_ID: String = "domradio_notification"
+        const val NOTIFICATION_ID = 1000
     }
 }
 
 val viewModelModule = module {
     viewModel { ArticleListViewModel(get()) }
     viewModel { ArticleViewModel() }
-    viewModel { PlayerViewModel(get()) }
+    viewModel { PlayerViewModel(get(), get()) }
 }
 
 val apiModule = module {
@@ -38,5 +58,6 @@ val apiModule = module {
 
 val systemModel = module {
     single { ArticleListUseCase(get()) }
+    single { RadioUseCase(androidContext()) }
     single { StationInfoUseCase(get(), androidContext()) }
 }

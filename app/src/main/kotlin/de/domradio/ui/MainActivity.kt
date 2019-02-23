@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import de.domradio.R
+import de.domradio.radio.RadioState
 import kotlinx.android.synthetic.main.main_activity.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         observeViews()
         observeModels()
-        playerViewModel.startStationInformation()
+        playerViewModel.startRadioConnection()
     }
 
     private fun observeModels() {
@@ -36,11 +37,11 @@ class MainActivity : AppCompatActivity() {
         playerViewModel.getSubtitle().observe(this, Observer { subtitle ->
             main_activity_player_subtitle.text = subtitle
         })
-        playerViewModel.getPlayerState().observe(this, Observer { state ->
+        playerViewModel.getRadioState().observe(this, Observer { state ->
             when (state) {
-                PlayerViewModel.PlayerState.BUFFERING ->
+                RadioState.BUFFERING ->
                     main_activity_player_button.setImageResource(R.drawable.ic_wifi_load_white_24dp)
-                PlayerViewModel.PlayerState.PLAYING ->
+                RadioState.PLAYING ->
                     main_activity_player_button.setImageResource(R.drawable.ic_stop_white_24dp)
                 else ->
                     main_activity_player_button.setImageResource(R.drawable.ic_play_arrow_white_24dp)
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        playerViewModel.stopStationInformation()
+        playerViewModel.stopRadioConnection()
     }
 
 }

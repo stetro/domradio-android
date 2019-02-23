@@ -36,7 +36,7 @@ class StationInfoUseCase(private val stationService: StationService, private val
                 response: Response<StationInformation>
             ) {
                 response.body()?.let {
-                    subject.onNext(StationInfo(it.onair?.title, it.onair?.artist))
+                    subject.onNext(StationInfo(cleanUpTitle(it.onair?.title), cleanUpArtist(it.onair?.artist)))
                     subject.onComplete()
                 } ?: run {
                     subject.onError(Exception("Empty payload"))
@@ -54,4 +54,17 @@ class StationInfoUseCase(private val stationService: StationService, private val
         )
     }
 
+    private fun cleanUpArtist(artist: String?): String? {
+        val filteredArtist = if (artist?.contains(",") == true) {
+            val commaIndex = artist.indexOf(",")
+            artist.substring(commaIndex + 1) + " " + artist.substring(0, commaIndex)
+        } else {
+            artist
+        }
+        return filteredArtist?.replace(";", "")
+    }
+
+    private fun cleanUpTitle(title: String?): String? {
+        return title?.replace("/(\\s*\\/\\/.+)/g\\", "")
+    }
 }
