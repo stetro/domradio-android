@@ -48,7 +48,10 @@ dependencies {
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:2.5.0"
-    implementation "com.squareup.retrofit2:converter-simplexml:2.5.0"
+    implementation ("com.squareup.retrofit2:converter-simplexml:2.5.0") {
+        exclude module: "xpp3"
+    }
+
     implementation "com.github.faruktoptas:RetrofitRssConverterFactory:0.1.0"
     api "com.squareup.okhttp3:logging-interceptor:3.9.1"
     api "com.squareup.okhttp3:okhttp:3.12.0"
