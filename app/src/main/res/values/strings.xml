@@ -7,4 +7,9 @@
         tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
     </string>
     <string name="read_article">Artikel lesen</string>
+    <string name="close">Close</string>
+    <string name="live_stream">Livestream</string>
+    <string name="play">Play</string>
+    <string name="stop">Stop</string>
+    <string name="pause">Pause</string>
 </resources>

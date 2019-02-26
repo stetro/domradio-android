@@ -1,73 +1,89 @@
 package de.domradio.radio
 
 import android.app.Notification
-import android.app.PendingIntent
 import android.app.Service
-import android.content.ComponentName
 import android.content.Intent
-import android.graphics.BitmapFactory
-import android.media.AudioAttributes
-import android.media.AudioManager
 import android.media.MediaPlayer
-import android.os.IBinder
 import android.support.v4.media.session.MediaSessionCompat
-import android.support.v4.media.session.PlaybackStateCompat
-import androidx.core.app.NotificationCompat
 import androidx.media.session.MediaButtonReceiver
 import de.domradio.DomradioApplication
 import timber.log.Timber
 
 
 class RadioService : Service() {
+
+    companion object {
+        var isRunning = false
+    }
+
     private lateinit var notification: Notification
 
+    private val mediaSessionCallback = object : MediaSessionCompat.Callback() {
+        override fun onPlay() {
+            Timber.d("MediaSessionCompat.Callback onPlay() called")
+            mediaPlayer.start()
+            mediaSession.setPlaybackState(RadioMediaSession.playingPlaybackState)
+            RadioMediaNotification.updateNotification(
+                this@RadioService,
+                mediaSession,
+                RadioMediaNotification.ActionType.PAUSE_ACTION
+            )
+        }
 
+        override fun onStop() {
+            Timber.d("MediaSessionCompat.Callback onStop() called")
+            mediaPlayer.stop()
+            mediaSession.setPlaybackState(RadioMediaSession.stoppedPlaybackState)
+            RadioMediaNotification.updateNotification(
+                this@RadioService,
+                mediaSession,
+                RadioMediaNotification.ActionType.PLAY_ACTION
+            )
+            stopSelf()
+        }
+
+        override fun onPause() {
+            Timber.d("MediaSessionCompat.Callback onPause() called")
+            mediaPlayer.pause()
+            mediaSession.setPlaybackState(RadioMediaSession.pausedPlaybackState)
+            RadioMediaNotification.updateNotification(
+                this@RadioService,
+                mediaSession,
+                RadioMediaNotification.ActionType.PLAY_ACTION
+            )
+        }
+    }
+
+    private lateinit var mediaSession: MediaSessionCompat
     private lateinit var mediaPlayer: MediaPlayer
 
     override fun onCreate() {
         super.onCreate()
-
-        notification = NotificationCompat.Builder(this, DomradioApplication.NOTIFICATION_CHANNEL_ID)
-            .setSmallIcon(de.domradio.R.drawable.ic_stat_domradio)
-            .setLargeIcon(BitmapFactory.decodeResource(resources, de.domradio.R.mipmap.ic_launcher))
-            .setPriority(NotificationCompat.PRIORITY_MAX)
-            .setContentTitle("DOMRADIO.DE")
-            .setContentInfo("Livestream")
-            .setDeleteIntent(
-                MediaButtonReceiver.buildMediaButtonPendingIntent(this, PlaybackStateCompat.ACTION_STOP))
-            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-            .build()
-
+        isRunning = true
+        mediaSession = RadioMediaSession.build(this, mediaSessionCallback)
+        mediaSession.setPlaybackState(RadioMediaSession.playingPlaybackState)
+        mediaPlayer = RadioMediaPlayer.build(mediaSession)
+        notification = RadioMediaNotification.build(this, mediaSession)
         startForeground(DomradioApplication.NOTIFICATION_ID, notification)
+    }
 
-        mediaPlayer = MediaPlayer().apply {
-            setAudioAttributes(
-                AudioAttributes.Builder()
-                    .setLegacyStreamType(AudioManager.STREAM_MUSIC)
-                    .build()
-            )
-            setDataSource(STREAM_URL_LOW_QUALITY)
-            setOnPreparedListener {
-                Timber.d("start stream")
-                mediaPlayer.start()
-            }
-            setOnErrorListener { mp, what, extra ->
-                Timber.d("onError() called with: mp = [$mp], what = [$what], extra = [$extra]")
-                return@setOnErrorListener true
-            }
-            prepareAsync()
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer.release()
+        mediaSession.release()
+        isRunning = false
+    }
+
+    override fun onBind(intent: Intent?): RadioServiceBinder {
+        return object : RadioServiceBinder() {
+            override fun getMediaSession() = mediaSession
         }
-
-
-
     }
 
-    override fun onBind(intent: Intent?): IBinder? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+        MediaButtonReceiver.handleIntent(mediaSession, intent)
+        return super.onStartCommand(intent, flags, startId)
     }
 
-    companion object {
-        const val STREAM_URL_HIGH_QUALITY = "https://dom.audiostream.io/domradio/1000/mp3/128/domradio"
-        const val STREAM_URL_LOW_QUALITY = "https://dom.audiostream.io/domradio/1000/mp3/64/domradio"
-    }
+
 }

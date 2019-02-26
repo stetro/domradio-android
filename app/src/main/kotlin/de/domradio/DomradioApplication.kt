@@ -3,9 +3,11 @@ package de.domradio
 import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.Intent
 import android.os.Build
 import androidx.core.content.getSystemService
 import de.domradio.api.RetrofitConfiguration
+import de.domradio.radio.RadioService
 import de.domradio.ui.PlayerViewModel
 import de.domradio.ui.article.ArticleViewModel
 import de.domradio.ui.articlelist.ArticleListViewModel
@@ -27,7 +29,7 @@ class DomradioApplication : Application() {
             val notificationChannel = NotificationChannel(
                 NOTIFICATION_CHANNEL_ID,
                 "DOMRADIO.DE Notification",
-                NotificationManager.IMPORTANCE_HIGH
+                NotificationManager.IMPORTANCE_LOW
             )
             val notificationManager = getSystemService<NotificationManager>()
             notificationManager?.createNotificationChannel(notificationChannel)
@@ -58,6 +60,7 @@ val apiModule = module {
 
 val systemModel = module {
     single { ArticleListUseCase(get()) }
-    single { RadioUseCase(androidContext()) }
+    single { RadioUseCase(androidContext(), get()) }
     single { StationInfoUseCase(get(), androidContext()) }
+    single { Intent(androidContext(), RadioService::class.java) }
 }
