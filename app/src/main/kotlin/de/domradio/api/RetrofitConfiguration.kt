@@ -17,25 +17,25 @@ object RetrofitConfiguration {
     }
 
 
-    fun getRssRetrofit(httpClient: OkHttpClient) =
+    fun getRssRetrofit(httpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .baseUrl("https://www.domradio.de")
             .client(httpClient)
             .addConverterFactory(RssConverterFactory.create())
-            .build()!!
+            .build()
 
-    fun getRssService(retrofit: Retrofit) =
+    fun getRssService(retrofit: Retrofit): RssService =
         retrofit.create(RssService::class.java)
 
 
-    fun getPlayerRetrofit(httpClient: OkHttpClient) =
+    fun getPlayerRetrofit(httpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .baseUrl("https://www.domradio.de")
             .client(httpClient)
             .addConverterFactory(SimpleXmlConverterFactory.create())
-            .build()!!
+            .build()
 
-    fun getStationService(retrofit: Retrofit) =
+    fun getStationService(retrofit: Retrofit): StationService =
         retrofit.create(StationService::class.java)
 
 }
