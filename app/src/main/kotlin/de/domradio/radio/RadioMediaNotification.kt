@@ -51,12 +51,6 @@ object RadioMediaNotification {
                 setOngoing(false)
                 setContentInfo("Livestream")
 
-                setDeleteIntent(
-                    MediaButtonReceiver.buildMediaButtonPendingIntent(
-                        context,
-                        PlaybackStateCompat.ACTION_STOP
-                    )
-                )
                 setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
 
                 // Enable launching the player by clicking the notification

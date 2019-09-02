@@ -28,6 +28,7 @@ class RadioService : Service() {
                 mediaSession,
                 RadioMediaNotification.ActionType.PAUSE_ACTION
             )
+            startForeground(DomradioApplication.NOTIFICATION_ID, notification)
         }
 
         override fun onStop() {
@@ -39,6 +40,7 @@ class RadioService : Service() {
                 mediaSession,
                 RadioMediaNotification.ActionType.PLAY_ACTION
             )
+            startForeground(DomradioApplication.NOTIFICATION_ID, notification)
             stopSelf()
         }
 
@@ -51,6 +53,7 @@ class RadioService : Service() {
                 mediaSession,
                 RadioMediaNotification.ActionType.PLAY_ACTION
             )
+            stopForeground(false)
         }
     }
 
