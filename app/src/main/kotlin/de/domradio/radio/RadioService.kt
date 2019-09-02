@@ -69,7 +69,7 @@ class RadioService : Service() {
         super.onCreate()
         isRunning = true
         mediaSession = RadioMediaSession.build(this, mediaSessionCallback)
-        mediaPlayer = RadioMediaPlayer.build(mediaSession)
+        mediaPlayer = RadioMediaPlayer.build(this, mediaSession)
         notification = RadioMediaNotification.build(this, mediaSession)
 
         startForeground(DomradioApplication.NOTIFICATION_ID, notification)

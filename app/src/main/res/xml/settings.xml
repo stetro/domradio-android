@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreferenceCompat
+        android:defaultValue="true"
+        android:key="quality_preference"
+        android:summary="@string/high_stream_quality_summary"
+        android:title="@string/high_stream_quality" />
+
+    <SwitchPreferenceCompat
+        android:defaultValue="false"
+        android:key="cellular_streaming"
+        android:summary="@string/cellular_streaming_summary"
+        android:title="@string/cellular_streaming" />
+
+</PreferenceScreen>

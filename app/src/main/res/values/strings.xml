@@ -12,4 +12,17 @@
     <string name="play">Play</string>
     <string name="stop">Stop</string>
     <string name="pause">Pause</string>
+    <string name="rate_this_app">App bewerten</string>
+    <string name="about">Über</string>
+    <string name="about_text">domradio.de\nDomkloster 3\n50667 Köln\ninfo@domradio.de\n\ndomradio.de ist das katholische Portal für aktuelle Nachrichten aus Kirche und Welt. Wir bringen christliche Stimmen und Positionen zu allen relevanten gesellschaftlichen Themen auf den Punkt.\n\nEntwickelt von Steffen Tröster.</string>
+    <string name="ok">Ok</string>
+    <string name="settings">Einstellungen</string>
+    <string name="high_stream_quality">Hohe Streamqualiät</string>
+    <string name="high_stream_quality_summary">Bei hoher Streamqualität erhöht sich der Datenverbrauch</string>
+    <string name="cellular_streaming">Mobil Streamen</string>
+    <string name="cellular_streaming_summary">Wenn sie mobil streamen, werden mobile Daten benötigt</string>
+    <string name="cellular_streaming_disabled">Mobiles Streamen deaktiviert</string>
+    <string name="cellular_streaming_disabled_text">Um DOMRADIO.DE unterwegs zu hören, schalten Sie Mobiles Streamen in den Einstellungen ein.</string>
+    <string name="share">Teilen</string>
+    <string name="share_article">Artikel teilen</string>
 </resources>

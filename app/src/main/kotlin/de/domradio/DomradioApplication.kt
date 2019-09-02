@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.content.Intent
 import android.os.Build
 import androidx.core.content.getSystemService
+import androidx.preference.PreferenceManager
 import de.domradio.api.RetrofitConfiguration
 import de.domradio.radio.RadioService
 import de.domradio.ui.PlayerViewModel
@@ -60,7 +61,8 @@ val apiModule = module {
 
 val systemModel = module {
     single { ArticleListUseCase(get()) }
-    single { RadioUseCase(androidContext(), get()) }
+    single { RadioUseCase(androidContext(), get(), get()) }
     single { StationInfoUseCase(get(), androidContext()) }
     single { Intent(androidContext(), RadioService::class.java) }
+    single { PreferenceManager.getDefaultSharedPreferences(androidContext()) }
 }

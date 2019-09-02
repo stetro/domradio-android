@@ -19,7 +19,6 @@ class PlayerViewModel(private val stationInfoUseCase: StationInfoUseCase, privat
 
     fun startRadioConnection() {
         stateSubscription?.dispose()
-        radioUseCase.initialize()
         stateSubscription = radioUseCase.getRadioState().subscribe {
             radioState.value = it
         }
@@ -33,7 +32,6 @@ class PlayerViewModel(private val stationInfoUseCase: StationInfoUseCase, privat
     fun stopRadioConnection() {
         pollStationInformationSubscription?.dispose()
         stateSubscription?.dispose()
-        radioUseCase.cleanup()
     }
 
     fun getTitle(): LiveData<String> = title
@@ -42,17 +40,11 @@ class PlayerViewModel(private val stationInfoUseCase: StationInfoUseCase, privat
 
     fun getRadioState(): LiveData<RadioState> = radioState
 
-    fun playButtonPressed() {
-        when (radioState.value) {
-            RadioState.BUFFERING -> {
-                radioUseCase.stopStream()
-            }
-            RadioState.PLAYING -> {
-                radioUseCase.stopStream()
-            }
-            else -> {
-                radioUseCase.startStream()
-            }
+    fun playButtonPressed(): Boolean {
+        return when (radioState.value) {
+            RadioState.BUFFERING -> radioUseCase.stopStream()
+            RadioState.PLAYING -> radioUseCase.stopStream()
+            else -> radioUseCase.startStream()
         }
     }
 }

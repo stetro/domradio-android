@@ -2,6 +2,7 @@ package de.domradio.ui.articlelist
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -20,6 +21,7 @@ class ArticleListFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         articleListViewModel.reset()
         articleListViewModel.refresh()
+        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.article_list_fragment, container, false)
     }
 
@@ -36,6 +38,14 @@ class ArticleListFragment : Fragment() {
 
         article_list_fragment_recycler_view.adapter = articleListAdapter
         article_list_fragment_recycler_view.layoutManager = LinearLayoutManager(context)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menu_settings) {
+            getNavController()?.navigate(ArticleListFragmentDirections.actionArticleListFragmentToSettingsFragment())
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onResume() {

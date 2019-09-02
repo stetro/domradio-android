@@ -9,9 +9,27 @@
                 app:enterAnim="@anim/slide_in_right" app:exitAnim="@anim/slide_out_left"
                 app:popEnterAnim="@anim/slide_in_left" app:popExitAnim="@anim/slide_out_right"
                 app:launchSingleTop="true"/>
+        <action
+            android:id="@+id/action_articleListFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment android:id="@+id/articleFragment" android:name="de.domradio.ui.article.ArticleFragment"
               android:label="ArticleFragment" tools:layout="@layout/article_fragment">
         <argument android:name="article" app:argType="de.domradio.usecase.data.Article"/>
+        <action
+            android:id="@+id/action_articleFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="de.domradio.ui.settings.SettingsFragment"
+        android:label="SettingsFragment" />
 </navigation>

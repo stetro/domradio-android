@@ -1,9 +1,8 @@
 package de.domradio.ui.article
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import androidx.appcompat.app.AppCompatActivity
@@ -11,14 +10,17 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import de.domradio.R
+import de.domradio.utils.FragmentExtensions.getNavController
 import kotlinx.android.synthetic.main.article_fragment.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class ArticleFragment : Fragment() {
 
     private val articleViewModel: ArticleViewModel by viewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.article_fragment, container, false)
     }
 
@@ -37,6 +39,37 @@ class ArticleFragment : Fragment() {
                 articleViewModel.setProgress(newProgress)
             }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_settings -> {
+                getNavController()?.navigate(ArticleFragmentDirections.actionArticleFragmentToSettingsFragment())
+                return true
+            }
+            R.id.menu_share -> {
+                shareArticle()
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun shareArticle() {
+        val share = Intent(Intent.ACTION_SEND)
+        share.type = "text/plain"
+
+        val article = articleViewModel.getArticle().value
+        if (article != null) {
+            share.putExtra(Intent.EXTRA_SUBJECT, article.title)
+            share.putExtra(Intent.EXTRA_TEXT, article.url)
+            startActivity(Intent.createChooser(share, getString(R.string.share_article)))
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.article_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     private fun observeModel() {
