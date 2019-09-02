@@ -7,6 +7,7 @@ import android.media.MediaPlayer
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.media.session.MediaButtonReceiver
 import de.domradio.DomradioApplication
+import io.reactivex.subjects.BehaviorSubject
 import timber.log.Timber
 
 
@@ -14,6 +15,7 @@ class RadioService : Service() {
 
     companion object {
         var isRunning = false
+        var state: BehaviorSubject<RadioState> = BehaviorSubject.create()
     }
 
     private lateinit var notification: Notification
@@ -28,6 +30,7 @@ class RadioService : Service() {
                 mediaSession,
                 RadioMediaNotification.ActionType.PAUSE_ACTION
             )
+            state.onNext(RadioState.PLAYING)
             startForeground(DomradioApplication.NOTIFICATION_ID, notification)
         }
 
@@ -40,6 +43,7 @@ class RadioService : Service() {
                 mediaSession,
                 RadioMediaNotification.ActionType.PLAY_ACTION
             )
+            state.onNext(RadioState.STOPPED)
             startForeground(DomradioApplication.NOTIFICATION_ID, notification)
             stopSelf()
         }
@@ -53,6 +57,7 @@ class RadioService : Service() {
                 mediaSession,
                 RadioMediaNotification.ActionType.PLAY_ACTION
             )
+            state.onNext(RadioState.STOPPED)
             stopForeground(false)
         }
     }
@@ -64,10 +69,13 @@ class RadioService : Service() {
         super.onCreate()
         isRunning = true
         mediaSession = RadioMediaSession.build(this, mediaSessionCallback)
-        mediaSession.setPlaybackState(RadioMediaSession.playingPlaybackState)
         mediaPlayer = RadioMediaPlayer.build(mediaSession)
         notification = RadioMediaNotification.build(this, mediaSession)
+
         startForeground(DomradioApplication.NOTIFICATION_ID, notification)
+
+        mediaSession.setPlaybackState(RadioMediaSession.playingPlaybackState)
+        state.onNext(RadioState.PLAYING)
     }
 
     override fun onDestroy() {
