@@ -7,4 +7,5 @@
     <color name="playerTitle">#FFFFFF</color>
     <color name="playerSubtitle">#AAAAAA</color>
     <color name="launcher_background">#FFFFFF</color>
+    <color name="colorWhite">#FFFFFF</color>
 </resources>

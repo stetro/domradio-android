@@ -1,30 +1,30 @@
 package de.domradio.api.data
 
-import org.simpleframework.xml.Element
-import org.simpleframework.xml.Root
+import com.tickaroo.tikxml.annotation.PropertyElement
+import com.tickaroo.tikxml.annotation.Xml
 
-@Root(name = "onair")
+@Xml(name = "onair")
 data class Onair(
-    @field:Element(name = "title")
+    @PropertyElement(name = "title")
     var title: String? = null,
-    @field:Element(name = "artist")
+    @PropertyElement(name = "artist")
     var artist: String? = null,
-    @field:Element(name = "type")
+    @PropertyElement(name = "type")
     var type: String? = null,
-    @field:Element(name = "presenter")
+    @PropertyElement(name = "presenter")
     var presenter: String? = null,
-    @field:Element(name = "date")
+    @PropertyElement(name = "date")
     var date: String? = null,
-    @field:Element(name = "duration")
+    @PropertyElement(name = "duration")
     var duration: String? = null,
-    @field:Element(name = "start")
+    @PropertyElement(name = "start")
     var start: String? = null,
-    @field:Element(name = "cover")
+    @PropertyElement(name = "cover")
     var cover: String? = null,
-    @field:Element(name = "TitelID")
+    @PropertyElement(name = "TitelID")
     var TitelID: String? = null,
-    @field:Element(name = "ElementID")
+    @PropertyElement(name = "ElementID")
     var ElementID: String? = null,
-    @field:Element(name = "ArchivNr")
+    @PropertyElement(name = "ArchivNr")
     var ArchivNr: String? = null
 )

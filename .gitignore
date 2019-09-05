@@ -7,3 +7,4 @@ local.properties
 *.apk
 .DS_Store
 src/main/res-mdicons/
+app/google-services.json

@@ -39,7 +39,7 @@
         <TextView
                 android:textAppearance="@style/Domradio.Article.Text"
                 android:layout_width="wrap_content"
-                android:text="@string/placeholder_long"
+                android:text="@string/placeholder"
                 android:layout_marginBottom="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/article_list_item_text"/>

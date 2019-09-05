@@ -10,7 +10,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import de.domradio.R
-import de.domradio.utils.FragmentExtensions.getNavController
 import kotlinx.android.synthetic.main.article_fragment.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -43,10 +42,6 @@ class ArticleFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.menu_settings -> {
-                getNavController()?.navigate(ArticleFragmentDirections.actionArticleFragmentToSettingsFragment())
-                return true
-            }
             R.id.menu_share -> {
                 shareArticle()
                 return true

@@ -12,6 +12,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 import java.text.ParseException
+import java.util.*
 
 class ArticleListUseCase(private val rssService: RssService) {
 
@@ -42,16 +43,24 @@ class ArticleListUseCase(private val rssService: RssService) {
     private fun mapRssItemsToArticles(items: List<RssItem>): List<Article> {
         return items.filter {
             it.title != null && it.description != null && it.publishDate != null
-        }.map {
-            val description = it.description!!.replace(Regex("<.*?>"), "")
-            var date = it.publishDate!!
+        }.map { item ->
+            val description = item.description!!.replace(Regex("<.*?>"), "")
+            var date = item.publishDate!!
             try {
-                val javaDate = ArticleListViewModel.sourceDateFormat.parse(date)
-                date = ArticleListViewModel.destinationDateFormat.format(javaDate)
+                date = ArticleListViewModel.sourceDateFormat.parse(date)?.let { javaDate ->
+                    ArticleListViewModel.destinationDateFormat.format(javaDate)
+                } ?: run {
+                    ArticleListViewModel.destinationDateFormat.format(Date())
+                }
             } catch (e: ParseException) {
                 Timber.w(e, "onResponse: could not transform date")
             }
-            return@map Article(it.title!!.trim(), date.trim(), description.trim(), it.link!!.trim())
+            return@map Article(
+                item.title!!.trim(),
+                date.trim(),
+                description.trim(),
+                item.link!!.trim()
+            )
         }
     }
 }

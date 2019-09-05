@@ -25,8 +25,10 @@
     </style>
 
     <style name="Domradio.Player.Subtitle" parent="TextAppearance.AppCompat.Small">
-
         <item name="android:textColor">@color/playerSubtitle</item>
+    </style>
+
+    <style name="Domradio.Community.Text" parent="TextAppearance.AppCompat.Body1">
     </style>
 
 </resources>

@@ -1,10 +1,10 @@
 package de.domradio.api
 
+import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory
 import me.toptas.rssconverter.RssConverterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 
 object RetrofitConfiguration {
 
@@ -15,7 +15,6 @@ object RetrofitConfiguration {
             .addInterceptor(loggingInterceptor)
             .build()
     }
-
 
     fun getRssRetrofit(httpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
@@ -32,7 +31,7 @@ object RetrofitConfiguration {
         Retrofit.Builder()
             .baseUrl("https://www.domradio.de")
             .client(httpClient)
-            .addConverterFactory(SimpleXmlConverterFactory.create())
+            .addConverterFactory(TikXmlConverterFactory.create())
             .build()
 
     fun getStationService(retrofit: Retrofit): StationService =

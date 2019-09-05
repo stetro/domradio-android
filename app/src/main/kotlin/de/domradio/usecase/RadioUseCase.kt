@@ -3,7 +3,8 @@ package de.domradio.usecase
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.net.wifi.WifiManager
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Build
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.media.session.MediaButtonReceiver
@@ -58,13 +59,14 @@ class RadioUseCase(
     }
 
     private fun checkWifiOnAndConnected(): Boolean {
-        val wifiManager =
-            context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager?
-        return if (wifiManager!!.isWifiEnabled) {
-            val wifiInfo = wifiManager.connectionInfo
-            wifiInfo.networkId != -1
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val network = connectivityManager.activeNetwork
+            val capabilities = connectivityManager.getNetworkCapabilities(network)
+            capabilities != null && capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
         } else {
-            false
+            connectivityManager.activeNetworkInfo?.type == ConnectivityManager.TYPE_WIFI
         }
     }
 }

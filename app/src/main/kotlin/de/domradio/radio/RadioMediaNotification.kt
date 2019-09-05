@@ -47,9 +47,8 @@ object RadioMediaNotification {
                 setLargeIcon(BitmapFactory.decodeResource(context.resources, R.raw.domradio))
                 priority = NotificationCompat.PRIORITY_MAX
 
-                setContentTitle("DOMRADIO.DE")
+                setContentTitle(context.getString(R.string.live_stream))
                 setOngoing(false)
-                setContentInfo("Livestream")
 
                 setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
 
