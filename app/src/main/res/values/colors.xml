@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#C4003C</color>
-    <color name="colorPrimaryDark">#A70E39</color>
-    <color name="colorAccent">#C4003C</color>
+    <color name="colorPrimary">#c6133d</color>
+    <color name="colorPrimaryDark">#9b0f30</color>
+    <color name="colorAccent">#c6133d</color>
+
     <color name="playerBackground">#333333</color>
     <color name="playerTitle">#FFFFFF</color>
     <color name="playerSubtitle">#AAAAAA</color>
