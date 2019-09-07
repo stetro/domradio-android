@@ -4,10 +4,14 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.transition.TransitionManager
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.afollestad.materialdialogs.MaterialDialog
@@ -17,25 +21,34 @@ import kotlinx.android.synthetic.main.main_activity.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class MainActivity : AppCompatActivity() {
-
+class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedListener {
     private val playerViewModel: PlayerViewModel by viewModel()
+    private val playerConstraintSet = ConstraintSet()
+    private val noPlayerConstraintSet = ConstraintSet()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         setupActionBarWithNavController(findNavController(R.id.main_navigation_host))
+        playerConstraintSet.clone(main_activity_constraint_layout)
+        noPlayerConstraintSet.clone(this, R.layout.main_activity_no_player)
     }
 
     override fun onSupportNavigateUp() = findNavController(R.id.main_navigation_host).navigateUp()
-
 
     override fun onResume() {
         super.onResume()
         observeViews()
         observeModels()
         playerViewModel.startRadioConnection()
+        findNavController(R.id.main_navigation_host).addOnDestinationChangedListener(this)
     }
+
+    override fun onDestinationChanged(
+        controller: NavController,
+        destination: NavDestination,
+        arguments: Bundle?
+    ) = playerViewModel.updateIsPlayerVisible(destination)
 
     private fun observeModels() {
         playerViewModel.getTitle().observe(this, Observer { title ->
@@ -52,6 +65,14 @@ class MainActivity : AppCompatActivity() {
                     main_activity_player_button.setImageResource(R.drawable.ic_stop_white_24dp)
                 else ->
                     main_activity_player_button.setImageResource(R.drawable.ic_play_arrow_white_24dp)
+            }
+        })
+        playerViewModel.isPlayerVisible().observe(this, Observer { isPlayerVisible ->
+            TransitionManager.beginDelayedTransition(main_activity_constraint_layout)
+            if (isPlayerVisible) {
+                playerConstraintSet.applyTo(main_activity_constraint_layout)
+            } else {
+                noPlayerConstraintSet.applyTo(main_activity_constraint_layout)
             }
         })
     }
@@ -122,5 +143,6 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         playerViewModel.stopRadioConnection()
+        findNavController(R.id.main_navigation_host).removeOnDestinationChangedListener(this)
     }
 }

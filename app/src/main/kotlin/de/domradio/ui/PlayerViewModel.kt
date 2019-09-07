@@ -3,6 +3,8 @@ package de.domradio.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavDestination
+import de.domradio.R
 import de.domradio.radio.RadioState
 import de.domradio.usecase.RadioUseCase
 import de.domradio.usecase.StationInfoUseCase
@@ -14,6 +16,7 @@ class PlayerViewModel(private val stationInfoUseCase: StationInfoUseCase, privat
     private val title: MutableLiveData<String> = MutableLiveData()
     private val subtitle: MutableLiveData<String> = MutableLiveData()
     private val radioState: MutableLiveData<RadioState> = MutableLiveData()
+    private val isPlayerVisible: MutableLiveData<Boolean> = MutableLiveData()
     private var pollStationInformationSubscription: Disposable? = null
     private var stateSubscription: Disposable? = null
 
@@ -40,11 +43,20 @@ class PlayerViewModel(private val stationInfoUseCase: StationInfoUseCase, privat
 
     fun getRadioState(): LiveData<RadioState> = radioState
 
+    fun isPlayerVisible(): LiveData<Boolean> = isPlayerVisible
+
     fun playButtonPressed(): Boolean {
         return when (radioState.value) {
             RadioState.BUFFERING -> radioUseCase.stopStream()
             RadioState.PLAYING -> radioUseCase.stopStream()
             else -> radioUseCase.startStream()
+        }
+    }
+
+    fun updateIsPlayerVisible(destination: NavDestination) {
+        when (destination.id) {
+            R.id.homeFragment -> isPlayerVisible.value = true
+            else -> isPlayerVisible.value = false
         }
     }
 }
