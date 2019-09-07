@@ -90,7 +90,13 @@ class MainActivity : AppCompatActivity() {
     private fun showAboutDialog() {
         MaterialDialog(this).show {
             title(R.string.about)
-            message(R.string.about_text)
+            message(R.string.about_text) {
+                html {
+                    val i = Intent(Intent.ACTION_VIEW)
+                    i.data = Uri.parse("https://domradio.de")
+                    startActivity(i)
+                }
+            }
             positiveButton(R.string.ok)
         }
     }

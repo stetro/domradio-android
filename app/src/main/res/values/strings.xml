@@ -11,7 +11,19 @@
     <string name="pause">Pause</string>
     <string name="rate_this_app">App bewerten</string>
     <string name="about">Über</string>
-    <string name="about_text">domradio.de\nDomkloster 3\n50667 Köln\ninfo@domradio.de\n\ndomradio.de ist das katholische Portal für aktuelle Nachrichten aus Kirche und Welt. Wir bringen christliche Stimmen und Positionen zu allen relevanten gesellschaftlichen Themen auf den Punkt.\n\nEntwickelt von Steffen Tröster.</string>
+    <string name="about_text"><![CDATA[
+DOMRADIO.DE<br/>
+Domkloster 3<br/>
+50667 Köln<br/>
+info@domradio.de<br/>
+<br/>
+domradio.de ist das katholische Portal für aktuelle Nachrichten aus Kirche und Welt. Wir bringen christliche Stimmen und Positionen zu allen relevanten gesellschaftlichen Themen auf den Punkt.<br/>
+<br/>
+<a href="#">DOMRADIO.DE</a>
+<br/>
+<br/>
+Entwickelt von Steffen Tröster.
+]]></string>
     <string name="ok">Ok</string>
     <string name="settings">Einstellungen</string>
     <string name="high_stream_quality">Hohe Audioqualität</string>
@@ -24,4 +36,5 @@
     <string name="share_article">Artikel teilen</string>
     <string name="article_list_title">Nachrichten</string>
     <string name="community">Gemeinde</string>
+    <string name="cancel">Abbrechen</string>
 </resources>
