@@ -8,6 +8,8 @@ import android.os.Build
 import androidx.core.content.getSystemService
 import androidx.preference.PreferenceManager
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.messaging.FirebaseMessaging
 import de.domradio.api.CommunityMessageRepository
 import de.domradio.api.FirebaseConfiguration
 import de.domradio.api.RetrofitConfiguration
@@ -46,6 +48,10 @@ class DomradioApplication : Application() {
         // setup Firebase
         FirebaseAuth.getInstance().signInAnonymously()
             .addOnSuccessListener { Timber.d("Signed in to Firebase") }
+
+        FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener { task ->
+            Timber.d("FCM Token ${task.result?.token}")
+        }
     }
 
     companion object {
