@@ -37,4 +37,5 @@ Entwickelt von Steffen Tröster.
     <string name="article_list_title">Nachrichten</string>
     <string name="community">Gemeinde</string>
     <string name="cancel">Abbrechen</string>
+    <string name="default_notification_channel_id">DOMRADIO.DE Neuigkeiten</string>
 </resources>

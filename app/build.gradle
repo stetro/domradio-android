@@ -83,6 +83,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:19.0.0'
     implementation 'com.google.firebase:firebase-auth:19.0.0'
     implementation 'com.firebaseui:firebase-ui-database:5.1.0'
+    implementation 'com.google.firebase:firebase-messaging:20.0.0'
 
 
     // Unit Test
