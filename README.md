@@ -1,5 +1,8 @@
 # domradio
 
+![](https://github.com/stetro/domradio-android/workflows/android/badge.svg)
+
+
 Android [domradio.de](http://domradio.de) App 
 
 [![Play Store](https://developer.android.com/images/brand/en_generic_rgb_wo_45.png)](https://play.google.com/store/apps/details?id=de.domradio)
