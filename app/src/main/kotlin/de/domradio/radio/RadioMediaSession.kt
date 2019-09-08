@@ -18,14 +18,9 @@ object RadioMediaSession {
         .setActions(PlaybackStateCompat.ACTION_PLAY)
         .build()
 
-    val pausedPlaybackState: PlaybackStateCompat = PlaybackStateCompat.Builder()
-        .setState(PlaybackStateCompat.STATE_PAUSED, 0, 0.0f)
-        .setActions(PlaybackStateCompat.ACTION_PLAY or PlaybackStateCompat.ACTION_STOP)
-        .build()
-
     val playingPlaybackState: PlaybackStateCompat = PlaybackStateCompat.Builder()
         .setState(PlaybackStateCompat.STATE_PLAYING, 0, 1.0f)
-        .setActions(PlaybackStateCompat.ACTION_PAUSE or PlaybackStateCompat.ACTION_STOP)
+        .setActions(PlaybackStateCompat.ACTION_STOP)
         .build()
 
     val errorPlayState: PlaybackStateCompat = PlaybackStateCompat.Builder()

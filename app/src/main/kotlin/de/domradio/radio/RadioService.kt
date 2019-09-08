@@ -30,11 +30,6 @@ class RadioService : Service() {
             focusManager.requestAudioFocus()
             mediaPlayer.start()
             mediaSession.setPlaybackState(RadioMediaSession.playingPlaybackState)
-            RadioMediaNotification.updateNotification(
-                this@RadioService,
-                mediaSession,
-                RadioMediaNotification.ActionType.PAUSE_ACTION
-            )
             state.onNext(RadioState.PLAYING)
             startForeground(DomradioApplication.NOTIFICATION_ID, notification)
         }
@@ -44,28 +39,9 @@ class RadioService : Service() {
             focusManager.abandonAudioFocus()
             mediaPlayer.stop()
             mediaSession.setPlaybackState(RadioMediaSession.stoppedPlaybackState)
-            RadioMediaNotification.updateNotification(
-                this@RadioService,
-                mediaSession,
-                RadioMediaNotification.ActionType.PLAY_ACTION
-            )
             state.onNext(RadioState.STOPPED)
             startForeground(DomradioApplication.NOTIFICATION_ID, notification)
             stopSelf()
-        }
-
-        override fun onPause() {
-            Timber.d("MediaSessionCompat.Callback onPause() called")
-            focusManager.abandonAudioFocus()
-            mediaPlayer.pause()
-            mediaSession.setPlaybackState(RadioMediaSession.pausedPlaybackState)
-            RadioMediaNotification.updateNotification(
-                this@RadioService,
-                mediaSession,
-                RadioMediaNotification.ActionType.PLAY_ACTION
-            )
-            state.onNext(RadioState.STOPPED)
-            stopForeground(false)
         }
     }
 

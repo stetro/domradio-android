@@ -15,11 +15,12 @@ import de.domradio.R
 object RadioMediaNotification {
 
     enum class ActionType {
-        PAUSE_ACTION, PLAY_ACTION
+        PLAY_ACTION,
+        STOP_ACTION
     }
 
     private fun stopAction(context: Context) = NotificationCompat.Action(
-        R.drawable.ic_close_white24dp,
+        R.drawable.ic_stop_white_24dp,
         context.getString(R.string.close),
         MediaButtonReceiver.buildMediaButtonPendingIntent(context, PlaybackStateCompat.ACTION_STOP)
     )
@@ -30,16 +31,10 @@ object RadioMediaNotification {
         MediaButtonReceiver.buildMediaButtonPendingIntent(context, PlaybackStateCompat.ACTION_PLAY)
     )
 
-    private fun pauseAction(context: Context) = NotificationCompat.Action(
-        R.drawable.ic_pause_white_24dp,
-        context.getString(R.string.pause),
-        MediaButtonReceiver.buildMediaButtonPendingIntent(context, PlaybackStateCompat.ACTION_PAUSE)
-    )
 
-    private fun build(
+    fun build(
         context: Context,
-        mediaSession: MediaSessionCompat,
-        action: NotificationCompat.Action
+        mediaSession: MediaSessionCompat
     ): Notification {
         return NotificationCompat.Builder(context, DomradioApplication.NOTIFICATION_CHANNEL_ID)
             .apply {
@@ -71,8 +66,6 @@ object RadioMediaNotification {
                 setSmallIcon(R.drawable.ic_domradio_white)
                 color = ContextCompat.getColor(context, R.color.colorPrimary)
 
-                // Add the current action button
-                addAction(action)
                 // Add a stop button
                 addAction(stopAction(context))
 
@@ -94,17 +87,14 @@ object RadioMediaNotification {
             }.build()
     }
 
-    fun build(
+    fun updateNotification(
         context: Context,
         mediaSession: MediaSessionCompat
-    ): Notification = RadioMediaNotification.build(context, mediaSession, pauseAction(context))
-
-    fun updateNotification(context: Context, mediaSession: MediaSessionCompat, actionType: ActionType) {
+    ) {
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val action = when (actionType) {
-            RadioMediaNotification.ActionType.PAUSE_ACTION -> pauseAction(context)
-            RadioMediaNotification.ActionType.PLAY_ACTION -> playAction(context)
-        }
-        notificationManager.notify(DomradioApplication.NOTIFICATION_ID, build(context, mediaSession, action))
+        notificationManager.notify(
+            DomradioApplication.NOTIFICATION_ID,
+            build(context, mediaSession)
+        )
     }
 }
