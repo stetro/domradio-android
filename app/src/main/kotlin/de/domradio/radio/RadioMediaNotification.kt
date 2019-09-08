@@ -11,13 +11,9 @@ import androidx.core.content.ContextCompat
 import androidx.media.session.MediaButtonReceiver
 import de.domradio.DomradioApplication
 import de.domradio.R
+import de.domradio.usecase.data.StationInfo
 
 object RadioMediaNotification {
-
-    enum class ActionType {
-        PLAY_ACTION,
-        STOP_ACTION
-    }
 
     private fun stopAction(context: Context) = NotificationCompat.Action(
         R.drawable.ic_stop_white_24dp,
@@ -25,16 +21,10 @@ object RadioMediaNotification {
         MediaButtonReceiver.buildMediaButtonPendingIntent(context, PlaybackStateCompat.ACTION_STOP)
     )
 
-    private fun playAction(context: Context) = NotificationCompat.Action(
-        R.drawable.ic_play_arrow_white_24dp,
-        context.getString(R.string.play),
-        MediaButtonReceiver.buildMediaButtonPendingIntent(context, PlaybackStateCompat.ACTION_PLAY)
-    )
-
-
     fun build(
         context: Context,
-        mediaSession: MediaSessionCompat
+        mediaSession: MediaSessionCompat,
+        stationInfo: StationInfo? = null
     ): Notification {
         return NotificationCompat.Builder(context, DomradioApplication.NOTIFICATION_CHANNEL_ID)
             .apply {
@@ -43,6 +33,9 @@ object RadioMediaNotification {
                 priority = NotificationCompat.PRIORITY_MAX
 
                 setContentTitle(context.getString(R.string.live_stream))
+                stationInfo?.let {
+                    setContentText(it.artist + " - " + it.title)
+                }
                 setOngoing(false)
 
                 setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -89,12 +82,13 @@ object RadioMediaNotification {
 
     fun updateNotification(
         context: Context,
-        mediaSession: MediaSessionCompat
+        mediaSession: MediaSessionCompat,
+        stationInfo: StationInfo
     ) {
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(
             DomradioApplication.NOTIFICATION_ID,
-            build(context, mediaSession)
+            build(context, mediaSession, stationInfo)
         )
     }
 }

@@ -8,7 +8,10 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.media.session.MediaButtonReceiver
 import de.domradio.DomradioApplication
+import de.domradio.usecase.StationInfoUseCase
+import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.BehaviorSubject
+import org.koin.android.ext.android.inject
 import timber.log.Timber
 
 
@@ -18,6 +21,9 @@ class RadioService : Service() {
         var isRunning = false
         var state: BehaviorSubject<RadioState> = BehaviorSubject.create()
     }
+
+    private var stationInfoDisposable: Disposable? = null
+    private val stationInfoUseCase: StationInfoUseCase by inject()
 
     private lateinit var notification: Notification
     private lateinit var mediaSession: MediaSessionCompat
@@ -33,6 +39,7 @@ class RadioService : Service() {
             state.onNext(RadioState.PLAYING)
             startForeground(DomradioApplication.NOTIFICATION_ID, notification)
         }
+
 
         override fun onStop() {
             Timber.d("MediaSessionCompat.Callback onStop() called")
@@ -63,10 +70,16 @@ class RadioService : Service() {
 
         mediaSession.setPlaybackState(RadioMediaSession.playingPlaybackState)
         state.onNext(RadioState.PLAYING)
+
+        stationInfoDisposable?.dispose()
+        stationInfoDisposable = stationInfoUseCase.pollStationInformation().subscribe {
+            RadioMediaNotification.updateNotification(this, mediaSession, it)
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        stationInfoDisposable?.dispose()
         focusManager.abandonAudioFocus()
         mediaPlayer.release()
         mediaSession.release()
