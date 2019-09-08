@@ -34,7 +34,7 @@ class PlayerViewModel(
         })
         compositeDisposable?.add(
             playerVisibleUseCase.isPlayerVisible().subscribe(
-                { isPlayerVisible.value = it },
+                { if (isPlayerVisible.value != it) isPlayerVisible.value = it },
                 { Timber.e(it) })
         )
     }

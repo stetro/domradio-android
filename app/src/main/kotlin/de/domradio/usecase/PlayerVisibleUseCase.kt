@@ -27,7 +27,6 @@ class PlayerVisibleUseCase {
     }
 
     private fun updatePlayerVisibility() {
-        isPlayerVisible.onNext(viewPagerPosition == 0)
         when (destination?.id) {
             R.id.homeFragment -> isPlayerVisible.onNext(viewPagerPosition == 0)
             else -> isPlayerVisible.onNext(true)
