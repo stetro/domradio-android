@@ -29,7 +29,6 @@ object RadioMediaNotification {
         return NotificationCompat.Builder(context, DomradioApplication.NOTIFICATION_CHANNEL_ID)
             .apply {
                 setSmallIcon(R.drawable.ic_domradio_white)
-                setLargeIcon(BitmapFactory.decodeResource(context.resources, R.raw.domradio))
                 priority = NotificationCompat.PRIORITY_MAX
 
                 setContentTitle(context.getString(R.string.live_stream))
