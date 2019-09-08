@@ -72,9 +72,9 @@ class RadioService : Service() {
         state.onNext(RadioState.PLAYING)
 
         stationInfoDisposable?.dispose()
-        stationInfoDisposable = stationInfoUseCase.pollStationInformation().subscribe {
+        stationInfoDisposable = stationInfoUseCase.pollStationInformation().subscribe({
             RadioMediaNotification.updateNotification(this, mediaSession, it)
-        }
+        }, { Timber.e(it) })
     }
 
     override fun onDestroy() {
