@@ -33,10 +33,6 @@ object RadioMediaSession {
 
         val metadata = MediaMetadataCompat.Builder()
             .putBitmap(
-                MediaMetadataCompat.METADATA_KEY_ALBUM_ART,
-                BitmapFactory.decodeResource(context.resources, R.raw.domradio)
-            )
-            .putBitmap(
                 MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON,
                 BitmapFactory.decodeResource(context.resources, R.drawable.ic_domradio_white)
             )
