@@ -37,13 +37,15 @@ class CommunityFragment : Fragment(R.layout.community_fragment) {
                 super.onDataChanged()
                 community_fragment_recycler_view.scrollToPosition(adapter.itemCount-1)
             }
-
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
         community_fragment_recycler_view.adapter = adapter
         val linearLayoutManager = LinearLayoutManager(context)
         linearLayoutManager.stackFromEnd = true
         linearLayoutManager.reverseLayout = false
         community_fragment_recycler_view.layoutManager = linearLayoutManager
     }
-
 }
