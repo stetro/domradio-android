@@ -5,6 +5,7 @@ import android.app.Service
 import android.content.Intent
 import android.media.MediaPlayer
 import android.support.v4.media.session.MediaSessionCompat
+import android.support.v4.media.session.PlaybackStateCompat
 import androidx.media.session.MediaButtonReceiver
 import de.domradio.DomradioApplication
 import io.reactivex.subjects.BehaviorSubject
@@ -19,10 +20,14 @@ class RadioService : Service() {
     }
 
     private lateinit var notification: Notification
+    private lateinit var mediaSession: MediaSessionCompat
+    private lateinit var mediaPlayer: MediaPlayer
+    private lateinit var focusManager: RadioFocusManager
 
     private val mediaSessionCallback = object : MediaSessionCompat.Callback() {
         override fun onPlay() {
             Timber.d("MediaSessionCompat.Callback onPlay() called")
+            focusManager.requestAudioFocus()
             mediaPlayer.start()
             mediaSession.setPlaybackState(RadioMediaSession.playingPlaybackState)
             RadioMediaNotification.updateNotification(
@@ -36,6 +41,7 @@ class RadioService : Service() {
 
         override fun onStop() {
             Timber.d("MediaSessionCompat.Callback onStop() called")
+            focusManager.abandonAudioFocus()
             mediaPlayer.stop()
             mediaSession.setPlaybackState(RadioMediaSession.stoppedPlaybackState)
             RadioMediaNotification.updateNotification(
@@ -50,6 +56,7 @@ class RadioService : Service() {
 
         override fun onPause() {
             Timber.d("MediaSessionCompat.Callback onPause() called")
+            focusManager.abandonAudioFocus()
             mediaPlayer.pause()
             mediaSession.setPlaybackState(RadioMediaSession.pausedPlaybackState)
             RadioMediaNotification.updateNotification(
@@ -62,12 +69,16 @@ class RadioService : Service() {
         }
     }
 
-    private lateinit var mediaSession: MediaSessionCompat
-    private lateinit var mediaPlayer: MediaPlayer
-
     override fun onCreate() {
         super.onCreate()
         isRunning = true
+        focusManager = RadioFocusManager(this) {
+            MediaButtonReceiver.buildMediaButtonPendingIntent(
+                this,
+                PlaybackStateCompat.ACTION_STOP
+            ).send()
+        }
+        focusManager.requestAudioFocus()
         mediaSession = RadioMediaSession.build(this, mediaSessionCallback)
         mediaPlayer = RadioMediaPlayer.build(this, mediaSession)
         notification = RadioMediaNotification.build(this, mediaSession)
@@ -80,6 +91,7 @@ class RadioService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
+        focusManager.abandonAudioFocus()
         mediaPlayer.release()
         mediaSession.release()
         isRunning = false
@@ -95,6 +107,5 @@ class RadioService : Service() {
         MediaButtonReceiver.handleIntent(mediaSession, intent)
         return START_STICKY
     }
-
 
 }
