@@ -12,7 +12,7 @@ android {
         applicationId "de.domradio"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 60
+        versionCode generateVersionCode()
         versionName "2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -94,4 +94,9 @@ dependencies {
     // Integration Test
     androidTestImplementation "androidx.test:runner:1.3.0-alpha02"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.3.0-alpha02"
+}
+
+static def generateVersionCode() {
+    def result = "git rev-list HEAD --count".execute().text.trim() //unix
+    return result.toInteger()
 }
