@@ -7,10 +7,23 @@ import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.viewpager.widget.ViewPager
 import de.domradio.R
 import kotlinx.android.synthetic.main.home_fragment.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HomeFragment : Fragment(R.layout.home_fragment) {
+class HomeFragment : Fragment(R.layout.home_fragment), ViewPager.OnPageChangeListener {
+
+    private val homeViewModel: HomeViewModel by viewModel()
+
+    override fun onPageScrollStateChanged(state: Int) = Unit
+
+    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) =
+        Unit
+
+    override fun onPageSelected(position: Int) {
+        homeViewModel.setViewPagerPosition(position)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -19,6 +32,16 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
             home_fragment_view_pager.adapter = HomeViewPagerAdapter(context, childFragmentManager)
         }
         home_fragment_tab_layout.setupWithViewPager(home_fragment_view_pager)
+    }
+
+    override fun onResume() {
+        home_fragment_view_pager.addOnPageChangeListener(this)
+        super.onResume()
+    }
+
+    override fun onPause() {
+        home_fragment_view_pager.removeOnPageChangeListener(this)
+        super.onPause()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -9,7 +9,6 @@ import androidx.core.content.getSystemService
 import androidx.preference.PreferenceManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.iid.FirebaseInstanceId
-import com.google.firebase.messaging.FirebaseMessaging
 import de.domradio.api.CommunityMessageRepository
 import de.domradio.api.FirebaseConfiguration
 import de.domradio.api.RetrofitConfiguration
@@ -18,7 +17,9 @@ import de.domradio.ui.PlayerViewModel
 import de.domradio.ui.article.ArticleViewModel
 import de.domradio.ui.articlelist.ArticleListViewModel
 import de.domradio.ui.community.CommunityViewModel
+import de.domradio.ui.home.HomeViewModel
 import de.domradio.usecase.ArticleListUseCase
+import de.domradio.usecase.PlayerVisibleUseCase
 import de.domradio.usecase.RadioUseCase
 import de.domradio.usecase.StationInfoUseCase
 import org.koin.android.ext.android.startKoin
@@ -63,8 +64,9 @@ class DomradioApplication : Application() {
 val viewModelModule = module {
     viewModel { ArticleListViewModel(get()) }
     viewModel { ArticleViewModel() }
-    viewModel { PlayerViewModel(get(), get()) }
+    viewModel { PlayerViewModel(get(), get(), get()) }
     viewModel { CommunityViewModel(get()) }
+    viewModel { HomeViewModel(get()) }
 }
 
 val apiModule = module {
@@ -75,6 +77,7 @@ val apiModule = module {
     single { RetrofitConfiguration.getStationService(get("playerRetrofit")) }
     single { CommunityMessageRepository(get()) }
     single { FirebaseConfiguration.getDatabase() }
+    single { PlayerVisibleUseCase() }
 }
 
 val systemModel = module {

@@ -24,7 +24,6 @@ class CommunityFragment : Fragment(R.layout.community_fragment) {
         val options = FirebaseRecyclerOptions.Builder<CommunityMessage>()
             .setQuery(communityViewModel.getCommunityMessagesQuery(), CommunityMessage::class.java)
             .setLifecycleOwner(this)
-
             .build()
 
         adapter = object : CommunityMessageAdapter(options) {

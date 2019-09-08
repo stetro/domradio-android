@@ -4,37 +4,42 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavDestination
-import de.domradio.R
 import de.domradio.radio.RadioState
+import de.domradio.usecase.PlayerVisibleUseCase
 import de.domradio.usecase.RadioUseCase
 import de.domradio.usecase.StationInfoUseCase
-import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.CompositeDisposable
+import timber.log.Timber
 
-class PlayerViewModel(private val stationInfoUseCase: StationInfoUseCase, private val radioUseCase: RadioUseCase) :
-    ViewModel() {
+class PlayerViewModel(
+    private val stationInfoUseCase: StationInfoUseCase,
+    private val radioUseCase: RadioUseCase,
+    private val playerVisibleUseCase: PlayerVisibleUseCase
+) : ViewModel() {
 
     private val title: MutableLiveData<String> = MutableLiveData()
     private val subtitle: MutableLiveData<String> = MutableLiveData()
     private val radioState: MutableLiveData<RadioState> = MutableLiveData()
     private val isPlayerVisible: MutableLiveData<Boolean> = MutableLiveData()
-    private var pollStationInformationSubscription: Disposable? = null
-    private var stateSubscription: Disposable? = null
+    private val compositeDisposable = CompositeDisposable()
 
     fun startRadioConnection() {
-        stateSubscription?.dispose()
-        stateSubscription = radioUseCase.getRadioState().subscribe {
+        compositeDisposable.clear()
+        compositeDisposable.add(radioUseCase.getRadioState().subscribe {
             radioState.value = it
-        }
-        pollStationInformationSubscription?.dispose()
-        pollStationInformationSubscription = stationInfoUseCase
-            .pollStationInformation().subscribe {
-                subtitle.value = "${it.title} - ${it.artist}"
-            }
+        })
+        compositeDisposable.add(stationInfoUseCase.pollStationInformation().subscribe {
+            subtitle.value = "${it.title} - ${it.artist}"
+        })
+        compositeDisposable.add(
+            playerVisibleUseCase.isPlayerVisible.subscribe(
+                { isPlayerVisible.value = it },
+                { Timber.e(it) })
+        )
     }
 
     fun stopRadioConnection() {
-        pollStationInformationSubscription?.dispose()
-        stateSubscription?.dispose()
+        compositeDisposable.dispose()
     }
 
     fun getTitle(): LiveData<String> = title
@@ -53,10 +58,6 @@ class PlayerViewModel(private val stationInfoUseCase: StationInfoUseCase, privat
         }
     }
 
-    fun updateIsPlayerVisible(destination: NavDestination) {
-        when (destination.id) {
-            R.id.homeFragment -> isPlayerVisible.value = true
-            else -> isPlayerVisible.value = false
-        }
-    }
+    fun updateIsPlayerVisible(destination: NavDestination) =
+        playerVisibleUseCase.updateNavigation(destination)
 }
