@@ -1,9 +1,7 @@
 package de.domradio.ui.articlelist
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,19 +11,16 @@ import de.domradio.utils.FragmentExtensions.getNavController
 import kotlinx.android.synthetic.main.article_list_fragment.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ArticleListFragment : Fragment() {
+class ArticleListFragment : Fragment(R.layout.article_list_fragment) {
 
     private val articleListViewModel: ArticleListViewModel by viewModel()
     private val articleListAdapter = ArticleListAdapter()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        articleListViewModel.reset()
-        articleListViewModel.refresh()
-        return inflater.inflate(R.layout.article_list_fragment, container, false)
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        articleListViewModel.reset()
+        articleListViewModel.refresh()
 
         articleListAdapter.clickListener = View.OnClickListener { view ->
             val position = article_list_fragment_recycler_view.getChildLayoutPosition(view)
