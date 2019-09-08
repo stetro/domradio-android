@@ -18,10 +18,10 @@ jobs:
         GOOGLE_SERVICES_DEV_JSON: ${{ secrets.GOOGLE_SERVICES_DEV_JSON }}
       run: echo $GOOGLE_SERVICES_DEV_JSON > app/google-services.json 
     - name: Build with Gradle
-      run: ./gradlew assembleDebug
+      run: ./gradlew assembleRelease
     - name: Upload Artifact
       uses: actions/upload-artifact@master
       with:
         name: APK 
-        path: app/build/outputs/apk/debug/app-debug.apk
+        path: app/build/outputs/apk/release/app-release.apk
 
