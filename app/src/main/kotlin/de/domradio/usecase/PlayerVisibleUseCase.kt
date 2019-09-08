@@ -2,11 +2,14 @@ package de.domradio.usecase
 
 import androidx.navigation.NavDestination
 import de.domradio.R
+import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import timber.log.Timber
 
 class PlayerVisibleUseCase {
-    val isPlayerVisible = BehaviorSubject.create<Boolean>()
+    private val isPlayerVisible = BehaviorSubject.create<Boolean>()
+
+    fun isPlayerVisible(): Observable<Boolean> = isPlayerVisible
 
     private var destination: NavDestination? = null
     private var viewPagerPosition = 0
@@ -27,8 +30,7 @@ class PlayerVisibleUseCase {
         isPlayerVisible.onNext(viewPagerPosition == 0)
         when (destination?.id) {
             R.id.homeFragment -> isPlayerVisible.onNext(viewPagerPosition == 0)
-            R.id.settingsFragment, null -> isPlayerVisible.onNext(true)
-            else -> isPlayerVisible.onNext(false)
+            else -> isPlayerVisible.onNext(true)
         }
     }
 }

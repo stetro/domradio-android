@@ -19,6 +19,7 @@ import de.domradio.R
 import de.domradio.radio.RadioState
 import kotlinx.android.synthetic.main.main_activity.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 
 class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedListener {
@@ -68,6 +69,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
             }
         })
         playerViewModel.isPlayerVisible().observe(this, Observer { isPlayerVisible ->
+            Timber.d("visible of player $isPlayerVisible")
             TransitionManager.beginDelayedTransition(main_activity_constraint_layout)
             if (isPlayerVisible) {
                 playerConstraintSet.applyTo(main_activity_constraint_layout)

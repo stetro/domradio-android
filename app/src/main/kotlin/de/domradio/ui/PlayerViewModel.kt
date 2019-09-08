@@ -21,25 +21,26 @@ class PlayerViewModel(
     private val subtitle: MutableLiveData<String> = MutableLiveData()
     private val radioState: MutableLiveData<RadioState> = MutableLiveData()
     private val isPlayerVisible: MutableLiveData<Boolean> = MutableLiveData()
-    private val compositeDisposable = CompositeDisposable()
+    private var compositeDisposable: CompositeDisposable? = null
 
     fun startRadioConnection() {
-        compositeDisposable.clear()
-        compositeDisposable.add(radioUseCase.getRadioState().subscribe {
+        compositeDisposable?.dispose()
+        compositeDisposable = CompositeDisposable()
+        compositeDisposable?.add(radioUseCase.getRadioState().subscribe {
             radioState.value = it
         })
-        compositeDisposable.add(stationInfoUseCase.pollStationInformation().subscribe {
+        compositeDisposable?.add(stationInfoUseCase.pollStationInformation().subscribe {
             subtitle.value = "${it.title} - ${it.artist}"
         })
-        compositeDisposable.add(
-            playerVisibleUseCase.isPlayerVisible.subscribe(
+        compositeDisposable?.add(
+            playerVisibleUseCase.isPlayerVisible().subscribe(
                 { isPlayerVisible.value = it },
                 { Timber.e(it) })
         )
     }
 
     fun stopRadioConnection() {
-        compositeDisposable.dispose()
+        compositeDisposable?.dispose()
     }
 
     fun getTitle(): LiveData<String> = title
