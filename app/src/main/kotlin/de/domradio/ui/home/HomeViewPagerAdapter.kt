@@ -18,11 +18,11 @@ class HomeViewPagerAdapter(val context: Context, fragmentManager: FragmentManage
         Pair(
             ArticleListFragment(),
             R.string.article_list_title
+        ),
+        Pair(
+            CommunityFragment(),
+            R.string.community
         )
-//        Pair(
-//            CommunityFragment(),
-//            R.string.community
-//        )
     )
 
     override fun getItem(position: Int): Fragment = fragmentPairs[position].first
