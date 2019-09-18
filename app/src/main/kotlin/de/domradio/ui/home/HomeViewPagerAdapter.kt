@@ -6,7 +6,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import de.domradio.R
 import de.domradio.ui.articlelist.ArticleListFragment
-import de.domradio.ui.community.CommunityFragment
 
 class HomeViewPagerAdapter(val context: Context, fragmentManager: FragmentManager) :
     FragmentStatePagerAdapter(
@@ -18,10 +17,6 @@ class HomeViewPagerAdapter(val context: Context, fragmentManager: FragmentManage
         Pair(
             ArticleListFragment(),
             R.string.article_list_title
-        ),
-        Pair(
-            CommunityFragment(),
-            R.string.community
         )
     )
 

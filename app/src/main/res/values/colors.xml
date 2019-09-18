@@ -9,4 +9,5 @@
     <color name="playerSubtitle">#AAAAAA</color>
     <color name="launcher_background">#FFFFFF</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="background">#F0F0F0</color>
 </resources>
